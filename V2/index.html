@@ -38,8 +38,10 @@
       --ai-file-gap: 8px;
       --page-gutter: clamp(18px, 2.4vw, 42px);
       --home-max: 940px;
-      --chat-max: 900px;
-      --chat-preview-max: 680px;
+      --chat-track-width: 760px;
+      --chat-max: var(--chat-track-width);
+      --chat-preview-max: var(--chat-track-width);
+      --composer-width: var(--chat-track-width);
       --preview-width: clamp(380px, 36vw, 720px);
     }
 
@@ -175,7 +177,7 @@
 
     .sidebar-actions {
       display: grid;
-      gap: 1px;
+      gap: 0;
       width: 100%;
     }
 
@@ -263,7 +265,7 @@
       display: grid;
       grid-auto-rows: min-content;
       align-content: start;
-      gap: 6px;
+      gap: 0;
       overflow: visible;
       padding-right: 2px;
     }
@@ -275,7 +277,7 @@
     .history-row {
       position: relative;
       width: 100%;
-      min-height: 42px;
+      min-height: 38px;
       display: grid;
       grid-template-columns: minmax(0, 1fr) 30px;
       align-items: center;
@@ -290,18 +292,23 @@
     }
 
     .history-row:hover,
-    .history-row.menu-open {
+    .history-row.menu-open,
+    .history-row.is-active {
       color: var(--ink);
       background: #f4f7fb;
     }
 
+    .history-row.is-active {
+      color: #1f54b7;
+    }
+
     .history-main {
       min-width: 0;
-      min-height: 42px;
+      min-height: 38px;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
-      padding: 9px 10px;
+      padding: 8px 10px;
       border: 0;
       border-radius: 9px 0 0 9px;
       color: inherit;
@@ -420,7 +427,7 @@
     }
 
     .sidebar-collapsed .sidebar-actions {
-      gap: 4px;
+      gap: 0;
     }
 
     .sidebar-collapsed .sidebar-icon-button,
@@ -622,33 +629,7 @@
 
     .trend-section {
       width: min(var(--home-max), 100%);
-      margin: 34px auto 0;
-    }
-
-    .section-head {
-      display: block;
-      margin-bottom: 14px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0;
-    }
-
-    .section-head::after {
-      content: "";
-      display: block;
-      margin-top: 8px;
-      height: 1px;
-      width: 100%;
-      background: var(--line);
-    }
-
-    .section-head p {
-      display: none;
+      margin: 28px auto 0;
     }
 
     .trend-grid {
@@ -744,8 +725,10 @@
 
     .chat-view {
       min-height: 100vh;
+      height: 100vh;
       margin-left: var(--sidebar-width);
       width: calc(100% - var(--sidebar-width));
+      overflow: hidden;
       transition: margin-left 220ms ease, width 220ms ease;
     }
 
@@ -768,32 +751,45 @@
 
     .chat-view.preview-open .messages,
     .chat-view.preview-closing .messages {
-      width: min(var(--chat-preview-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
+      width: 100%;
     }
 
     .chat-view.preview-open .chat-composer,
     .chat-view.preview-closing .chat-composer {
-      width: min(var(--chat-preview-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
+      width: min(var(--chat-track-width), calc(100% - var(--page-gutter) - var(--page-gutter)));
     }
 
     .chat-shell {
-      min-height: 100vh;
+      height: 100vh;
+      min-height: 0;
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: minmax(0, 1fr) auto;
     }
 
     .messages {
-      width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
-      margin: 0 auto;
-      padding: clamp(28px, 4vh, 44px) 0 22px;
+      width: 100%;
+      margin: 0;
+      padding: clamp(28px, 4vh, 44px) var(--page-gutter) 22px;
       display: flex;
       flex-direction: column;
       gap: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .messages:not(.is-scrolling) {
+      scrollbar-width: none;
+    }
+
+    .messages:not(.is-scrolling)::-webkit-scrollbar {
+      width: 0;
+      height: 0;
     }
 
     .message {
+      width: min(var(--chat-track-width), 100%);
       display: flex;
-      margin: 0;
+      margin: 0 auto;
       animation: rise 320ms ease both;
     }
 
@@ -814,8 +810,8 @@
     }
 
     .assistant-output {
-      width: min(760px, 100%);
-      max-width: min(760px, 100%);
+      width: 100%;
+      max-width: 100%;
       display: grid;
       gap: 0;
     }
@@ -846,6 +842,7 @@
     }
 
     .user .bubble {
+      max-width: min(560px, 78%);
       color: #ffffff;
       background: var(--blue);
     }
@@ -882,8 +879,8 @@
     }
 
     .process-card {
-      width: min(760px, 100%);
-      max-width: 760px;
+      width: 100%;
+      max-width: 100%;
       min-height: 0;
       padding: 16px 18px 4px;
       background: #ffffff;
@@ -1492,7 +1489,7 @@
     }
 
     .chat-composer-wrap {
-      position: sticky;
+      position: relative;
       bottom: 0;
       padding: 10px 0 18px;
       background: linear-gradient(180deg, rgba(247, 248, 251, 0), var(--bg) 32%);
@@ -1753,7 +1750,7 @@
     }
 
     .chat-composer {
-      width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
+      width: min(var(--chat-track-width), calc(100% - var(--page-gutter) - var(--page-gutter)));
       margin: 0 auto;
       display: flex;
       align-items: flex-end;
@@ -1925,8 +1922,10 @@
     @media (min-width: 1680px) {
       :root {
         --home-max: 980px;
-        --chat-max: 960px;
-        --chat-preview-max: 720px;
+        --chat-track-width: 760px;
+        --chat-max: var(--chat-track-width);
+        --chat-preview-max: var(--chat-track-width);
+        --composer-width: var(--chat-track-width);
         --preview-width: clamp(460px, 34vw, 760px);
       }
     }
@@ -1934,8 +1933,10 @@
     @media (max-width: 1280px) {
       :root {
         --home-max: 860px;
-        --chat-max: 820px;
-        --chat-preview-max: 620px;
+        --chat-track-width: 720px;
+        --chat-max: var(--chat-track-width);
+        --chat-preview-max: var(--chat-track-width);
+        --composer-width: var(--chat-track-width);
         --preview-width: clamp(360px, 34vw, 520px);
       }
 
@@ -2033,7 +2034,12 @@
       .chat-view.preview-open .chat-composer,
       .chat-view.preview-closing .messages,
       .chat-view.preview-closing .chat-composer {
-        width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
+        width: min(var(--chat-track-width), calc(100% - var(--page-gutter) - var(--page-gutter)));
+      }
+
+      .chat-view.preview-open .messages,
+      .chat-view.preview-closing .messages {
+        width: 100%;
       }
 
       .preview-panel {
@@ -2097,6 +2103,7 @@
       .sidebar-actions {
         width: auto;
         display: flex;
+        gap: 0;
         flex: 0 0 auto;
       }
 
@@ -2222,18 +2229,14 @@
       <div class="composer-footer">
         <button class="send-button" id="send-btn" type="submit" disabled aria-label="发送">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 19V5"></path>
-            <path d="m5 12 7-7 7 7"></path>
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
           </svg>
         </button>
       </div>
     </form>
 
     <section class="trend-section" aria-label="趋势示例">
-      <div class="section-head">
-        <h2>趋势</h2>
-      </div>
-
       <div class="trend-grid">
         <button class="trend-card" type="button" data-scenario="red-sea" data-domain="agri">
           <span class="case-domain">
@@ -2273,8 +2276,8 @@
           <textarea id="chat-input" rows="1"></textarea>
           <button class="send-button" id="chat-send" type="submit" disabled aria-label="发送">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 19V5"></path>
-              <path d="m5 12 7-7 7 7"></path>
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
             </svg>
           </button>
         </form>
@@ -2927,13 +2930,16 @@
     let previewCloseTimer;
     let selectedScenarioKey = null;
     const HISTORY_STORAGE_KEY = "smartchain-demo-history-v2";
+    const SEED_SNAPSHOT_VERSION = 2;
     let conversationHistory = [];
+    let scrollHideTimer;
     let sidePanelDismissed = false;
     let activeAutoSearchKey = "";
     let activeAutoSearchCount = 0;
     let renderedSearchKey = "";
     let renderedSearchCount = 0;
     let isGenerating = false;
+    let activeHistoryQuestion = "";
 
     function escapeHtml(value) {
       const div = document.createElement("div");
@@ -2980,22 +2986,16 @@
       updateSendStates();
     }
 
-    function insertLineBreak(textarea) {
-      const start = textarea.selectionStart ?? textarea.value.length;
-      const end = textarea.selectionEnd ?? textarea.value.length;
-      textarea.value = `${textarea.value.slice(0, start)}\n${textarea.value.slice(end)}`;
-      const nextPosition = start + 1;
-      textarea.selectionStart = nextPosition;
-      textarea.selectionEnd = nextPosition;
-      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    function closeHistorySearchIfEmpty() {
+      if (!historySearch.value.trim()) {
+        historySearchWrap.classList.remove("search-open");
+      }
     }
 
     function bindTextareaSubmit(textarea, form) {
       textarea.addEventListener("keydown", (event) => {
         if (event.key !== "Enter" || event.isComposing) return;
-        if (event.metaKey || event.ctrlKey) {
-          event.preventDefault();
-          insertLineBreak(textarea);
+        if (event.shiftKey) {
           return;
         }
         event.preventDefault();
@@ -3024,12 +3024,143 @@
               question: item.question,
               scenarioKey: item.scenarioKey || "custom",
               title: item.title || "",
-              favorite: Boolean(item.favorite)
+              favorite: Boolean(item.favorite),
+              messagesHtml: item.messagesHtml || "",
+              seedKey: item.seedKey || "",
+              seedVersion: Number(item.seedVersion || 0)
             }));
         }
       } catch {
         conversationHistory = [];
       }
+    }
+
+    function renderCompletedActionChip(chip, searchKey = "") {
+      const chipSearchKey = chip.searchKey || searchKey;
+      const canOpenSearch = chipSearchKey && chip.icon === "search";
+      const attrs = canOpenSearch
+        ? ` data-search-key="${escapeHtml(chipSearchKey)}" data-search-query="${escapeHtml(chip.label)}" role="button" tabindex="0" title="查看检索结果"`
+        : "";
+      return `<span class="step-chip done${canOpenSearch ? " search-link" : ""}" data-chip${attrs}>${chipIcon(chip.icon)}${escapeHtml(chip.label)}</span>`;
+    }
+
+    function renderCompletedSection(section) {
+      const isAgent = Boolean(section.agentName);
+      return `
+        <div class="step-section${isAgent ? " agent-section" : ""} collapsed">
+          <button class="section-toggle" type="button" data-section-toggle>
+            <span class="section-title">
+              ${stepTitleIcon(section.icon)}
+              ${escapeHtml(section.title)}
+            </span>
+            <span class="section-actions">
+              ${isAgent ? `
+                <span class="agent-tag">
+                  <span class="agent-mark">${iconSvg("agent")}</span>
+                  <span class="agent-name">${escapeHtml(section.agentName)}</span>
+                </span>
+              ` : ""}
+              <span class="section-chevron">⌄</span>
+            </span>
+          </button>
+          <p class="section-desc">${escapeHtml(section.text)}</p>
+          <div class="step-chips">
+            ${section.chips.map((chip) => renderCompletedActionChip(chip, section.searchKey)).join("")}
+          </div>
+          <div class="section-summary">${chipIcon(isAgent ? "agent" : "shield")}${escapeHtml(section.summary || "已完成")}</div>
+        </div>
+      `;
+    }
+
+    function buildCompletedProcessHtml() {
+      const stepsHtml = processSteps.map((step, index) => {
+        const sections = step.sections || [{
+          title: step.title,
+          icon: step.icon,
+          text: step.text,
+          summary: step.summary,
+          chips: step.chips || []
+        }];
+        return `
+          <div class="process-step done compacted" data-step="${index}" data-summary="${escapeHtml(step.summary || `${step.title}已完成`)}">
+            <div class="step-dot">✓</div>
+            <div class="step-copy">
+              ${step.sections ? `<strong>${stepTitleIcon(step.icon)}${escapeHtml(step.title)}</strong><p>${escapeHtml(step.text)}</p>` : ""}
+              <div class="step-sections">${sections.map(renderCompletedSection).join("")}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      return `
+        <div class="process-card planned">
+          <button class="process-toggle" type="button" aria-expanded="true">
+            <span class="chevron">⌄</span>
+            <span class="planning-spinner"></span>
+            <span data-process-summary>执行流程已完成</span>
+          </button>
+          <div class="process-list">${stepsHtml}</div>
+        </div>
+      `;
+    }
+
+    function buildStoredMessagesHtml(data) {
+      const paragraphs = grainCase.final
+        .split("\n")
+        .filter(Boolean)
+        .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+        .join("");
+      return `
+        <div class="message user">
+          <div class="bubble">${escapeHtml(data.question)}</div>
+        </div>
+        <div class="message assistant">
+          <div class="assistant-output">
+            ${buildCompletedProcessHtml()}
+            <div class="bubble result-bubble">
+              <div class="result-text">${paragraphs}</div>
+            </div>
+            <button class="file-card output-file ready" type="button" data-preview-report="">
+              <div class="file-body">
+                <div class="file-icon">W</div>
+                <div class="file-main">
+                  <strong>${escapeHtml(grainCase.fileTitle)}</strong>
+                  <p>${escapeHtml(grainCase.fileMeta)}</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function ensureSeedHistory() {
+      const seeds = [
+        { seedKey: "seed-case-3", scenarioKey: "supplier", data: placeholderCase3 },
+        { seedKey: "seed-case-2", scenarioKey: "rainfall", data: placeholderCase2 }
+      ];
+      let changed = false;
+      const seedRecords = seeds.map((seed) => {
+        const existing = conversationHistory.find((item) => item.seedKey === seed.seedKey);
+        const record = {
+          question: seed.data.question,
+          scenarioKey: seed.scenarioKey,
+          title: existing?.title || seed.data.fileTitle,
+          favorite: Boolean(existing?.favorite),
+          messagesHtml: buildStoredMessagesHtml(seed.data),
+          seedKey: seed.seedKey,
+          seedVersion: SEED_SNAPSHOT_VERSION
+        };
+        if (!existing || existing.seedVersion !== SEED_SNAPSHOT_VERSION || !existing.messagesHtml.includes("process-card")) {
+          changed = true;
+          return record;
+        }
+        return existing;
+      });
+      const otherRecords = conversationHistory.filter((item) => !seeds.some((seed) => seed.seedKey === item.seedKey));
+      const hadAllSeeds = seeds.every((seed) => conversationHistory.some((item) => item.seedKey === seed.seedKey));
+      if (!changed && hadAllSeeds) return;
+      conversationHistory = [...seedRecords, ...otherRecords].slice(0, 8);
+      persistHistory();
     }
 
     function persistHistory() {
@@ -3057,7 +3188,7 @@
           return !query || searchable.includes(query);
         });
       historyList.innerHTML = visibleHistory.map((item) => `
-        <div class="history-row${item.favorite ? " is-favorite" : ""}" data-history-index="${item.index}">
+        <div class="history-row${item.favorite ? " is-favorite" : ""}${item.question === activeHistoryQuestion ? " is-active" : ""}" data-history-index="${item.index}">
           <button class="history-main" type="button" data-history-open title="${escapeHtml(item.question)}">
             <span class="history-title"><span class="history-star" aria-label="已收藏">★</span>${escapeHtml(truncateTitle(getHistoryTitle(item)))}</span>
           </button>
@@ -3086,11 +3217,41 @@
         question,
         scenarioKey,
         title: existing?.title || "",
-        favorite: Boolean(existing?.favorite)
+        favorite: Boolean(existing?.favorite),
+        messagesHtml: existing?.messagesHtml || "",
+        seedKey: existing?.seedKey || "",
+        seedVersion: Number(existing?.seedVersion || 0)
       });
       conversationHistory = conversationHistory.slice(0, 8);
       persistHistory();
       renderHistory();
+    }
+
+    function saveHistorySnapshot(question) {
+      const index = conversationHistory.findIndex((item) => item.question === question);
+      if (index < 0) return;
+      const snapshot = messages.cloneNode(true);
+      snapshot.querySelectorAll("[data-live-process]").forEach((node) => node.removeAttribute("data-live-process"));
+      snapshot.querySelectorAll("[data-live-file]").forEach((node) => node.removeAttribute("data-live-file"));
+      conversationHistory[index] = {
+        ...conversationHistory[index],
+        messagesHtml: snapshot.innerHTML
+      };
+      persistHistory();
+      renderHistory();
+    }
+
+    function showHistoryRecord(record) {
+      activeRunId += 1;
+      setGenerating(false);
+      activeHistoryQuestion = record.question;
+      renderHistory();
+      showChat();
+      messages.innerHTML = record.messagesHtml || "";
+      suppressAutoScroll = false;
+      requestAnimationFrame(() => {
+        messages.scrollTo({ top: messages.scrollHeight, behavior: "auto" });
+      });
     }
 
     function showChat() {
@@ -3119,6 +3280,8 @@
       homeView.classList.add("active");
       questionInput.value = "";
       setGenerating(false);
+      activeHistoryQuestion = "";
+      renderHistory();
       selectedScenarioKey = null;
       if (location.hash === "#chat") {
         history.pushState({ view: "home" }, "", location.pathname);
@@ -3205,6 +3368,7 @@
       fileCard.className = "file-card output-file ready";
       fileCard.type = "button";
       fileCard.dataset.previewReport = "";
+      fileCard.dataset.liveFile = "";
       fileCard.innerHTML = `
         <div class="file-body">
           <div class="file-icon">W</div>
@@ -3412,6 +3576,7 @@
     function addProcessCard(output) {
       const card = document.createElement("div");
       card.className = "process-card planning-card";
+      card.dataset.liveProcess = "";
       card.innerHTML = `
         <button class="process-toggle" type="button" aria-expanded="true">
           <span class="chevron">⌄</span>
@@ -3598,7 +3763,15 @@
 
     function scrollToBottom() {
       if (suppressAutoScroll) return;
-      requestAnimationFrame(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }));
+      requestAnimationFrame(() => messages.scrollTo({ top: messages.scrollHeight, behavior: "smooth" }));
+    }
+
+    function markMessagesScrolling() {
+      messages.classList.add("is-scrolling");
+      clearTimeout(scrollHideTimer);
+      scrollHideTimer = setTimeout(() => {
+        messages.classList.remove("is-scrolling");
+      }, 720);
     }
 
     function sleep(ms) {
@@ -3616,8 +3789,11 @@
       const data = { ...baseData, question: customQuestion || baseData.question };
 
       try {
+        activeHistoryQuestion = data.question;
         if (options.saveHistory !== false) {
           addHistoryEntry(data.question, scenarioKey);
+        } else {
+          renderHistory();
         }
         showChat();
         addMessage("user", data.question);
@@ -3652,6 +3828,7 @@
         if (activeRunId === runId && !sidePanelDismissed) {
           openReportPanel({ auto: true });
         }
+        saveHistorySnapshot(data.question);
       } finally {
         if (activeRunId === runId) {
           setGenerating(false);
@@ -3670,6 +3847,9 @@
         await sleep(360);
         if (activeRunId !== runId) return;
         await addAssistantBubble(assistantOutput, "目前这是 demo，暂不支持继续追问。", runId);
+        if (activeHistoryQuestion) {
+          saveHistorySnapshot(activeHistoryQuestion);
+        }
       } finally {
         if (activeRunId === runId) {
           setGenerating(false);
@@ -3719,6 +3899,36 @@
       runFollowUp(question);
     });
 
+    messages.addEventListener("scroll", markMessagesScrolling, { passive: true });
+
+    messages.addEventListener("click", (event) => {
+      const fileCard = event.target.closest("[data-preview-report]");
+      if (fileCard) {
+        if (fileCard.dataset.liveFile !== undefined) return;
+        openReportPanel();
+        return;
+      }
+      const searchChip = event.target.closest("[data-search-key]");
+      if (searchChip) {
+        if (searchChip.closest("[data-live-process]")) return;
+        openSearchPanel(searchChip.dataset.searchKey, searchChip.dataset.searchQuery);
+        return;
+      }
+      const processToggle = event.target.closest(".process-toggle");
+      if (processToggle) {
+        const card = processToggle.closest(".process-card");
+        if (card?.dataset.liveProcess !== undefined) return;
+        const collapsed = card?.classList.toggle("collapsed");
+        processToggle.setAttribute("aria-expanded", String(!collapsed));
+        return;
+      }
+      const sectionToggle = event.target.closest("[data-section-toggle]");
+      if (sectionToggle) {
+        if (sectionToggle.closest("[data-live-process]")) return;
+        sectionToggle.closest(".step-section")?.classList.toggle("collapsed");
+      }
+    });
+
     brandHome.addEventListener("click", showHome);
     newChatBtn.addEventListener("click", showHome);
     sidebarToggle.addEventListener("click", () => {
@@ -3732,6 +3942,10 @@
         sidebarToggle.setAttribute("aria-label", "收起侧边栏");
         sidebarToggle.setAttribute("title", "收起侧边栏");
       }
+      if (historySearchWrap.classList.contains("search-open") && !historySearch.value.trim()) {
+        closeHistorySearchIfEmpty();
+        return;
+      }
       historySearchWrap.classList.add("search-open");
       requestAnimationFrame(() => historySearch.focus());
     });
@@ -3741,6 +3955,9 @@
         historySearchWrap.classList.remove("search-open");
         historySearchTrigger.focus();
       }
+    });
+    historySearch.addEventListener("blur", () => {
+      setTimeout(closeHistorySearchIfEmpty, 120);
     });
     historyList.addEventListener("click", (event) => {
       const row = event.target.closest("[data-history-index]");
@@ -3774,6 +3991,9 @@
           renderHistory();
         }
         if (action === "delete" && confirm("删除这条历史记录？")) {
+          if (record.question === activeHistoryQuestion) {
+            activeHistoryQuestion = "";
+          }
           conversationHistory.splice(index, 1);
           persistHistory();
           renderHistory();
@@ -3783,7 +4003,15 @@
 
       if (event.target.closest("[data-history-open]")) {
         closeHistoryMenus();
-        runAnalysis(record.scenarioKey || "custom", record.question, { saveHistory: false });
+        if (record.question === activeHistoryQuestion && chatView.classList.contains("active") && messages.innerHTML.trim()) {
+          renderHistory();
+          return;
+        }
+        if (record.messagesHtml) {
+          showHistoryRecord(record);
+        } else {
+          runAnalysis(record.scenarioKey || "custom", record.question, { saveHistory: false });
+        }
       }
     });
     document.addEventListener("click", (event) => {
@@ -3812,6 +4040,7 @@
       history.replaceState({ view: "home" }, "", location.pathname);
     }
     loadHistory();
+    ensureSeedHistory();
     renderHistory();
   </script>
 
