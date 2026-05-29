@@ -26,6 +26,21 @@
       --shadow: 0 18px 48px rgba(19, 28, 44, 0.07);
       --radius: 8px;
       --sidebar-width: 252px;
+      --ui-font-size: 13px;
+      --body-font-size: 15px;
+      --body-line: 1.68;
+      --reading-line: 1.76;
+      --turn-gap: 24px;
+      --question-answer-gap: 18px;
+      --answer-next-gap: 30px;
+      --ai-block-gap: 14px;
+      --ai-result-gap: 16px;
+      --ai-file-gap: 8px;
+      --page-gutter: clamp(18px, 2.4vw, 42px);
+      --home-max: 940px;
+      --chat-max: 900px;
+      --chat-preview-max: 680px;
+      --preview-width: clamp(380px, 36vw, 720px);
     }
 
     body.sidebar-collapsed {
@@ -39,6 +54,7 @@
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       letter-spacing: 0;
+      line-height: 1.5;
     }
 
     button,
@@ -57,11 +73,11 @@
       width: var(--sidebar-width);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       padding: 18px 14px;
       background: rgba(255, 255, 255, 0.88);
-      border-right: 1px solid var(--line);
       backdrop-filter: blur(18px);
+      box-shadow: 10px 0 32px rgba(19, 28, 44, 0.035);
       transition: width 220ms ease, padding 220ms ease;
     }
 
@@ -70,14 +86,17 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      min-height: 38px;
+      min-height: 44px;
+      margin-bottom: 2px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       width: 168px;
-      overflow: hidden;
+      min-width: 168px;
+      height: 60px;
+      overflow: visible;
       border: 0;
       background: transparent;
       border-radius: 0;
@@ -95,56 +114,129 @@
       height: auto;
       display: block;
       flex: 0 0 auto;
+      object-fit: contain;
     }
 
     .sidebar-icon-button {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       display: grid;
       place-items: center;
       flex: 0 0 auto;
       border: 1px solid transparent;
-      border-radius: 9px;
-      color: var(--muted);
+      border-radius: 10px;
+      color: #4f5b6d;
       background: transparent;
-      transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+      transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
     }
 
-    .sidebar-icon-button:hover {
+    .sidebar-icon-button:hover,
+    .sidebar-action:hover {
       color: var(--ink);
-      background: #f4f7fb;
-      border-color: var(--line);
+      background: #f8fafc;
+      border-color: rgba(47, 111, 237, 0.28);
+      transform: translateY(-1px);
     }
 
     .sidebar-icon-button svg,
     .sidebar-action svg,
-    .history-item svg {
-      width: 17px;
-      height: 17px;
+    .sidebar-search-trigger svg,
+    .sidebar-search-field svg,
+    .history-main svg,
+    .history-menu-button svg {
+      width: 16px;
+      height: 16px;
       stroke: currentColor;
+      stroke-width: 1.9;
     }
 
-    .sidebar-action {
+    .sidebar-action,
+    .sidebar-search-trigger,
+    .sidebar-search-field {
       width: 100%;
       min-height: 40px;
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 9px 10px;
-      border: 1px solid var(--line);
       border-radius: 10px;
-      color: #243043;
-      background: #ffffff;
-      font-size: 13px;
-      font-weight: 800;
+      font-size: var(--ui-font-size);
+      font-weight: 760;
+      line-height: 1;
       text-align: left;
+    }
+
+    .sidebar-action {
+      border: 1px solid transparent;
+      color: #243043;
+      background: transparent;
       transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
     }
 
-    .sidebar-action:hover {
+    .sidebar-actions {
+      display: grid;
+      gap: 1px;
+      width: 100%;
+    }
+
+    .sidebar-text {
+      min-width: 0;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .sidebar-search-wrap {
+      width: 100%;
+      display: grid;
+      gap: 0;
+    }
+
+    .sidebar-search-trigger,
+    .sidebar-search-field {
+      border: 1px solid transparent;
+      color: #4f5b6d;
+      background: transparent;
+      transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .sidebar-search-trigger:hover,
+    .sidebar-search-field:hover,
+    .sidebar-search-field:focus-within {
+      color: var(--ink);
       background: #f8fafc;
       border-color: rgba(47, 111, 237, 0.28);
       transform: translateY(-1px);
+    }
+
+    .sidebar-search-field {
+      display: none;
+      border-color: var(--line);
+      background: #ffffff;
+    }
+
+    .sidebar-search-wrap.search-open .sidebar-search-trigger {
+      display: none;
+    }
+
+    .sidebar-search-wrap.search-open .sidebar-search-field {
+      display: flex;
+    }
+
+    .sidebar-search-field input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: var(--ink);
+      background: transparent;
+      font: inherit;
+      font-size: var(--ui-font-size);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .sidebar-search-field input::placeholder {
+      color: var(--faint);
     }
 
     .sidebar-section {
@@ -155,42 +247,79 @@
 
     .history-section {
       flex: 1;
+      grid-template-rows: auto minmax(0, 1fr);
+      padding-top: 4px;
     }
 
     .sidebar-label {
-      padding: 4px 6px;
+      padding: 3px 6px 2px;
       color: var(--faint);
       font-size: 12px;
       font-weight: 800;
     }
 
     .history-list {
+      grid-row: 2;
       display: grid;
-      gap: 4px;
-      overflow: auto;
+      grid-auto-rows: min-content;
+      align-content: start;
+      gap: 6px;
+      overflow: visible;
       padding-right: 2px;
     }
 
-    .history-item {
+    .history-section:not(.has-history) .history-list {
+      display: none;
+    }
+
+    .history-row {
+      position: relative;
       width: 100%;
-      min-height: 36px;
+      min-height: 42px;
       display: grid;
-      grid-template-columns: 17px minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 30px;
       align-items: center;
-      gap: 8px;
-      padding: 8px 9px;
-      border: 0;
       border-radius: 9px;
       color: #4f5b6d;
       background: transparent;
-      font-size: 12.5px;
-      line-height: 1.35;
+      transition: background 160ms ease, color 160ms ease;
+    }
+
+    .history-row.menu-open {
+      z-index: 8;
+    }
+
+    .history-row:hover,
+    .history-row.menu-open {
+      color: var(--ink);
+      background: #f4f7fb;
+    }
+
+    .history-main {
+      min-width: 0;
+      min-height: 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: center;
+      padding: 9px 10px;
+      border: 0;
+      border-radius: 9px 0 0 9px;
+      color: inherit;
+      background: transparent;
+      font-size: var(--ui-font-size);
+      line-height: 1;
       text-align: left;
     }
 
-    .history-item:hover {
-      color: var(--ink);
-      background: #f4f7fb;
+    .history-star {
+      display: none;
+      color: #f2a900;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .history-row.is-favorite .history-star {
+      display: inline;
     }
 
     .history-title {
@@ -200,29 +329,133 @@
       text-overflow: ellipsis;
     }
 
+    .history-menu-button {
+      width: 30px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      margin-right: 4px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #6d7787;
+      background: transparent;
+      transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .history-menu-button:hover {
+      color: var(--ink);
+      background: #e8edf4;
+      border-color: #d8e0ea;
+    }
+
+    .history-menu {
+      position: absolute;
+      top: 38px;
+      right: -104px;
+      z-index: 5;
+      min-width: 116px;
+      display: none;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #ffffff;
+      box-shadow: 0 16px 34px rgba(19, 28, 44, 0.12);
+    }
+
+    .history-row.menu-open .history-menu {
+      display: grid;
+      gap: 2px;
+    }
+
+    .history-menu button {
+      width: 100%;
+      min-height: 30px;
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 7px;
+      color: #344054;
+      background: transparent;
+      font-size: var(--ui-font-size);
+      line-height: 1.2;
+      text-align: left;
+    }
+
+    .history-menu button:hover {
+      color: var(--ink);
+      background: #f4f7fb;
+    }
+
+    .history-menu button[data-history-action="delete"] {
+      color: #bc3b2d;
+    }
+
     .history-empty {
+      grid-row: 2;
+      align-self: stretch;
+      display: grid;
+      place-items: center;
       padding: 8px 7px;
       color: var(--faint);
       font-size: 12.5px;
       line-height: 1.45;
+      text-align: center;
+    }
+
+    .history-section.has-history .history-empty {
+      display: none;
     }
 
     .sidebar-collapsed .app-sidebar {
-      padding: 18px 12px;
-    }
-
-    .sidebar-collapsed .brand {
-      width: 38px;
+      width: var(--sidebar-width);
+      padding: 18px 14px;
+      overflow: visible;
     }
 
     .sidebar-collapsed .sidebar-head {
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: auto;
+      margin-bottom: 4px;
     }
 
-    .sidebar-collapsed .sidebar-action {
+    .sidebar-collapsed .sidebar-actions {
+      gap: 4px;
+    }
+
+    .sidebar-collapsed .sidebar-icon-button,
+    .sidebar-collapsed .sidebar-action,
+    .sidebar-collapsed .sidebar-search-trigger,
+    .sidebar-collapsed .sidebar-search-field {
       justify-content: center;
-      padding: 9px;
+      width: 40px;
+      height: 40px;
+      min-height: 40px;
+      padding: 0;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .sidebar-collapsed .sidebar-icon-button:hover,
+    .sidebar-collapsed .sidebar-action:hover,
+    .sidebar-collapsed .sidebar-search-trigger:hover,
+    .sidebar-collapsed .sidebar-search-field:hover {
+      color: var(--ink);
+      background: #f8fafc;
+      border-color: rgba(47, 111, 237, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-collapsed .sidebar-search-field {
+      display: none;
+    }
+
+    .sidebar-collapsed .sidebar-search-wrap.search-open .sidebar-search-trigger {
+      display: flex;
+    }
+
+    .sidebar-collapsed .sidebar-search-field input {
+      display: none;
     }
 
     .sidebar-collapsed .sidebar-text,
@@ -246,17 +479,18 @@
     }
 
     .home {
-      width: min(920px, calc(100% - var(--sidebar-width) - 40px));
-      margin: 0 auto;
+      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--sidebar-width);
       min-height: 100vh;
-      padding: 0 0 48px;
+      padding: clamp(48px, 7vh, 86px) var(--page-gutter) 48px;
       flex-direction: column;
       justify-content: center;
-      transform: translateX(calc(var(--sidebar-width) / 2));
-      transition: transform 220ms ease;
+      transition: margin-left 220ms ease, width 220ms ease;
     }
 
     .home-hero {
+      width: min(var(--home-max), 100%);
+      margin: 0 auto;
       text-align: center;
     }
 
@@ -276,14 +510,16 @@
 
     .lead {
       display: block;
-      margin: 0 auto 48px;
+      margin: 0 auto clamp(34px, 4.6vh, 52px);
       color: #222936;
-      font-size: clamp(20px, 2.2vw, 30px);
+      font-size: clamp(19px, 2vw, 30px);
       font-weight: 500;
       line-height: 1.45;
     }
 
     .composer {
+      width: min(var(--home-max), 100%);
+      margin: 0 auto;
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -385,7 +621,7 @@
     }
 
     .trend-section {
-      width: 100%;
+      width: min(var(--home-max), 100%);
       margin: 34px auto 0;
     }
 
@@ -459,16 +695,29 @@
       opacity: 1;
     }
 
-    .tag-row {
-      display: none;
+    .case-domain {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
     }
 
-    .tag {
-      color: #374151;
-      background: var(--soft);
-      border-radius: 999px;
+    .domain-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
       padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: rgba(47, 111, 237, 0.08);
       font-size: 12px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .domain-mark {
+      display: none;
     }
 
     .trend-card h3 {
@@ -507,7 +756,7 @@
 
     .chat-view.preview-open,
     .chat-view.preview-closing {
-      grid-template-columns: minmax(0, 1fr) minmax(360px, 44%);
+      grid-template-columns: minmax(0, 1fr) var(--preview-width);
       gap: 0;
     }
 
@@ -519,12 +768,12 @@
 
     .chat-view.preview-open .messages,
     .chat-view.preview-closing .messages {
-      width: min(640px, calc(100% - 34px));
+      width: min(var(--chat-preview-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
     }
 
     .chat-view.preview-open .chat-composer,
     .chat-view.preview-closing .chat-composer {
-      width: min(640px, calc(100% - 34px));
+      width: min(var(--chat-preview-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
     }
 
     .chat-shell {
@@ -534,17 +783,30 @@
     }
 
     .messages {
-      width: min(900px, calc(100% - 34px));
+      width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
       margin: 0 auto;
-      padding: 34px 0 22px;
+      padding: clamp(28px, 4vh, 44px) 0 22px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 0;
     }
 
     .message {
       display: flex;
+      margin: 0;
       animation: rise 320ms ease both;
+    }
+
+    .message + .message {
+      margin-top: var(--turn-gap);
+    }
+
+    .message.user + .message.assistant {
+      margin-top: var(--question-answer-gap);
+    }
+
+    .message.assistant + .message.user {
+      margin-top: var(--answer-next-gap);
     }
 
     .message.user {
@@ -555,15 +817,31 @@
       width: min(760px, 100%);
       max-width: min(760px, 100%);
       display: grid;
-      gap: 10px;
+      gap: 0;
+    }
+
+    .assistant-output > * {
+      margin: 0;
+    }
+
+    .assistant-output > * + * {
+      margin-top: var(--ai-block-gap);
+    }
+
+    .assistant-output > .process-card + .result-bubble {
+      margin-top: var(--ai-result-gap);
+    }
+
+    .assistant-output > .result-bubble + .file-card.output-file {
+      margin-top: var(--ai-file-gap);
     }
 
     .bubble {
       max-width: min(760px, 100%);
-      padding: 14px 17px;
+      padding: 15px 18px;
       border-radius: 8px;
-      line-height: 1.62;
-      font-size: 15px;
+      line-height: var(--body-line);
+      font-size: var(--body-font-size);
       white-space: pre-wrap;
     }
 
@@ -581,24 +859,33 @@
     .result-bubble {
       display: grid;
       gap: 0;
+      padding: 16px 19px;
     }
 
     .result-text {
       display: grid;
-      gap: 10px;
+      gap: 17px;
       white-space: normal;
     }
 
     .result-text p {
       margin: 0;
-      line-height: 1.68;
+      color: #1c2430;
+      font-size: 15px;
+      line-height: var(--reading-line);
+      font-weight: 400;
+    }
+
+    .result-text p:first-child {
+      color: #151b25;
+      font-weight: 400;
     }
 
     .process-card {
       width: min(760px, 100%);
       max-width: 760px;
       min-height: 0;
-      padding: 16px 18px 2px;
+      padding: 16px 18px 4px;
       background: #ffffff;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -647,7 +934,21 @@
       display: inline-grid;
       place-items: center;
       color: var(--faint);
+      font-size: 0;
+      line-height: 0;
       transition: transform 180ms ease;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .chevron::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-right: 1.7px solid currentColor;
+      border-bottom: 1.7px solid currentColor;
+      transform: rotate(45deg);
+      transform-origin: 50% 50%;
     }
 
     .process-card.collapsed .chevron {
@@ -867,7 +1168,7 @@
       margin-bottom: 4px;
       color: #1b2430;
       font-size: 14.5px;
-      line-height: 1.45;
+      line-height: 1.42;
     }
 
     .step-title-icon,
@@ -899,8 +1200,8 @@
     .step-copy p {
       margin: 0;
       color: var(--muted);
-      font-size: 12.5px;
-      line-height: 1.68;
+      font-size: 12.8px;
+      line-height: 1.58;
     }
 
     .step-copy p:empty {
@@ -950,9 +1251,9 @@
       border: 0;
       background: transparent;
       color: #273142;
-      font-size: 12.8px;
+      font-size: 13px;
       font-weight: 750;
-      line-height: 1.35;
+      line-height: 1.36;
       text-align: left;
       cursor: pointer;
     }
@@ -982,6 +1283,23 @@
       color: var(--faint);
       font-size: 12px;
       transition: transform 160ms ease;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .section-chevron {
+      font-size: 0;
+      line-height: 0;
+    }
+
+    .section-chevron::before {
+      content: "";
+      width: 5.5px;
+      height: 5.5px;
+      border-right: 1.6px solid currentColor;
+      border-bottom: 1.6px solid currentColor;
+      transform: rotate(45deg);
+      transform-origin: 50% 50%;
     }
 
     .step-section.collapsed .section-chevron {
@@ -1029,8 +1347,8 @@
     .section-desc {
       margin: 0;
       color: var(--muted);
-      font-size: 12.2px;
-      line-height: 1.5;
+      font-size: 12.8px;
+      line-height: 1.58;
     }
 
     .step-chip {
@@ -1044,7 +1362,7 @@
       background: #f1f3f5;
       border-radius: 999px;
       font-size: 12.5px;
-      line-height: 1.28;
+      line-height: 1.32;
       animation: chipIn 220ms ease both;
     }
 
@@ -1083,7 +1401,7 @@
       background: #f7f9fb;
       border: 1px solid #edf1f5;
       border-radius: 7px;
-      font-size: 12px;
+      font-size: 12.3px;
       line-height: 1.35;
       animation: chipIn 180ms ease both;
     }
@@ -1117,11 +1435,11 @@
 
     .output-file {
       justify-self: start;
-      margin: -8px 0 0;
+      margin: 0;
     }
 
     .file-card {
-      margin-top: 2px;
+      margin-top: 0;
       display: inline-block;
       vertical-align: top;
       white-space: normal;
@@ -1130,7 +1448,7 @@
     }
 
     .file-card.output-file {
-      margin: -8px 0 0;
+      margin: 0;
     }
 
     .file-body {
@@ -1276,62 +1594,153 @@
     }
 
     .search-results-body {
-      padding: 14px;
+      padding: 12px;
       overflow: auto;
       background: #fbfcfe;
     }
 
+    .search-status {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      margin: -12px -12px 10px;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(221, 228, 236, 0.86);
+      color: #4f5b6d;
+      background: rgba(251, 252, 254, 0.94);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .search-status-main {
+      display: inline-flex;
+      align-items: center;
+      min-width: 0;
+      gap: 8px;
+      font-weight: 750;
+    }
+
+    .search-status-main::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: #2f6fed;
+      box-shadow: 0 0 0 4px rgba(47, 111, 237, 0.12);
+      animation: pulseDot 880ms ease-in-out infinite;
+    }
+
+    .search-status.is-complete .search-status-main::before {
+      background: #25a36f;
+      box-shadow: 0 0 0 4px rgba(37, 163, 111, 0.12);
+      animation: none;
+    }
+
     .search-results {
       display: grid;
-      gap: 10px;
+      gap: 0;
+      border-top: 1px solid rgba(221, 228, 236, 0.72);
     }
 
     .search-result-card {
+      position: relative;
+      overflow: hidden;
       display: grid;
-      gap: 7px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 9px;
+      grid-template-columns: 18px minmax(0, 1fr);
+      align-items: start;
+      gap: 8px;
+      min-height: 58px;
+      padding: 9px 16px;
+      border: 0;
+      border-bottom: 1px solid rgba(221, 228, 236, 0.72);
+      border-radius: 0;
       color: inherit;
-      background: #ffffff;
+      background: transparent;
+      box-shadow: none;
       text-decoration: none;
-      transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+      transition: background 180ms ease;
+      animation: resultIn 260ms ease both;
+    }
+
+    .search-result-card::before {
+      display: none;
     }
 
     .search-result-card:hover {
-      border-color: rgba(47, 111, 237, 0.42);
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(19, 28, 44, 0.06);
+      background: #f7faff;
     }
 
-    .search-result-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      color: var(--faint);
-      font-size: 11.5px;
-      font-weight: 800;
+    .search-result-favicon {
+      position: relative;
+      z-index: 1;
+      width: 16px;
+      height: 16px;
+      margin-top: 1px;
+      border-radius: 4px;
+      object-fit: contain;
+      background: #ffffff;
+    }
+
+    .search-result-fallback {
+      position: relative;
+      z-index: 1;
+      width: 16px;
+      height: 16px;
+      display: grid;
+      place-items: center;
+      margin-top: 1px;
+      border-radius: 4px;
+      color: #245ecb;
+      background: rgba(47, 111, 237, 0.09);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .search-result-main {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      display: grid;
+      gap: 3px;
     }
 
     .search-result-card strong {
       color: #18202d;
-      font-size: 13.5px;
-      line-height: 1.45;
+      font-size: 13.2px;
+      line-height: 1.34;
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .search-result-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 12.5px;
-      line-height: 1.58;
+      font-size: 12.2px;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .search-result-url {
-      color: #2f6fed;
-      font-size: 12px;
-      line-height: 1.35;
-      word-break: break-all;
+    @keyframes pulseDot {
+      0%,
+      100% {
+        transform: scale(0.92);
+        opacity: 0.65;
+      }
+
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .step-chip.search-link {
@@ -1344,7 +1753,7 @@
     }
 
     .chat-composer {
-      width: min(900px, calc(100% - 34px));
+      width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
       margin: 0 auto;
       display: flex;
       align-items: flex-end;
@@ -1489,6 +1898,18 @@
       }
     }
 
+    @keyframes resultIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @keyframes chipIn {
       from {
         opacity: 0;
@@ -1501,24 +1922,84 @@
       }
     }
 
-    @media (max-width: 840px) {
-      body {
-        --sidebar-width: 64px;
+    @media (min-width: 1680px) {
+      :root {
+        --home-max: 980px;
+        --chat-max: 960px;
+        --chat-preview-max: 720px;
+        --preview-width: clamp(460px, 34vw, 760px);
+      }
+    }
+
+    @media (max-width: 1280px) {
+      :root {
+        --home-max: 860px;
+        --chat-max: 820px;
+        --chat-preview-max: 620px;
+        --preview-width: clamp(360px, 34vw, 520px);
+      }
+
+      h1 {
+        font-size: clamp(36px, 5vw, 56px);
+      }
+
+      .lead {
+        font-size: clamp(18px, 2.2vw, 26px);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      body:not(.sidebar-collapsed) {
+        --sidebar-width: 224px;
       }
 
       .app-sidebar {
-        padding: 14px 10px;
+        padding-inline: 12px;
+      }
+
+      .trend-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trend-card {
+        min-height: 108px;
+      }
+
+      .chat-view.preview-open,
+      .chat-view.preview-closing {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 38vw);
+      }
+    }
+
+    @media (max-width: 840px) {
+      body {
+        --sidebar-width: 72px;
+        --page-gutter: 18px;
+      }
+
+      .app-sidebar {
+        padding: 14px 12px;
       }
 
       .brand {
-        width: 38px;
+        width: 168px;
+        min-width: 168px;
+        height: 60px;
+        overflow: visible;
+      }
+
+      .brand-logo {
+        width: 168px;
       }
 
       .sidebar-head {
         flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
       }
 
       .sidebar-text,
+      .sidebar-search-field input,
       .sidebar-label,
       .history-list,
       .history-empty {
@@ -1526,8 +2007,10 @@
       }
 
       .home {
-        width: min(720px, calc(100% - var(--sidebar-width) - 28px));
-        padding: 84px 0 36px;
+        width: calc(100% - var(--sidebar-width));
+        margin-left: var(--sidebar-width);
+        min-height: 100svh;
+        padding: 84px var(--page-gutter) 36px;
       }
 
       .trend-grid {
@@ -1550,7 +2033,7 @@
       .chat-view.preview-open .chat-composer,
       .chat-view.preview-closing .messages,
       .chat-view.preview-closing .chat-composer {
-        width: min(900px, calc(100% - 34px));
+        width: min(var(--chat-max), calc(100% - var(--page-gutter) - var(--page-gutter)));
       }
 
       .preview-panel {
@@ -1563,6 +2046,102 @@
     }
 
     @media (max-width: 560px) {
+      body {
+        --sidebar-width: 0px;
+        --page-gutter: 14px;
+      }
+
+      body.sidebar-collapsed {
+        --sidebar-width: 0px;
+      }
+
+      .app-sidebar {
+        position: sticky;
+        inset: 0 0 auto;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        overflow-x: auto;
+      }
+
+      .sidebar-collapsed .app-sidebar {
+        width: 100%;
+        padding: 10px 12px;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .sidebar-head {
+        flex: 0 0 auto;
+        flex-direction: row;
+        gap: 8px;
+        margin: 0;
+      }
+
+      .sidebar-collapsed .sidebar-head {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+      }
+
+      .brand,
+      .brand-logo {
+        width: 138px;
+        min-width: 138px;
+      }
+
+      .sidebar-actions {
+        width: auto;
+        display: flex;
+        flex: 0 0 auto;
+      }
+
+      .sidebar-action,
+      .sidebar-search-trigger {
+        width: 40px;
+        height: 40px;
+        min-height: 40px;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .sidebar-search-wrap.search-open .sidebar-search-field {
+        width: 180px;
+      }
+
+      .history-section {
+        display: none;
+      }
+
+      .home,
+      .chat-view {
+        margin-left: 0;
+        width: 100%;
+        transform: none;
+      }
+
+      .home {
+        min-height: calc(100svh - 64px);
+        padding: 38px 0 28px;
+      }
+
+      h1 {
+        font-size: clamp(32px, 10vw, 42px);
+      }
+
+      .lead {
+        margin-bottom: 28px;
+        font-size: 18px;
+      }
+
+      .composer textarea {
+        min-height: 112px;
+      }
+
       .composer-footer {
         align-items: stretch;
         flex-direction: column;
@@ -1590,7 +2169,7 @@
       <button class="brand" id="brand-home" type="button" aria-label="返回主界面">
         <img class="brand-logo" src="assets/smartchain-logo.svg" alt="数智创新 SmartChain Innovations">
       </button>
-      <button class="sidebar-icon-button" id="sidebar-toggle" type="button" aria-label="收起侧边栏">
+      <button class="sidebar-icon-button" id="sidebar-toggle" type="button" aria-label="收起侧边栏" title="收起侧边栏">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="4" y="4" width="16" height="16" rx="3"></rect>
           <path d="M10 4v16"></path>
@@ -1598,13 +2177,32 @@
       </button>
     </div>
 
-    <button class="sidebar-action" id="new-chat-btn" type="button" title="新建对话">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 5v14"></path>
-        <path d="M5 12h14"></path>
-      </svg>
-      <span class="sidebar-text">新建对话</span>
-    </button>
+    <div class="sidebar-actions" aria-label="对话操作">
+      <button class="sidebar-action" id="new-chat-btn" type="button" title="新建对话">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 5v14"></path>
+          <path d="M5 12h14"></path>
+        </svg>
+        <span class="sidebar-text">新建对话</span>
+      </button>
+
+      <div class="sidebar-search-wrap" id="history-search-wrap">
+        <button class="sidebar-search-trigger" id="history-search-trigger" type="button" title="搜索对话" aria-label="搜索对话">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <span class="sidebar-text">搜索对话</span>
+        </button>
+        <label class="sidebar-search-field" title="搜索对话">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input id="history-search" type="search" placeholder="搜索对话" autocomplete="off">
+        </label>
+      </div>
+    </div>
 
     <div class="sidebar-section history-section">
       <div class="sidebar-label">历史记录</div>
@@ -1637,18 +2235,30 @@
       </div>
 
       <div class="trend-grid">
-        <button class="trend-card" type="button" data-scenario="red-sea">
+        <button class="trend-card" type="button" data-scenario="red-sea" data-domain="agri">
+          <span class="case-domain">
+            <span class="domain-label">农业</span>
+            <span class="domain-mark" aria-hidden="true">农</span>
+          </span>
           <h3>面向粮食供应链安全的战略库存方案与风控平衡机制研究</h3>
           <span class="card-action">→</span>
         </button>
 
-        <button class="trend-card" type="button" data-scenario="rainfall">
-          <h3>占位案例 2</h3>
+        <button class="trend-card" type="button" data-scenario="rainfall" data-domain="ore">
+          <span class="case-domain">
+            <span class="domain-label">铁矿石</span>
+            <span class="domain-mark" aria-hidden="true">矿</span>
+          </span>
+          <h3>铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案</h3>
           <span class="card-action">→</span>
         </button>
 
-        <button class="trend-card" type="button" data-scenario="supplier">
-          <h3>占位案例 3</h3>
+        <button class="trend-card" type="button" data-scenario="supplier" data-domain="logistics">
+          <span class="case-domain">
+            <span class="domain-label">多式联运</span>
+            <span class="domain-mark" aria-hidden="true">运</span>
+          </span>
+          <h3>铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案</h3>
           <span class="card-action">→</span>
         </button>
       </div>
@@ -1703,16 +2313,16 @@
     };
 
     const placeholderCase2 = {
-      question: "占位案例 2",
-      final: "我已为您准备好了《占位案例 2 分析报告》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
-      fileTitle: "占位案例 2 分析报告",
+      question: "我是风控合规经理，正在推进一单铁矿石跨境贸易，交易链条涉及最终买方。当前发现股权穿透后出现受制裁主体相似名称，但客户要求尽快签约/发运。请判断在UBO穿透资料尚未完全闭环的情况下，是否应暂停发运？需要重点看哪些红旗信号、材料阈值和审批升级条件，才能既避免制裁违规，又不误伤正常业务？",
+      final: "我已为您准备好了《铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
+      fileTitle: "铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案",
       fileMeta: "DOCX"
     };
 
     const placeholderCase3 = {
-      question: "占位案例 3",
-      final: "我已为您准备好了《占位案例 3 分析报告》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
-      fileTitle: "占位案例 3 分析报告",
+      question: "我是多式联运调度员，正在组织一批铝土矿运输，路线为几内亚至华南港口再转铁路到内陆工厂。现在遇到船期延误导致铁路班列衔接窗口缩短，客户仍要求按原到货节点交付。请判断是否应改走备用港口？方案比选时应如何权衡全程成本、节点衔接可靠性、异常成本和客户履约影响，并给出可落地的决策阈值？",
+      final: "我已为您准备好了《铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
+      fileTitle: "铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案",
       fileMeta: "DOCX"
     };
 
@@ -1729,49 +2339,409 @@
     };
 
     const searchResultGroups = {
-      "otc-inventory-finance": {
-        title: "场外期权与库存金融案例检索",
+      "otc-industrial-cases": {
+        title: "场外期权服务实体产业案例",
         results: [
           {
-            source: "行业研究",
-            title: "场外期权服务实体企业风险管理案例",
-            summary: "占位结果：展示场外期权在大宗商品采购、库存风险保护和价格波动管理中的应用路径。",
-            url: "https://example.com/otc-options-industrial-risk"
+            source: "郑商所",
+            title: "菜粕期权推动产业产销模式升级",
+            summary: "产业企业利用菜粕期权管理采购、销售和库存价格风险，支撑期权服务实体产业的案例依据。",
+            url: "https://www.czce.com.cn/cn/gyjys/jysdt/mtkzss/webinfo/2021/09/1605597328582769.htm"
           },
           {
-            source: "产品结构",
-            title: "领口式期权组合在库存套保中的使用方式",
-            summary: "占位结果：说明买入看跌与卖出看涨如何共同降低权利金成本，并约束库存价格风险边界。",
-            url: "https://example.com/collar-option-inventory-hedge"
+            source: "南华期货",
+            title: "郑商所期权优秀案例：菜粕期权",
+            summary: "菜粕期权案例汇编，展示期权在油脂油料企业风险管理、采购定价和库存保护中的使用方式。",
+            url: "https://www.nanhua.net/cmsbigfile/2023/03/94d0a815-f480-494f-a039-415993a3f50f/%E9%83%91%E5%95%86%E6%89%80%E6%9C%9F%E6%9D%83%E4%BC%98%E7%A7%80%E6%A1%88%E4%BE%8B%E6%B1%87%E7%BC%96-%E8%8F%9C%E7%B2%95%E6%9C%9F%E6%9D%83.pdf"
           },
           {
-            source: "融资案例",
-            title: "大宗商品库存融资与回购安排案例",
-            summary: "占位结果：梳理库存融资、结构化预付款与商品回购在降低资金占用中的常见条款。",
-            url: "https://example.com/commodity-inventory-finance"
+            source: "中国期货业协会",
+            title: "期权现货结合 助农牧企业稳经营",
+            summary: "说明期权与现货经营结合，帮助农牧产业企业在价格波动中稳定经营。",
+            url: "https://www.cfachina.org/industrydynamics/mediaviewoffuturesmarket/202204/t20220401_26475.html"
+          },
+          {
+            source: "中国金融信息网",
+            title: "大商所推豆粕期权，扩大“保险+期货”试点",
+            summary: "豆粕期权和保险+期货服务实体经济的报道，可用于支撑农产品衍生工具服务产业的背景。",
+            url: "https://www.cnfin.com/futures-xh08/a/20160201/1604826.shtml"
+          },
+          {
+            source: "中国投资者网",
+            title: "大商所计划推出豆粕和玉米系列期权",
+            summary: "农产品期权工具扩容的权威信息，支撑粮食及油脂油料企业可使用更多价格风险管理工具。",
+            url: "https://www.investor.org.cn/information_release/news_release_from_authorities/qhjysfb/202412/t20241223_818549.shtml"
+          },
+          {
+            source: "证券时报",
+            title: "中粮期货发布服务实体经济案例手册",
+            summary: "期货经营机构服务实体经济案例报道，可用于补充产业客户风险管理案例素材。",
+            url: "https://www.stcn.com/article/detail/1108421.html"
+          },
+          {
+            source: "大连商品交易所",
+            title: "期权工具助力油脂油料产业企业管理风险",
+            summary: "交易所案例材料，展示油脂油料产业企业使用期权工具管理价格波动风险。",
+            url: "http://www.dce.com.cn/dalianshangpin/xqsj/ywfw/jystz/ywfw/6266258/index.html"
+          },
+          {
+            source: "中国期货业协会",
+            title: "期货经营机构服务实体经济优秀案例",
+            summary: "优秀案例汇总，可作为供应链服务商设计风险管理方案时的行业案例依据。",
+            url: "https://www.cfachina.org/aboutassociation/associationannouncement/202106/t20210611_15755.html"
+          },
+          {
+            source: "大连商品交易所",
+            title: "服务实体经济典型案例",
+            summary: "交易所服务实体经济案例入口，支撑期货期权工具与产业经营结合的案例检索。",
+            url: "http://www.dce.com.cn/dalianshangpin/yw/fwstjj/index.html"
+          },
+          {
+            source: "郑商所",
+            title: "白糖期权专题与期权服务实体经济材料",
+            summary: "期权专题材料入口，可用于理解交易所期权产品在实体企业风险管理中的典型用法。",
+            url: "https://www.czce.com.cn/cn/ztlm/btqqzt/A090602index_1.htm"
+          },
+          {
+            source: "新浪财经",
+            title: "期权助力实体企业风险管理案例报道",
+            summary: "财经媒体期货期权报道入口，用于补充实体企业风险管理案例线索。",
+            url: "https://finance.sina.com.cn/money/future/fmnews/"
           }
         ]
       },
-      "supply-disruption": {
-        title: "供应扰动背景调查",
+      "collar-option-strategy": {
+        title: "领口式期权组合",
         results: [
           {
-            source: "供需监测",
-            title: "主产区产量变化与粮食品种供需格局跟踪",
-            summary: "占位结果：汇总产区产量、库存和消费节奏变化，用于判断是否存在供应偏紧信号。",
-            url: "https://example.com/grain-supply-demand-monitor"
+            source: "CME Group",
+            title: "Collars",
+            summary: "说明 collar 策略通过买入保护性看跌并卖出看涨，形成价格保护区间。",
+            url: "https://www.cmegroup.com/education/courses/option-strategies/collars"
           },
           {
-            source: "天气风险",
-            title: "极端天气对粮食产量和质量的潜在影响",
-            summary: "占位结果：跟踪干旱、洪涝和高温等天气因素对产量、物流和仓储质量的影响。",
-            url: "https://example.com/agri-weather-risk"
+            source: "Fidelity",
+            title: "Collar Strategy",
+            summary: "解释领口策略如何以牺牲部分上行收益为代价，降低或控制下行风险。",
+            url: "https://www.fidelity.com/learning-center/investment-products/options/options-strategy-guide/collar"
           },
           {
-            source: "政策与贸易",
-            title: "贸易流、政策扰动与地缘风险观察",
-            summary: "占位结果：识别出口限制、进口政策、港口管制和地缘事件对供应链连续性的影响。",
-            url: "https://example.com/grain-policy-trade-risk"
+            source: "Britannica Money",
+            title: "Option Collar Strategy",
+            summary: "面向投资者的领口期权策略说明，可用于解释买入看跌和卖出看涨的组合逻辑。",
+            url: "https://www.britannica.com/money/option-collar-strategy"
+          },
+          {
+            source: "CFI",
+            title: "Collar Option Strategy",
+            summary: "介绍 collar 策略的收益边界、保护机制和成本取舍。",
+            url: "https://corporatefinanceinstitute.com/resources/derivatives/collar-option-strategy/"
+          },
+          {
+            source: "TradingBlock",
+            title: "Collar Options Strategy",
+            summary: "用策略视角解释领口期权的结构、适用场景与风险收益特征。",
+            url: "https://tradingblock.com/strategies/collar"
+          }
+        ]
+      },
+      "inventory-repo-finance": {
+        title: "库存成本优化和大宗商品回购案例",
+        results: [
+          {
+            source: "StoneX",
+            title: "Inventory Financing",
+            summary: "提供库存融资、销售回购和实物库存服务，适合支撑战略库存资金安排设计。",
+            url: "https://www.stonex.com/en/physical-commodities/financing-services/inventory-financing/"
+          },
+          {
+            source: "DeRISK",
+            title: "Commodity and Inventory Financing",
+            summary: "介绍以库存和大宗商品为基础的 repo 融资结构，支撑库存回购安排。",
+            url: "https://inventoryrepo.com/financing"
+          },
+          {
+            source: "Financely Group",
+            title: "Commodity Inventory Finance",
+            summary: "说明企业可用存储的油品、金属、谷物和软商品库存进行融资。",
+            url: "https://www.financely-group.com/commodity-inventory-finance-borrow-against-stored-oil-metals-grains-and-soft-commodities"
+          },
+          {
+            source: "Federal Bank",
+            title: "Loan Against Warehouse Receipts of Agricultural Commodities",
+            summary: "农业商品仓单质押融资案例，可用于支撑仓单、库存和融资的条款设计。",
+            url: "https://www.federalbank.co.in/-/loan-against-warehouse-receipts-content"
+          },
+          {
+            source: "FAO",
+            title: "Warehouse Receipt Finance",
+            summary: "仓单融资资料，解释库存监管、仓单和金融机构授信之间的连接方式。",
+            url: "https://www.fao.org/4/al181e/al181e.pdf"
+          },
+          {
+            source: "World Bank",
+            title: "Using Commodities as Collateral for Finance",
+            summary: "商品支持融资资料，说明用大宗商品作为抵押品进行融资的机制与风险。",
+            url: "https://documents1.worldbank.org/curated/en/619781498850171182/pdf/Using-commodities-as-collateral-for-finance-commodity-backed-finance.pdf"
+          },
+          {
+            source: "Trade Finance Global",
+            title: "Commodity Finance",
+            summary: "介绍大宗商品贸易融资、库存融资、仓单和应收账款融资等工具。",
+            url: "https://www.tradefinanceglobal.com/transaction-banking/commodity-finance/"
+          },
+          {
+            source: "ADB",
+            title: "Warehouse Receipt Financing Reform",
+            summary: "仓单融资制度改革材料，支撑库存融资和仓储监管机制的制度背景。",
+            url: "https://www.adb.org/publications/warehouse-receipt-financing-reform"
+          }
+        ]
+      },
+      "structured-prepayment-finance": {
+        title: "结构化预付款和库存融资方案",
+        results: [
+          {
+            source: "Commodities Demystified",
+            title: "Prepayments Demystified",
+            summary: "解释大宗商品结构化预付款的基本逻辑、交易参与方和风险安排。",
+            url: "https://www.commoditiesdemystified.info/pdf/Prepayments_Demystified_CommoditiesDemystified.pdf"
+          },
+          {
+            source: "MUFG",
+            title: "Structured Trade Finance",
+            summary: "结构性贸易融资产品介绍，可用于支撑预付款、库存和贸易融资安排。",
+            url: "https://www.mufgemea.com/products-and-services/structured-trade-finance/"
+          },
+          {
+            source: "HSBC",
+            title: "Commodities and Structured Trade Finance",
+            summary: "银行结构化贸易融资页面，支撑商品采购、库存和贸易链条融资方案设计。",
+            url: "https://www.business.hsbc.uk/en-gb/corporate/solutions/working-capital/commodities-and-structured-trade-finance"
+          },
+          {
+            source: "ICC Academy",
+            title: "A Comprehensive Introduction to Commodity Trade Finance",
+            summary: "介绍商品贸易融资主要工具和交易结构，可用于补充库存金融方案依据。",
+            url: "https://academy.iccwbo.org/trade-finance/article/a-comprehensive-introduction-to-commodity-trade-finance/"
+          }
+        ]
+      },
+      "production-supply-demand": {
+        title: "主产区产量变化与供需格局",
+        results: [
+          {
+            source: "USDA",
+            title: "WASDE Report",
+            summary: "全球农产品供需预测报告，可用于判断粮食、油籽供需宽松或偏紧。",
+            url: "https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/world-agricultural-outlook-board/wasde-report"
+          },
+          {
+            source: "USDA ERS",
+            title: "Soybeans and Oil Crops",
+            summary: "美国农业部油籽专题，可用于了解大豆及油籽市场供需和产业背景。",
+            url: "https://ers.usda.gov/topics/crops/soybeans-and-oil-crops"
+          },
+          {
+            source: "USDA ERS",
+            title: "Wheat",
+            summary: "小麦市场专题，支撑粮食品种供需、价格和库存背景调查。",
+            url: "https://ers.usda.gov/topics/crops/wheat"
+          },
+          {
+            source: "USDA ERS",
+            title: "Corn and Other Feedgrains",
+            summary: "玉米和饲粮市场专题，可用于补充谷物供需格局分析。",
+            url: "https://ers.usda.gov/topics/crops/corn-and-other-feedgrains"
+          },
+          {
+            source: "International Grains Council",
+            title: "Grain Market Report",
+            summary: "国际谷物市场报告，跟踪全球谷物产量、消费、贸易和库存。",
+            url: "https://www.igc.int/gmr_summary.aspx"
+          },
+          {
+            source: "FAO",
+            title: "OECD-FAO Agricultural Outlook",
+            summary: "农业展望入口，提供中长期农产品供需和贸易背景。",
+            url: "https://www.fao.org/markets-and-trade/publications/oecd-fao-agricultural-outlook/2/"
+          },
+          {
+            source: "OECD-FAO",
+            title: "Agricultural Outlook 2025-2034",
+            summary: "中长期农业展望报告，可用于判断粮食、油籽供需趋势。",
+            url: "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/07/oecd-fao-agricultural-outlook-2025-2034_3eb15914/601276cd-en.pdf"
+          },
+          {
+            source: "AMIS",
+            title: "Market Monitor",
+            summary: "全球粮食市场监测，覆盖供需、库存、贸易、政策和价格变化。",
+            url: "https://www.amis-outlook.org/market-monitor"
+          },
+          {
+            source: "FAO",
+            title: "World Food Situation",
+            summary: "世界粮食形势入口，跟踪粮价、供需和市场变化。",
+            url: "https://www.fao.org/worldfoodsituation/en/"
+          },
+          {
+            source: "FAO",
+            title: "Cereal Supply and Demand Brief",
+            summary: "谷物供需简报，用于判断未来供应是否偏紧及库存变化。",
+            url: "https://www.fao.org/worldfoodsituation/csdb/en/"
+          },
+          {
+            source: "USDA FAS",
+            title: "World Agricultural Production",
+            summary: "全球农业生产报告，适合用于主产区产量变化调查。",
+            url: "https://fas.usda.gov/data/world-agricultural-production"
+          },
+          {
+            source: "USDA FAS",
+            title: "Production, Supply and Distribution Database",
+            summary: "生产、供给和分配数据库，可用于查询主产国供需数据。",
+            url: "https://apps.fas.usda.gov/psdonline/app/index.html#/app/home"
+          },
+          {
+            source: "IGC",
+            title: "Grain and Oilseed Index",
+            summary: "谷物和油籽市场指数，可辅助判断市场价格和供需情绪。",
+            url: "https://www.igc.int/en/markets/marketinfo-goi.aspx"
+          }
+        ]
+      },
+      "weather-yield-quality": {
+        title: "极端天气对产量和质量的影响",
+        results: [
+          {
+            source: "GEOGLAM",
+            title: "Crop Monitor for AMIS",
+            summary: "作物监测资料，跟踪主产区作物生长、干旱和天气异常影响。",
+            url: "https://www.cropmonitor.org/crop-monitor-for-amis-202410"
+          },
+          {
+            source: "GEOGLAM",
+            title: "Agriculture Monitoring",
+            summary: "农业遥感监测平台，可用于补充作物生长和天气扰动判断。",
+            url: "https://geoglam.org/ag-monitoring/"
+          },
+          {
+            source: "Drought.gov",
+            title: "Drought and Agricultural Data",
+            summary: "干旱与农业数据入口，可用于识别干旱对作物产量和质量的影响。",
+            url: "https://www.drought.gov/topics/agriculture"
+          },
+          {
+            source: "World Bank",
+            title: "Food Security Update",
+            summary: "粮食安全更新，跟踪天气、冲突、能源和化肥等因素对粮价和供应的影响。",
+            url: "https://www.worldbank.org/en/topic/agriculture/brief/food-security-update?cid=ECR_TT_worldbank_EN_EXT"
+          },
+          {
+            source: "World Bank Blog",
+            title: "Food prices feel the heat as war rattles commodity markets",
+            summary: "说明冲突、能源、化肥和运输成本如何传导到食品价格。",
+            url: "https://blogs.worldbank.org/en/opendata/food-prices-feel-the-heat-as-war-in-the-middle-east-rattles-comm"
+          },
+          {
+            source: "FAO",
+            title: "World Food Situation",
+            summary: "粮食形势监测，可用于关注天气扰动后的价格和供需变化。",
+            url: "https://www.fao.org/worldfoodsituation/en/"
+          },
+          {
+            source: "NASA Earth Observatory",
+            title: "Agriculture and Drought",
+            summary: "遥感和地球观测材料，用于解释干旱对农业生产的影响。",
+            url: "https://earthobservatory.nasa.gov/topic/agriculture"
+          }
+        ]
+      },
+      "policy-trade-geopolitics": {
+        title: "政策、贸易流和地缘政治扰动",
+        results: [
+          {
+            source: "AMIS",
+            title: "Policies at a Glance",
+            summary: "粮食市场政策数据库，可用于跟踪出口限制、进口政策和市场干预。",
+            url: "https://www.amis-outlook.org/policy-database/policies-at-glance"
+          },
+          {
+            source: "IFPRI",
+            title: "Food and Fertilizer Export Restrictions Tracker",
+            summary: "食品和化肥出口限制追踪工具，支撑政策扰动和贸易流风险判断。",
+            url: "https://www.foodsecurityportal.org/tools/COVID-19-food-trade-policy-tracker"
+          },
+          {
+            source: "FAO",
+            title: "Strait of Hormuz trade corridor disruption warning",
+            summary: "FAO 关于关键贸易通道扰动可能带来全球粮食安全风险的提示。",
+            url: "https://www.fao.org/newsroom/detail/fao-chief-economist-warns-of-severe-global-food-security-risks-from-disruption-to-Strait-of-Hormuz-trade-corridor/en"
+          },
+          {
+            source: "World Bank",
+            title: "Trade Policy and Fragmentation Visualization Tools",
+            summary: "贸易政策和碎片化工具，辅助识别政策变化与贸易链路风险。",
+            url: "https://www.worldbank.org/en/research/brief/trade-policy-and-fragmentation-visualization-tools"
+          }
+        ]
+      },
+      "tight-supply-price-spike": {
+        title: "供应偏紧或价格暴涨风险判断",
+        results: [
+          {
+            source: "World Bank",
+            title: "Food Security Update",
+            summary: "跟踪全球食品价格、供应冲击、冲突和贸易扰动，支撑价格暴涨风险判断。",
+            url: "https://www.worldbank.org/en/topic/agriculture/brief/food-security-update?cid=ECR_TT_worldbank_EN_EXT"
+          },
+          {
+            source: "FAO",
+            title: "World Food Situation",
+            summary: "全球粮食形势入口，提供粮价指数和供需变化资料。",
+            url: "https://www.fao.org/worldfoodsituation/en/"
+          },
+          {
+            source: "FAO",
+            title: "Cereal Supply and Demand Brief",
+            summary: "谷物供需简报，适合判断供应偏紧、库存变化和价格压力。",
+            url: "https://www.fao.org/worldfoodsituation/csdb/en/"
+          },
+          {
+            source: "AMIS",
+            title: "Market Monitor",
+            summary: "监测全球粮食供需、库存、贸易和政策变化，支撑安全库存判断。",
+            url: "https://www.amis-outlook.org/market-monitor"
+          },
+          {
+            source: "International Grains Council",
+            title: "Grain Market Report",
+            summary: "国际谷物市场供需报告，可用于识别价格上行和供应收紧风险。",
+            url: "https://www.igc.int/gmr_summary.aspx"
+          },
+          {
+            source: "USDA",
+            title: "WASDE Report",
+            summary: "全球农业供需预测，是判断粮食市场供需平衡和价格风险的重要来源。",
+            url: "https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/world-agricultural-outlook-board/wasde-report"
+          },
+          {
+            source: "USDA FAS",
+            title: "World Agricultural Production",
+            summary: "全球农业生产报告，用于验证主要产区产量变化是否可能推升价格。",
+            url: "https://fas.usda.gov/data/world-agricultural-production"
+          },
+          {
+            source: "World Bank",
+            title: "Commodity Markets Outlook",
+            summary: "大宗商品市场展望，可用于观察农产品价格、能源和宏观扰动对粮价的传导。",
+            url: "https://www.worldbank.org/en/research/commodity-markets"
+          },
+          {
+            source: "FAO",
+            title: "Food Price Index",
+            summary: "食品价格指数，用于跟踪国际粮食价格压力和涨价风险。",
+            url: "https://www.fao.org/worldfoodsituation/foodpricesindex/en/"
           }
         ]
       }
@@ -1814,14 +2784,13 @@
           {
             title: "场外期权与库存金融案例检索",
             icon: "search",
-            searchKey: "otc-inventory-finance",
             text: "正在检索场外期权和库存金融工具的产业应用案例...",
             summary: "已形成领口式期权与库存融资工具依据",
             chips: [
-              { label: "正在检索场外期权服务实体产业案例...", icon: "search" },
-              { label: "正在检索领口式期权组合：买入看跌 + 卖出看涨...", icon: "search" },
-              { label: "正在检索库存成本优化和大宗商品回购案例...", icon: "search" },
-              { label: "正在检索结构化预付款和库存融资方案...", icon: "search" },
+              { label: "正在检索场外期权服务实体产业案例...", icon: "search", searchKey: "otc-industrial-cases" },
+              { label: "正在检索领口式期权组合：买入看跌 + 卖出看涨...", icon: "search", searchKey: "collar-option-strategy" },
+              { label: "正在检索库存成本优化和大宗商品回购案例...", icon: "search", searchKey: "inventory-repo-finance" },
+              { label: "正在检索结构化预付款和库存融资方案...", icon: "search", searchKey: "structured-prepayment-finance" },
               { label: "形成工具依据：领口式期权用于风险保护，库存融资用于缓解资金占用", icon: "doc" }
             ]
           }
@@ -1836,14 +2805,13 @@
           {
             title: "供应扰动背景调查",
             icon: "search",
-            searchKey: "supply-disruption",
             text: "正在调查未来供应扰动因素，判断战略库存是否具备安全垫价值...",
             summary: "已识别供应扰动、价格暴涨和安全垫价值",
             chips: [
-              { label: "正在关注主产区产量变化与供需格局...", icon: "search" },
-              { label: "正在识别极端天气对产量和质量的潜在影响...", icon: "search" },
-              { label: "正在关注政策、贸易流和地缘政治扰动...", icon: "search" },
-              { label: "正在判断未来是否存在供应偏紧或价格暴涨风险...", icon: "chart" },
+              { label: "正在关注主产区产量变化与供需格局...", icon: "search", searchKey: "production-supply-demand" },
+              { label: "正在识别极端天气对产量和质量的潜在影响...", icon: "search", searchKey: "weather-yield-quality" },
+              { label: "正在关注政策、贸易流和地缘政治扰动...", icon: "search", searchKey: "policy-trade-geopolitics" },
+              { label: "正在判断未来是否存在供应偏紧或价格暴涨风险...", icon: "search", searchKey: "tight-supply-price-spike" },
               { label: "阶段判断：战略库存不仅服务价差收益，也承担供应保障功能", icon: "shield" }
             ]
           },
@@ -1922,12 +2890,12 @@
     ];
 
     const processTimings = [
-      { chip: [520, 620, 560, 720, 680], after: 420, pause: 220 },
-      { chip: [760, 880, 900, 820, 760, 700, 820, 860, 820, 760], after: 500, pause: 260 },
-      { chip: [720, 860, 800, 820, 760, 760, 820, 840, 900, 820], after: 500, pause: 260 },
-      { chip: [760, 820, 840, 920, 820, 760, 800, 820, 880], after: 500, pause: 260 },
-      { chip: [780, 860, 820, 840, 900], after: 520, pause: 260 },
-      { chip: [960], after: 620, pause: 0 }
+      { chip: [780, 920, 860, 1040, 880], after: 720, pause: 360 },
+      { chip: [1050, 1320, 1480, 1180, 980, 760, 760, 760, 760, 1160], after: 980, pause: 420 },
+      { chip: [760, 760, 760, 760, 1280, 1260, 1420, 1360, 1560, 1180], after: 1040, pause: 460 },
+      { chip: [1280, 1160, 1360, 1540, 1420, 980, 1120, 1040, 1260], after: 920, pause: 420 },
+      { chip: [1220, 1380, 1180, 1520, 1320], after: 1100, pause: 420 },
+      { chip: [1500], after: 820, pause: 0 }
     ];
 
     const homeView = document.getElementById("home-view");
@@ -1942,8 +2910,12 @@
     const brandHome = document.getElementById("brand-home");
     const sidebarToggle = document.getElementById("sidebar-toggle");
     const newChatBtn = document.getElementById("new-chat-btn");
+    const historySearchWrap = document.getElementById("history-search-wrap");
+    const historySearchTrigger = document.getElementById("history-search-trigger");
+    const historySearch = document.getElementById("history-search");
     const historyList = document.getElementById("history-list");
     const historyEmpty = document.getElementById("history-empty");
+    const historySection = historyList.closest(".history-section");
     const reportPreview = document.getElementById("report-preview");
     const panelKicker = document.getElementById("panel-kicker");
     const panelTitle = document.getElementById("panel-title");
@@ -1954,7 +2926,14 @@
     let suppressAutoScroll = false;
     let previewCloseTimer;
     let selectedScenarioKey = null;
+    const HISTORY_STORAGE_KEY = "smartchain-demo-history-v2";
     let conversationHistory = [];
+    let sidePanelDismissed = false;
+    let activeAutoSearchKey = "";
+    let activeAutoSearchCount = 0;
+    let renderedSearchKey = "";
+    let renderedSearchCount = 0;
+    let isGenerating = false;
 
     function escapeHtml(value) {
       const div = document.createElement("div");
@@ -1991,24 +2970,126 @@
       document.body.scrollTop = 0;
     }
 
+    function updateSendStates() {
+      sendBtn.disabled = isGenerating || !questionInput.value.trim();
+      chatSend.disabled = isGenerating || !chatInput.value.trim();
+    }
+
+    function setGenerating(value) {
+      isGenerating = value;
+      updateSendStates();
+    }
+
+    function insertLineBreak(textarea) {
+      const start = textarea.selectionStart ?? textarea.value.length;
+      const end = textarea.selectionEnd ?? textarea.value.length;
+      textarea.value = `${textarea.value.slice(0, start)}\n${textarea.value.slice(end)}`;
+      const nextPosition = start + 1;
+      textarea.selectionStart = nextPosition;
+      textarea.selectionEnd = nextPosition;
+      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function bindTextareaSubmit(textarea, form) {
+      textarea.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" || event.isComposing) return;
+        if (event.metaKey || event.ctrlKey) {
+          event.preventDefault();
+          insertLineBreak(textarea);
+          return;
+        }
+        event.preventDefault();
+        if (!isGenerating && textarea.value.trim()) {
+          form.requestSubmit();
+        }
+      });
+    }
+
     function truncateTitle(value) {
       return value.length > 34 ? value.slice(0, 34) + "..." : value;
     }
 
+    function getHistoryTitle(item) {
+      return item.title || item.question;
+    }
+
+    function loadHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || "[]");
+        if (Array.isArray(saved)) {
+          conversationHistory = saved
+            .filter((item) => item && typeof item.question === "string")
+            .slice(0, 8)
+            .map((item) => ({
+              question: item.question,
+              scenarioKey: item.scenarioKey || "custom",
+              title: item.title || "",
+              favorite: Boolean(item.favorite)
+            }));
+        }
+      } catch {
+        conversationHistory = [];
+      }
+    }
+
+    function persistHistory() {
+      try {
+        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(conversationHistory));
+      } catch {
+        // Demo should keep working even if local storage is unavailable.
+      }
+    }
+
+    function closeHistoryMenus() {
+      historyList.querySelectorAll(".history-row.menu-open").forEach((row) => {
+        row.classList.remove("menu-open");
+        const button = row.querySelector("[data-history-menu]");
+        if (button) button.setAttribute("aria-expanded", "false");
+      });
+    }
+
     function renderHistory() {
-      historyList.innerHTML = conversationHistory.map((item, index) => `
-        <button class="history-item" type="button" data-history-index="${index}" title="${escapeHtml(item.question)}">
-          ${iconSvg("doc")}
-          <span class="history-title">${escapeHtml(truncateTitle(item.question))}</span>
-        </button>
+      const query = historySearch.value.trim().toLowerCase();
+      const visibleHistory = conversationHistory
+        .map((item, index) => ({ ...item, index }))
+        .filter((item) => {
+          const searchable = `${item.question} ${getHistoryTitle(item)}`.toLowerCase();
+          return !query || searchable.includes(query);
+        });
+      historyList.innerHTML = visibleHistory.map((item) => `
+        <div class="history-row${item.favorite ? " is-favorite" : ""}" data-history-index="${item.index}">
+          <button class="history-main" type="button" data-history-open title="${escapeHtml(item.question)}">
+            <span class="history-title"><span class="history-star" aria-label="已收藏">★</span>${escapeHtml(truncateTitle(getHistoryTitle(item)))}</span>
+          </button>
+          <button class="history-menu-button" type="button" data-history-menu aria-label="更多操作" aria-expanded="false" title="更多操作">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="5" r="1"></circle>
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="12" cy="19" r="1"></circle>
+            </svg>
+          </button>
+          <div class="history-menu" role="menu">
+            <button type="button" data-history-action="rename">重命名</button>
+            <button type="button" data-history-action="favorite">${item.favorite ? "取消收藏" : "收藏"}</button>
+            <button type="button" data-history-action="delete">删除</button>
+          </div>
+        </div>
       `).join("");
-      historyEmpty.style.display = conversationHistory.length ? "none" : "";
+      historyEmpty.textContent = conversationHistory.length ? "没有匹配的对话" : "暂无历史记录";
+      historySection.classList.toggle("has-history", visibleHistory.length > 0);
     }
 
     function addHistoryEntry(question, scenarioKey) {
+      const existing = conversationHistory.find((item) => item.question === question);
       conversationHistory = conversationHistory.filter((item) => item.question !== question);
-      conversationHistory.unshift({ question, scenarioKey });
+      conversationHistory.unshift({
+        question,
+        scenarioKey,
+        title: existing?.title || "",
+        favorite: Boolean(existing?.favorite)
+      });
       conversationHistory = conversationHistory.slice(0, 8);
+      persistHistory();
       renderHistory();
     }
 
@@ -2037,7 +3118,7 @@
       chatView.classList.remove("active");
       homeView.classList.add("active");
       questionInput.value = "";
-      sendBtn.disabled = true;
+      setGenerating(false);
       selectedScenarioKey = null;
       if (location.hash === "#chat") {
         history.pushState({ view: "home" }, "", location.pathname);
@@ -2089,7 +3170,7 @@
         target.appendChild(paragraph);
         const complete = await typeText(paragraph, paragraphs[i], runId, speed);
         if (!complete) return false;
-        if (i < paragraphs.length - 1) await sleep(180);
+        if (i < paragraphs.length - 1) await sleep(260);
       }
       return true;
     }
@@ -2137,49 +3218,179 @@
       return fileCard;
     }
 
-    function openSidePanel() {
+    function openSidePanel({ auto = false } = {}) {
+      if (auto && sidePanelDismissed) return false;
+      if (!auto) sidePanelDismissed = false;
       clearTimeout(previewCloseTimer);
       chatView.classList.remove("preview-closing");
       chatView.classList.add("preview-open");
       reportPreview.setAttribute("aria-hidden", "false");
+      return true;
     }
 
-    function openReportPanel() {
+    function openReportPanel(options = {}) {
+      if (options.auto && sidePanelDismissed) return;
       panelKicker.textContent = "文件预览";
       panelTitle.textContent = "大型粮食贸易商战略库存合作方案";
       panelDownload.style.display = "";
       panelBody.className = "preview-body";
       panelBody.innerHTML = '<iframe class="preview-frame" src="assets/report-preview.html" title="大型粮食贸易商战略库存合作方案预览"></iframe>';
-      openSidePanel();
+      renderedSearchKey = "";
+      renderedSearchCount = 0;
+      openSidePanel(options);
     }
 
-    function openSearchPanel(searchKey, query) {
+    function getSourceInitial(source) {
+      const normalized = String(source || "").trim();
+      if (!normalized) return "S";
+      const firstAscii = normalized.match(/[A-Za-z]/);
+      return firstAscii ? firstAscii[0].toUpperCase() : normalized.slice(0, 1);
+    }
+
+    function getHostname(url) {
+      try {
+        return new URL(url).hostname.replace(/^www\./, "");
+      } catch {
+        return "";
+      }
+    }
+
+    function getFaviconUrl(url) {
+      const hostname = getHostname(url);
+      return hostname ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=32` : "";
+    }
+
+    function renderSearchResultCard(item, index) {
+      const faviconUrl = getFaviconUrl(item.url);
+      return `
+        <a class="search-result-card" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">
+          ${faviconUrl
+            ? `<img class="search-result-favicon" src="${escapeHtml(faviconUrl)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'), { className: 'search-result-fallback', textContent: '${escapeHtml(getSourceInitial(item.source))}' }))">`
+            : `<span class="search-result-fallback" aria-hidden="true">${escapeHtml(getSourceInitial(item.source))}</span>`}
+          <span class="search-result-main">
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.summary)}</p>
+          </span>
+        </a>
+      `;
+    }
+
+    function renderSearchStatus(group, revealCount) {
+      const isComplete = revealCount >= group.results.length;
+      return `
+        <div class="search-status${isComplete ? " is-complete" : ""}" data-search-status>
+          <span class="search-status-main">已识别到 ${Math.min(revealCount, group.results.length)} 个相关结果</span>
+        </div>
+      `;
+    }
+
+    function renderSearchResults(group, revealCount) {
+      const visibleResults = group.results.slice(0, revealCount);
+      return `
+        ${renderSearchStatus(group, revealCount)}
+        <div class="search-results" data-search-results>
+          ${visibleResults.map((item, index) => renderSearchResultCard(item, index)).join("")}
+        </div>
+      `;
+    }
+
+    function openSearchPanel(searchKey, query, options = {}) {
       const group = searchResultGroups[searchKey];
       if (!group) return;
+      if (options.auto && sidePanelDismissed) return;
+      const revealCount = typeof options.revealCount === "number" ? options.revealCount : group.results.length;
       panelKicker.textContent = "检索结果";
       panelTitle.textContent = query || group.title;
       panelDownload.style.display = "none";
       panelBody.className = "preview-body search-results-body";
-      panelBody.innerHTML = `
-        <div class="search-results">
-          ${group.results.map((item, index) => `
-            <a class="search-result-card" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">
-              <div class="search-result-top">
-                <span>${escapeHtml(item.source)}</span>
-                <span>${index + 1}</span>
-              </div>
-              <strong>${escapeHtml(item.title)}</strong>
-              <p>${escapeHtml(item.summary)}</p>
-              <span class="search-result-url">${escapeHtml(item.url)}</span>
-            </a>
-          `).join("")}
-        </div>
-      `;
-      openSidePanel();
+      panelBody.innerHTML = renderSearchResults(group, Math.min(revealCount, group.results.length));
+      renderedSearchKey = searchKey;
+      renderedSearchCount = Math.min(revealCount, group.results.length);
+      openSidePanel(options);
     }
 
-    function closePreview(immediate = false) {
+    function appendSearchResults(searchKey, query, revealCount, options = {}) {
+      const group = searchResultGroups[searchKey];
+      if (!group) return;
+      if (options.auto && sidePanelDismissed) return;
+      const nextCount = Math.min(revealCount, group.results.length);
+      if (renderedSearchKey !== searchKey || panelBody.className !== "preview-body search-results-body") {
+        openSearchPanel(searchKey, query || group.title, { ...options, revealCount: nextCount });
+        return;
+      }
+      panelKicker.textContent = "检索结果";
+      panelTitle.textContent = query || group.title;
+      panelDownload.style.display = "none";
+      openSidePanel(options);
+      const list = panelBody.querySelector("[data-search-results]");
+      if (!list) {
+        openSearchPanel(searchKey, query || group.title, { ...options, revealCount: nextCount });
+        return;
+      }
+      const status = panelBody.querySelector("[data-search-status]");
+      if (status) {
+        status.outerHTML = renderSearchStatus(group, nextCount);
+      }
+      for (let i = renderedSearchCount; i < nextCount; i += 1) {
+        list.insertAdjacentHTML("beforeend", renderSearchResultCard(group.results[i], i));
+      }
+      renderedSearchCount = nextCount;
+      panelBody.scrollTo({ top: panelBody.scrollHeight, behavior: "smooth" });
+    }
+
+    function startAutoSearchPanel(searchKey) {
+      if (sidePanelDismissed) return;
+      if (activeAutoSearchKey !== searchKey) {
+        activeAutoSearchKey = searchKey;
+        activeAutoSearchCount = 0;
+      }
+      const group = searchResultGroups[searchKey];
+      openSearchPanel(searchKey, group?.title, { auto: true, revealCount: activeAutoSearchCount });
+    }
+
+    function revealAutoSearchResult(searchKey) {
+      if (sidePanelDismissed) return;
+      const group = searchResultGroups[searchKey];
+      if (!group) return;
+      if (activeAutoSearchKey !== searchKey) {
+        activeAutoSearchKey = searchKey;
+        activeAutoSearchCount = 0;
+      }
+      activeAutoSearchCount = Math.min(activeAutoSearchCount + 1, group.results.length);
+      appendSearchResults(searchKey, group.title, activeAutoSearchCount, { auto: true });
+    }
+
+    function searchRevealDelay(index, total) {
+      const cadence = [240, 320, 280, 380, 260, 340, 300];
+      const densityAdjustment = total > 10 ? -35 : total < 5 ? 80 : 0;
+      return Math.max(210, cadence[index % cadence.length] + densityAdjustment);
+    }
+
+    async function revealSearchResultsForChip(searchKey, runId) {
+      const group = searchResultGroups[searchKey];
+      if (!group) return;
+      if (sidePanelDismissed) {
+        await sleep(900);
+        return true;
+      }
+      startAutoSearchPanel(searchKey);
+      await sleep(360);
+      for (let i = activeAutoSearchCount; i < group.results.length; i += 1) {
+        if (activeRunId !== runId) return false;
+        if (sidePanelDismissed) return true;
+        revealAutoSearchResult(searchKey);
+        await sleep(searchRevealDelay(i, group.results.length));
+        if ((i + 1) % 5 === 0 && i + 1 < group.results.length) {
+          await sleep(360);
+        }
+      }
+      await sleep(group.results.length >= 10 ? 2200 : group.results.length <= 4 ? 1500 : 1850);
+      return true;
+    }
+
+    function closePreview(immediate = false, userInitiated = false) {
       clearTimeout(previewCloseTimer);
+      if (userInitiated) sidePanelDismissed = true;
       if (immediate) {
         chatView.classList.remove("preview-open", "preview-closing");
         reportPreview.setAttribute("aria-hidden", "true");
@@ -2243,9 +3454,10 @@
     }
 
     function renderActionChip(chip, searchKey = "") {
-      const canOpenSearch = searchKey && chip.icon === "search";
+      const chipSearchKey = chip.searchKey || searchKey;
+      const canOpenSearch = chipSearchKey && chip.icon === "search";
       const attrs = canOpenSearch
-        ? ` data-search-key="${escapeHtml(searchKey)}" data-search-query="${escapeHtml(chip.label)}" role="button" tabindex="0" title="查看检索结果"`
+        ? ` data-search-key="${escapeHtml(chipSearchKey)}" data-search-query="${escapeHtml(chip.label)}" role="button" tabindex="0" title="查看检索结果"`
         : "";
       return `<span class="step-chip queued${canOpenSearch ? " search-link" : ""}" data-chip${attrs}>${chipIcon(chip.icon)}${escapeHtml(chip.label)}</span>`;
     }
@@ -2332,10 +3544,17 @@
         const chip = chips[i];
         chip.classList.remove("queued");
         chip.classList.add("loading");
-        scrollToBottom();
-        await sleep(timings.chip[i] || timings.chip[0] || 520);
+        if (chip.dataset.searchKey) {
+          const searchComplete = await revealSearchResultsForChip(chip.dataset.searchKey, runId);
+          if (!searchComplete) return false;
+        } else {
+          scrollToBottom();
+          await sleep(timings.chip[i] || timings.chip[0] || 720);
+          if (activeRunId !== runId) return false;
+        }
         chip.classList.remove("loading");
         chip.classList.add("done");
+        scrollToBottom();
       }
       await sleep(timings.after || 260);
       return true;
@@ -2389,65 +3608,86 @@
     async function runAnalysis(scenarioKey, customQuestion, options = {}) {
       const runId = activeRunId + 1;
       activeRunId = runId;
+      setGenerating(true);
+      sidePanelDismissed = false;
+      activeAutoSearchKey = "";
+      activeAutoSearchCount = 0;
       const baseData = scenarioData[scenarioKey] || scenarioData.custom;
       const data = { ...baseData, question: customQuestion || baseData.question };
 
-      if (options.saveHistory !== false) {
-        addHistoryEntry(data.question, scenarioKey);
-      }
-      showChat();
-      addMessage("user", data.question);
+      try {
+        if (options.saveHistory !== false) {
+          addHistoryEntry(data.question, scenarioKey);
+        }
+        showChat();
+        addMessage("user", data.question);
 
-      const assistantOutput = createAssistantTurn();
-      const processCard = addProcessCard(assistantOutput);
-      requestAnimationFrame(forcePageTop);
-      await sleep(4200);
-      if (activeRunId !== runId) return;
-      suppressAutoScroll = false;
-      const planned = await showPlannedNodes(processCard, runId);
-      if (!planned || activeRunId !== runId) return;
-      await sleep(1200);
-      if (activeRunId !== runId) return;
-      processCard.querySelector(".planning-step")?.remove();
-      processCard.classList.remove("planning-card");
-      processCard.querySelector("[data-process-summary]").textContent = "执行流程";
-
-      for (let i = 0; i < processSteps.length; i += 1) {
+        const assistantOutput = createAssistantTurn();
+        const processCard = addProcessCard(assistantOutput);
+        requestAnimationFrame(forcePageTop);
+        await sleep(4200);
         if (activeRunId !== runId) return;
-        const stepEl = appendProcessStep(processCard, processSteps[i], i);
-        setProcessState(processCard, i);
-        const keepGoing = await revealProcessStep(stepEl, runId, processTimings[i] || { chip: [760], after: 420, pause: 220 });
-        if (!keepGoing) return;
-        setProcessState(processCard, i + 1);
-        await sleep((processTimings[i] || { pause: 220 }).pause);
-      }
+        suppressAutoScroll = false;
+        const planned = await showPlannedNodes(processCard, runId);
+        if (!planned || activeRunId !== runId) return;
+        await sleep(1200);
+        if (activeRunId !== runId) return;
+        processCard.querySelector(".planning-step")?.remove();
+        processCard.classList.remove("planning-card");
+        processCard.querySelector("[data-process-summary]").textContent = "执行流程";
 
-      if (activeRunId !== runId) return;
-      setProcessState(processCard, processSteps.length);
-      await addResultBubble(assistantOutput, data, runId);
+        for (let i = 0; i < processSteps.length; i += 1) {
+          if (activeRunId !== runId) return;
+          const stepEl = appendProcessStep(processCard, processSteps[i], i);
+          setProcessState(processCard, i);
+          const keepGoing = await revealProcessStep(stepEl, runId, processTimings[i] || { chip: [760], after: 420, pause: 220 });
+          if (!keepGoing) return;
+          setProcessState(processCard, i + 1);
+          await sleep((processTimings[i] || { pause: 220 }).pause);
+        }
+
+        if (activeRunId !== runId) return;
+        setProcessState(processCard, processSteps.length);
+        await addResultBubble(assistantOutput, data, runId);
+        if (activeRunId === runId && !sidePanelDismissed) {
+          openReportPanel({ auto: true });
+        }
+      } finally {
+        if (activeRunId === runId) {
+          setGenerating(false);
+        }
+      }
     }
 
     async function runFollowUp(question) {
       const runId = activeRunId + 1;
       activeRunId = runId;
-      addMessage("user", question);
+      setGenerating(true);
+      try {
+        addMessage("user", question);
 
-      const assistantOutput = createAssistantTurn();
-      await sleep(360);
-      if (activeRunId !== runId) return;
-      await addAssistantBubble(assistantOutput, "目前这是 demo，暂不支持继续追问。", runId);
+        const assistantOutput = createAssistantTurn();
+        await sleep(360);
+        if (activeRunId !== runId) return;
+        await addAssistantBubble(assistantOutput, "目前这是 demo，暂不支持继续追问。", runId);
+      } finally {
+        if (activeRunId === runId) {
+          setGenerating(false);
+        }
+      }
     }
 
     questionInput.addEventListener("input", () => {
       selectedScenarioKey = null;
-      sendBtn.disabled = !questionInput.value.trim();
+      updateSendStates();
     });
+    bindTextareaSubmit(questionInput, questionForm);
 
     questionForm.addEventListener("submit", (event) => {
       event.preventDefault();
       event.submitter?.blur();
       const question = questionInput.value.trim();
-      if (!question) return;
+      if (!question || isGenerating) return;
       runAnalysis(selectedScenarioKey || "custom", question);
     });
 
@@ -2457,24 +3697,25 @@
         if (!scenario) return;
         selectedScenarioKey = card.dataset.scenario;
         questionInput.value = scenario.question;
-        sendBtn.disabled = false;
+        updateSendStates();
         questionInput.focus();
       });
     });
 
     chatInput.addEventListener("input", () => {
-      chatSend.disabled = !chatInput.value.trim();
+      updateSendStates();
       chatInput.style.height = "auto";
       chatInput.style.height = Math.min(chatInput.scrollHeight, 160) + "px";
     });
+    bindTextareaSubmit(chatInput, chatForm);
 
     chatForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const question = chatInput.value.trim();
-      if (!question) return;
+      if (!question || isGenerating) return;
       chatInput.value = "";
       chatInput.style.height = "auto";
-      chatSend.disabled = true;
+      updateSendStates();
       runFollowUp(question);
     });
 
@@ -2483,15 +3724,79 @@
     sidebarToggle.addEventListener("click", () => {
       const collapsed = document.body.classList.toggle("sidebar-collapsed");
       sidebarToggle.setAttribute("aria-label", collapsed ? "展开侧边栏" : "收起侧边栏");
+      sidebarToggle.setAttribute("title", collapsed ? "展开侧边栏" : "收起侧边栏");
+    });
+    historySearchTrigger.addEventListener("click", () => {
+      if (document.body.classList.contains("sidebar-collapsed")) {
+        document.body.classList.remove("sidebar-collapsed");
+        sidebarToggle.setAttribute("aria-label", "收起侧边栏");
+        sidebarToggle.setAttribute("title", "收起侧边栏");
+      }
+      historySearchWrap.classList.add("search-open");
+      requestAnimationFrame(() => historySearch.focus());
+    });
+    historySearch.addEventListener("input", renderHistory);
+    historySearch.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !historySearch.value.trim()) {
+        historySearchWrap.classList.remove("search-open");
+        historySearchTrigger.focus();
+      }
     });
     historyList.addEventListener("click", (event) => {
-      const item = event.target.closest("[data-history-index]");
-      if (!item) return;
-      const record = conversationHistory[Number(item.dataset.historyIndex)];
+      const row = event.target.closest("[data-history-index]");
+      if (!row) return;
+      const index = Number(row.dataset.historyIndex);
+      const record = conversationHistory[index];
       if (!record) return;
-      runAnalysis(record.scenarioKey || "custom", record.question, { saveHistory: false });
+      const menuButton = event.target.closest("[data-history-menu]");
+      if (menuButton) {
+        const isOpen = row.classList.contains("menu-open");
+        closeHistoryMenus();
+        row.classList.toggle("menu-open", !isOpen);
+        menuButton.setAttribute("aria-expanded", String(!isOpen));
+        return;
+      }
+
+      const actionButton = event.target.closest("[data-history-action]");
+      if (actionButton) {
+        const action = actionButton.dataset.historyAction;
+        if (action === "rename") {
+          const nextTitle = prompt("重命名对话", getHistoryTitle(record));
+          if (nextTitle && nextTitle.trim()) {
+            conversationHistory[index] = { ...record, title: nextTitle.trim() };
+            persistHistory();
+            renderHistory();
+          }
+        }
+        if (action === "favorite") {
+          conversationHistory[index] = { ...record, favorite: !record.favorite };
+          persistHistory();
+          renderHistory();
+        }
+        if (action === "delete" && confirm("删除这条历史记录？")) {
+          conversationHistory.splice(index, 1);
+          persistHistory();
+          renderHistory();
+        }
+        return;
+      }
+
+      if (event.target.closest("[data-history-open]")) {
+        closeHistoryMenus();
+        runAnalysis(record.scenarioKey || "custom", record.question, { saveHistory: false });
+      }
     });
-    previewClose.addEventListener("click", closePreview);
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".history-row")) {
+        closeHistoryMenus();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeHistoryMenus();
+      }
+    });
+    previewClose.addEventListener("click", () => closePreview(false, true));
 
     window.addEventListener("popstate", () => {
       if (location.hash !== "#chat") {
@@ -2506,6 +3811,7 @@
     if (location.hash === "#chat") {
       history.replaceState({ view: "home" }, "", location.pathname);
     }
+    loadHistory();
     renderHistory();
   </script>
 
