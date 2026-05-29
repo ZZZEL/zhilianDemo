@@ -25,6 +25,11 @@
       --red: #d84a3a;
       --shadow: 0 18px 48px rgba(19, 28, 44, 0.07);
       --radius: 8px;
+      --sidebar-width: 252px;
+    }
+
+    body.sidebar-collapsed {
+      --sidebar-width: 72px;
     }
 
     body {
@@ -45,31 +50,38 @@
       cursor: pointer;
     }
 
-    .topbar {
-      height: auto;
+    .app-sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 30;
+      width: var(--sidebar-width);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 18px 14px;
+      background: rgba(255, 255, 255, 0.88);
+      border-right: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      transition: width 220ms ease, padding 220ms ease;
+    }
+
+    .sidebar-head {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 16px;
-      padding: 22px 28px;
-      border-bottom: 0;
-      background: transparent;
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 0;
-      z-index: 10;
-      pointer-events: none;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 38px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
+      width: 168px;
+      overflow: hidden;
       border: 0;
       background: transparent;
       border-radius: 0;
       padding: 0;
-      pointer-events: auto;
       transition: opacity 180ms ease, transform 180ms ease;
     }
 
@@ -79,15 +91,145 @@
     }
 
     .brand-logo {
-      width: 176px;
+      width: 168px;
       height: auto;
       display: block;
+      flex: 0 0 auto;
     }
 
-    .topbar-meta {
-      display: none;
+    .sidebar-icon-button {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      border-radius: 9px;
       color: var(--muted);
+      background: transparent;
+      transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .sidebar-icon-button:hover {
+      color: var(--ink);
+      background: #f4f7fb;
+      border-color: var(--line);
+    }
+
+    .sidebar-icon-button svg,
+    .sidebar-action svg,
+    .history-item svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+    }
+
+    .sidebar-action {
+      width: 100%;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: #243043;
+      background: #ffffff;
       font-size: 13px;
+      font-weight: 800;
+      text-align: left;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .sidebar-action:hover {
+      background: #f8fafc;
+      border-color: rgba(47, 111, 237, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-section {
+      display: grid;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .history-section {
+      flex: 1;
+    }
+
+    .sidebar-label {
+      padding: 4px 6px;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 4px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .history-item {
+      width: 100%;
+      min-height: 36px;
+      display: grid;
+      grid-template-columns: 17px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 8px 9px;
+      border: 0;
+      border-radius: 9px;
+      color: #4f5b6d;
+      background: transparent;
+      font-size: 12.5px;
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    .history-item:hover {
+      color: var(--ink);
+      background: #f4f7fb;
+    }
+
+    .history-title {
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-empty {
+      padding: 8px 7px;
+      color: var(--faint);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .sidebar-collapsed .app-sidebar {
+      padding: 18px 12px;
+    }
+
+    .sidebar-collapsed .brand {
+      width: 38px;
+    }
+
+    .sidebar-collapsed .sidebar-head {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar-collapsed .sidebar-action {
+      justify-content: center;
+      padding: 9px;
+    }
+
+    .sidebar-collapsed .sidebar-text,
+    .sidebar-collapsed .sidebar-label,
+    .sidebar-collapsed .history-list,
+    .sidebar-collapsed .history-empty {
+      display: none;
     }
 
     .view {
@@ -104,12 +246,14 @@
     }
 
     .home {
-      width: min(920px, calc(100% - 40px));
+      width: min(920px, calc(100% - var(--sidebar-width) - 40px));
       margin: 0 auto;
       min-height: 100vh;
       padding: 0 0 48px;
       flex-direction: column;
       justify-content: center;
+      transform: translateX(calc(var(--sidebar-width) / 2));
+      transition: transform 220ms ease;
     }
 
     .home-hero {
@@ -351,6 +495,9 @@
 
     .chat-view {
       min-height: 100vh;
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      transition: margin-left 220ms ease, width 220ms ease;
     }
 
     .chat-view.active {
@@ -360,13 +507,13 @@
 
     .chat-view.preview-open,
     .chat-view.preview-closing {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 44%);
       gap: 0;
     }
 
     .chat-view.preview-open .chat-shell,
     .chat-view.preview-closing .chat-shell {
-      padding-left: 116px;
+      padding-left: 0;
       border-right: 1px solid var(--line);
     }
 
@@ -1287,16 +1434,31 @@
     }
 
     @media (max-width: 840px) {
-      .topbar {
-        padding: 16px;
+      body {
+        --sidebar-width: 64px;
       }
 
-      .topbar-meta {
+      .app-sidebar {
+        padding: 14px 10px;
+      }
+
+      .brand {
+        width: 38px;
+      }
+
+      .sidebar-head {
+        flex-direction: column;
+      }
+
+      .sidebar-text,
+      .sidebar-label,
+      .history-list,
+      .history-empty {
         display: none;
       }
 
       .home {
-        width: min(100% - 28px, 720px);
+        width: min(720px, calc(100% - var(--sidebar-width) - 28px));
         padding: 84px 0 36px;
       }
 
@@ -1355,11 +1517,33 @@
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <button class="brand" id="brand-home" type="button" aria-label="返回主界面">
-      <img class="brand-logo" src="assets/smartchain-logo.svg" alt="数智创新 SmartChain Innovations">
+  <aside class="app-sidebar" aria-label="会话侧边栏">
+    <div class="sidebar-head">
+      <button class="brand" id="brand-home" type="button" aria-label="返回主界面">
+        <img class="brand-logo" src="assets/smartchain-logo.svg" alt="数智创新 SmartChain Innovations">
+      </button>
+      <button class="sidebar-icon-button" id="sidebar-toggle" type="button" aria-label="收起侧边栏">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+          <path d="M10 4v16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <button class="sidebar-action" id="new-chat-btn" type="button" title="新建对话">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 5v14"></path>
+        <path d="M5 12h14"></path>
+      </svg>
+      <span class="sidebar-text">新建对话</span>
     </button>
-  </header>
+
+    <div class="sidebar-section history-section">
+      <div class="sidebar-label">历史记录</div>
+      <div class="history-list" id="history-list"></div>
+      <div class="history-empty" id="history-empty">暂无历史记录</div>
+    </div>
+  </aside>
 
   <main class="view home active" id="home-view">
     <section class="home-hero">
@@ -1637,12 +1821,17 @@
     const chatInput = document.getElementById("chat-input");
     const chatSend = document.getElementById("chat-send");
     const brandHome = document.getElementById("brand-home");
+    const sidebarToggle = document.getElementById("sidebar-toggle");
+    const newChatBtn = document.getElementById("new-chat-btn");
+    const historyList = document.getElementById("history-list");
+    const historyEmpty = document.getElementById("history-empty");
     const reportPreview = document.getElementById("report-preview");
     const previewClose = document.getElementById("preview-close");
     let activeRunId = 0;
     let suppressAutoScroll = false;
     let previewCloseTimer;
     let selectedScenarioKey = null;
+    let conversationHistory = [];
 
     function escapeHtml(value) {
       const div = document.createElement("div");
@@ -1679,6 +1868,27 @@
       document.body.scrollTop = 0;
     }
 
+    function truncateTitle(value) {
+      return value.length > 34 ? value.slice(0, 34) + "..." : value;
+    }
+
+    function renderHistory() {
+      historyList.innerHTML = conversationHistory.map((item, index) => `
+        <button class="history-item" type="button" data-history-index="${index}" title="${escapeHtml(item.question)}">
+          ${iconSvg("doc")}
+          <span class="history-title">${escapeHtml(truncateTitle(item.question))}</span>
+        </button>
+      `).join("");
+      historyEmpty.style.display = conversationHistory.length ? "none" : "";
+    }
+
+    function addHistoryEntry(question, scenarioKey) {
+      conversationHistory = conversationHistory.filter((item) => item.question !== question);
+      conversationHistory.unshift({ question, scenarioKey });
+      conversationHistory = conversationHistory.slice(0, 8);
+      renderHistory();
+    }
+
     function showChat() {
       if (document.activeElement && typeof document.activeElement.blur === "function") {
         document.activeElement.blur();
@@ -1703,6 +1913,9 @@
       closePreview(true);
       chatView.classList.remove("active");
       homeView.classList.add("active");
+      questionInput.value = "";
+      sendBtn.disabled = true;
+      selectedScenarioKey = null;
       if (location.hash === "#chat") {
         history.pushState({ view: "home" }, "", location.pathname);
       }
@@ -2000,12 +2213,15 @@
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    async function runAnalysis(scenarioKey, customQuestion) {
+    async function runAnalysis(scenarioKey, customQuestion, options = {}) {
       const runId = activeRunId + 1;
       activeRunId = runId;
       const baseData = scenarioData[scenarioKey] || scenarioData.custom;
       const data = { ...baseData, question: customQuestion || baseData.question };
 
+      if (options.saveHistory !== false) {
+        addHistoryEntry(data.question, scenarioKey);
+      }
       showChat();
       addMessage("user", data.question);
 
@@ -2090,6 +2306,18 @@
     });
 
     brandHome.addEventListener("click", showHome);
+    newChatBtn.addEventListener("click", showHome);
+    sidebarToggle.addEventListener("click", () => {
+      const collapsed = document.body.classList.toggle("sidebar-collapsed");
+      sidebarToggle.setAttribute("aria-label", collapsed ? "展开侧边栏" : "收起侧边栏");
+    });
+    historyList.addEventListener("click", (event) => {
+      const item = event.target.closest("[data-history-index]");
+      if (!item) return;
+      const record = conversationHistory[Number(item.dataset.historyIndex)];
+      if (!record) return;
+      runAnalysis(record.scenarioKey || "custom", record.question, { saveHistory: false });
+    });
     previewClose.addEventListener("click", closePreview);
 
     window.addEventListener("popstate", () => {
@@ -2105,7 +2333,9 @@
     if (location.hash === "#chat") {
       history.replaceState({ view: "home" }, "", location.pathname);
     }
+    renderHistory();
   </script>
 
 
-</body><div id="codex-browser-sidebar-comments-root" style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483000;"></div></html>
+</body>
+</html>
