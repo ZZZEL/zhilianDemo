@@ -1275,6 +1275,74 @@
       background: #ffffff;
     }
 
+    .search-results-body {
+      padding: 14px;
+      overflow: auto;
+      background: #fbfcfe;
+    }
+
+    .search-results {
+      display: grid;
+      gap: 10px;
+    }
+
+    .search-result-card {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: inherit;
+      background: #ffffff;
+      text-decoration: none;
+      transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .search-result-card:hover {
+      border-color: rgba(47, 111, 237, 0.42);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(19, 28, 44, 0.06);
+    }
+
+    .search-result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--faint);
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+
+    .search-result-card strong {
+      color: #18202d;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .search-result-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.58;
+    }
+
+    .search-result-url {
+      color: #2f6fed;
+      font-size: 12px;
+      line-height: 1.35;
+      word-break: break-all;
+    }
+
+    .step-chip.search-link {
+      cursor: pointer;
+    }
+
+    .step-chip.search-link:hover {
+      color: #245ecb;
+      background: #e8f1ff;
+    }
+
     .chat-composer {
       width: min(900px, calc(100% - 34px));
       margin: 0 auto;
@@ -1606,11 +1674,11 @@
     <aside class="preview-panel" id="report-preview" aria-hidden="true">
       <div class="preview-head">
         <div>
-          <span class="preview-kicker">预览</span>
-          <strong>大型粮食贸易商战略库存合作方案</strong>
+          <span class="preview-kicker" id="panel-kicker">预览</span>
+          <strong id="panel-title">大型粮食贸易商战略库存合作方案</strong>
         </div>
         <div class="preview-tools">
-          <a class="icon-btn" href="assets/大型粮食贸易商战略库存合作方案.docx" download="" aria-label="下载 Word 文件">
+          <a class="icon-btn" id="panel-download" href="assets/大型粮食贸易商战略库存合作方案.docx" download="" aria-label="下载 Word 文件">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 3v11"></path>
               <path d="m7.5 9.5 4.5 4.5 4.5-4.5"></path>
@@ -1620,7 +1688,7 @@
           <button class="icon-btn" id="preview-close" type="button" aria-label="关闭预览">×</button>
         </div>
       </div>
-      <div class="preview-body">
+      <div class="preview-body" id="panel-body">
         <iframe class="preview-frame" src="assets/report-preview.html" title="大型粮食贸易商战略库存合作方案预览"></iframe>
       </div>
     </aside>
@@ -1657,6 +1725,55 @@
         final: grainCase.final,
         fileTitle: grainCase.fileTitle,
         fileMeta: grainCase.fileMeta
+      }
+    };
+
+    const searchResultGroups = {
+      "otc-inventory-finance": {
+        title: "场外期权与库存金融案例检索",
+        results: [
+          {
+            source: "行业研究",
+            title: "场外期权服务实体企业风险管理案例",
+            summary: "占位结果：展示场外期权在大宗商品采购、库存风险保护和价格波动管理中的应用路径。",
+            url: "https://example.com/otc-options-industrial-risk"
+          },
+          {
+            source: "产品结构",
+            title: "领口式期权组合在库存套保中的使用方式",
+            summary: "占位结果：说明买入看跌与卖出看涨如何共同降低权利金成本，并约束库存价格风险边界。",
+            url: "https://example.com/collar-option-inventory-hedge"
+          },
+          {
+            source: "融资案例",
+            title: "大宗商品库存融资与回购安排案例",
+            summary: "占位结果：梳理库存融资、结构化预付款与商品回购在降低资金占用中的常见条款。",
+            url: "https://example.com/commodity-inventory-finance"
+          }
+        ]
+      },
+      "supply-disruption": {
+        title: "供应扰动背景调查",
+        results: [
+          {
+            source: "供需监测",
+            title: "主产区产量变化与粮食品种供需格局跟踪",
+            summary: "占位结果：汇总产区产量、库存和消费节奏变化，用于判断是否存在供应偏紧信号。",
+            url: "https://example.com/grain-supply-demand-monitor"
+          },
+          {
+            source: "天气风险",
+            title: "极端天气对粮食产量和质量的潜在影响",
+            summary: "占位结果：跟踪干旱、洪涝和高温等天气因素对产量、物流和仓储质量的影响。",
+            url: "https://example.com/agri-weather-risk"
+          },
+          {
+            source: "政策与贸易",
+            title: "贸易流、政策扰动与地缘风险观察",
+            summary: "占位结果：识别出口限制、进口政策、港口管制和地缘事件对供应链连续性的影响。",
+            url: "https://example.com/grain-policy-trade-risk"
+          }
+        ]
       }
     };
 
@@ -1697,6 +1814,7 @@
           {
             title: "场外期权与库存金融案例检索",
             icon: "search",
+            searchKey: "otc-inventory-finance",
             text: "正在检索场外期权和库存金融工具的产业应用案例...",
             summary: "已形成领口式期权与库存融资工具依据",
             chips: [
@@ -1718,6 +1836,7 @@
           {
             title: "供应扰动背景调查",
             icon: "search",
+            searchKey: "supply-disruption",
             text: "正在调查未来供应扰动因素，判断战略库存是否具备安全垫价值...",
             summary: "已识别供应扰动、价格暴涨和安全垫价值",
             chips: [
@@ -1826,6 +1945,10 @@
     const historyList = document.getElementById("history-list");
     const historyEmpty = document.getElementById("history-empty");
     const reportPreview = document.getElementById("report-preview");
+    const panelKicker = document.getElementById("panel-kicker");
+    const panelTitle = document.getElementById("panel-title");
+    const panelDownload = document.getElementById("panel-download");
+    const panelBody = document.getElementById("panel-body");
     const previewClose = document.getElementById("preview-close");
     let activeRunId = 0;
     let suppressAutoScroll = false;
@@ -2010,15 +2133,49 @@
           </div>
         </div>
       `;
-      fileCard.addEventListener("click", openPreview);
+      fileCard.addEventListener("click", openReportPanel);
       return fileCard;
     }
 
-    function openPreview() {
+    function openSidePanel() {
       clearTimeout(previewCloseTimer);
       chatView.classList.remove("preview-closing");
       chatView.classList.add("preview-open");
       reportPreview.setAttribute("aria-hidden", "false");
+    }
+
+    function openReportPanel() {
+      panelKicker.textContent = "文件预览";
+      panelTitle.textContent = "大型粮食贸易商战略库存合作方案";
+      panelDownload.style.display = "";
+      panelBody.className = "preview-body";
+      panelBody.innerHTML = '<iframe class="preview-frame" src="assets/report-preview.html" title="大型粮食贸易商战略库存合作方案预览"></iframe>';
+      openSidePanel();
+    }
+
+    function openSearchPanel(searchKey, query) {
+      const group = searchResultGroups[searchKey];
+      if (!group) return;
+      panelKicker.textContent = "检索结果";
+      panelTitle.textContent = query || group.title;
+      panelDownload.style.display = "none";
+      panelBody.className = "preview-body search-results-body";
+      panelBody.innerHTML = `
+        <div class="search-results">
+          ${group.results.map((item, index) => `
+            <a class="search-result-card" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">
+              <div class="search-result-top">
+                <span>${escapeHtml(item.source)}</span>
+                <span>${index + 1}</span>
+              </div>
+              <strong>${escapeHtml(item.title)}</strong>
+              <p>${escapeHtml(item.summary)}</p>
+              <span class="search-result-url">${escapeHtml(item.url)}</span>
+            </a>
+          `).join("")}
+        </div>
+      `;
+      openSidePanel();
     }
 
     function closePreview(immediate = false) {
@@ -2064,17 +2221,33 @@
         card.querySelector(".process-toggle").setAttribute("aria-expanded", String(!collapsed));
       });
       card.addEventListener("click", (event) => {
+        const searchChip = event.target.closest("[data-search-key]");
+        if (searchChip) {
+          openSearchPanel(searchChip.dataset.searchKey, searchChip.dataset.searchQuery);
+          return;
+        }
         const toggle = event.target.closest("[data-section-toggle]");
         if (!toggle) return;
         toggle.closest(".step-section")?.classList.toggle("collapsed");
+      });
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const searchChip = event.target.closest("[data-search-key]");
+        if (!searchChip) return;
+        event.preventDefault();
+        openSearchPanel(searchChip.dataset.searchKey, searchChip.dataset.searchQuery);
       });
       output.appendChild(card);
       scrollToBottom();
       return card;
     }
 
-    function renderActionChip(chip) {
-      return `<span class="step-chip queued" data-chip>${chipIcon(chip.icon)}${escapeHtml(chip.label)}</span>`;
+    function renderActionChip(chip, searchKey = "") {
+      const canOpenSearch = searchKey && chip.icon === "search";
+      const attrs = canOpenSearch
+        ? ` data-search-key="${escapeHtml(searchKey)}" data-search-query="${escapeHtml(chip.label)}" role="button" tabindex="0" title="查看检索结果"`
+        : "";
+      return `<span class="step-chip queued${canOpenSearch ? " search-link" : ""}" data-chip${attrs}>${chipIcon(chip.icon)}${escapeHtml(chip.label)}</span>`;
     }
 
     function renderSection(section) {
@@ -2098,7 +2271,7 @@
           </button>
           <p class="section-desc">${escapeHtml(section.text)}</p>
           <div class="step-chips">
-            ${section.chips.map(renderActionChip).join("")}
+            ${section.chips.map((chip) => renderActionChip(chip, section.searchKey)).join("")}
           </div>
           <div class="section-summary">${chipIcon(isAgent ? "agent" : "shield")}${escapeHtml(section.summary || "已完成")}</div>
         </div>
