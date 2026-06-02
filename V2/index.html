@@ -197,8 +197,8 @@
       padding: 0;
       opacity: 0;
       pointer-events: none;
-      color: #245ecb;
-      background: rgba(255, 255, 255, 0.74);
+      color: #4f5b6d;
+      background: rgba(255, 255, 255, 0.76);
       border-color: transparent;
       border-radius: 10px;
       box-shadow: none;
@@ -222,8 +222,8 @@
     }
 
     .sidebar-collapsed .brand-shell .brand-toggle:hover {
-      color: #245ecb;
-      background: rgba(255, 255, 255, 0.78);
+      color: var(--ink);
+      background: #f8fafc;
       border-color: transparent;
       transform: none;
     }
@@ -246,7 +246,7 @@
       color: var(--ink);
       background: #f8fafc;
       border-color: rgba(47, 111, 237, 0.28);
-      transform: translateY(-1px);
+      transform: none;
     }
 
     .sidebar-action svg,
@@ -254,6 +254,7 @@
     .sidebar-search-field svg {
       width: 20px;
       height: 20px;
+      justify-self: center;
       stroke: currentColor;
       stroke-width: 2;
     }
@@ -272,10 +273,11 @@
     .sidebar-search-field {
       width: 100%;
       min-height: 40px;
-      display: flex;
+      display: grid;
+      grid-template-columns: var(--sidebar-control) minmax(0, 1fr);
       align-items: center;
-      gap: 10px;
-      padding: 9px 10px;
+      gap: 0;
+      padding: 0;
       border-radius: 10px;
       font-size: var(--ui-font-size);
       font-weight: 760;
@@ -291,19 +293,21 @@
     }
 
     .sidebar-action.is-active {
-      color: #1f54b7;
-      background: #f4f8ff;
-      border-color: #dce8ff;
+      color: #243043;
+      background: transparent;
+      border-color: transparent;
     }
 
     .sidebar-actions {
       display: grid;
       gap: 0;
       width: 100%;
+      justify-items: stretch;
     }
 
     .sidebar-text {
       min-width: 0;
+      padding-right: 10px;
       line-height: 1;
       white-space: nowrap;
     }
@@ -328,7 +332,7 @@
       color: var(--ink);
       background: #f8fafc;
       border-color: rgba(47, 111, 237, 0.28);
-      transform: translateY(-1px);
+      transform: none;
     }
 
     .sidebar-search-field {
@@ -342,12 +346,13 @@
     }
 
     .sidebar-search-wrap.search-open .sidebar-search-field {
-      display: flex;
+      display: grid;
     }
 
     .sidebar-search-field input {
       width: 100%;
       min-width: 0;
+      padding-right: 10px;
       border: 0;
       outline: 0;
       color: var(--ink);
@@ -513,6 +518,12 @@
       font-size: var(--ui-font-size);
       line-height: 1;
       text-align: left;
+      cursor: pointer;
+    }
+
+    .history-main:focus-visible {
+      outline: 2px solid rgba(47, 111, 237, 0.22);
+      outline-offset: -2px;
     }
 
     .history-star {
@@ -523,7 +534,7 @@
     }
 
     .history-row.is-favorite .history-star {
-      display: inline;
+      display: none;
     }
 
     .history-title {
@@ -531,6 +542,23 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .history-title-input {
+      width: 100%;
+      min-width: 0;
+      height: 24px;
+      padding: 0 6px;
+      border: 1px solid #d8e0ea;
+      border-radius: 6px;
+      outline: 0;
+      color: var(--ink);
+      background: #ffffff;
+      font: inherit;
+      font-size: var(--ui-font-size);
+      font-weight: 720;
+      line-height: 1;
+      box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.08);
     }
 
     .history-menu-button {
@@ -593,6 +621,10 @@
       color: #bc3b2d;
     }
 
+    .history-menu button[data-history-action="favorite"] {
+      display: none;
+    }
+
     .history-empty {
       grid-row: 2;
       align-self: stretch;
@@ -611,36 +643,47 @@
 
     .account-card {
       width: 100%;
-      min-height: 44px;
+      min-height: var(--sidebar-control);
       display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
+      grid-template-columns: var(--sidebar-control) minmax(0, 1fr);
       align-items: center;
-      gap: 10px;
+      gap: 0;
       margin-top: auto;
-      padding: 5px 8px 5px 6px;
+      padding: 0;
       border: 1px solid transparent;
-      border-radius: 12px;
+      border-radius: 10px;
       color: #243043;
       background: transparent;
       text-align: left;
-      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+      cursor: default;
+      transition: background 180ms ease, color 180ms ease;
     }
 
     .account-card:hover {
       background: #f8fafc;
-      border-color: rgba(47, 111, 237, 0.22);
-      transform: translateY(-1px);
+    }
+
+    .account-card.is-disabled,
+    .account-card[aria-disabled="true"] {
+      color: #7d8796;
+      cursor: not-allowed;
+    }
+
+    .account-card.is-disabled:hover,
+    .account-card[aria-disabled="true"]:hover {
+      background: #f5f7fa;
     }
 
     .account-avatar {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       display: grid;
       place-items: center;
+      justify-self: center;
       border-radius: 999px;
       color: #ffffff;
       background: linear-gradient(135deg, #2f6fed, #0f9b8e);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 850;
       line-height: 1;
     }
@@ -649,6 +692,7 @@
       min-width: 0;
       display: grid;
       gap: 3px;
+      padding-right: 10px;
     }
 
     .account-name {
@@ -678,23 +722,24 @@
     }
 
     .sidebar-collapsed .sidebar-actions {
-      justify-items: center;
+      justify-items: start;
       gap: 0;
     }
 
     .sidebar-collapsed .sidebar-search-wrap {
-      justify-items: center;
+      justify-items: start;
     }
 
     .sidebar-collapsed .sidebar-icon-button,
     .sidebar-collapsed .sidebar-action,
     .sidebar-collapsed .sidebar-search-trigger,
     .sidebar-collapsed .sidebar-search-field {
-      justify-content: center;
       width: var(--sidebar-control);
       height: var(--sidebar-control);
       min-height: var(--sidebar-control);
+      grid-template-columns: var(--sidebar-control);
       padding: 0;
+      color: #4f5b6d;
       border-color: transparent;
       background: transparent;
     }
@@ -706,7 +751,7 @@
       color: var(--ink);
       background: #f8fafc;
       border-color: rgba(47, 111, 237, 0.28);
-      transform: translateY(-1px);
+      transform: none;
     }
 
     .sidebar-collapsed .sidebar-search-field {
@@ -714,7 +759,7 @@
     }
 
     .sidebar-collapsed .sidebar-search-wrap.search-open .sidebar-search-trigger {
-      display: flex;
+      display: grid;
     }
 
     .sidebar-collapsed .sidebar-search-field input {
@@ -733,10 +778,9 @@
       width: var(--sidebar-control);
       height: var(--sidebar-control);
       min-height: var(--sidebar-control);
-      grid-template-columns: 1fr;
-      justify-items: center;
+      grid-template-columns: var(--sidebar-control);
       padding: 0;
-      margin-inline: auto;
+      margin-inline: 0;
       border-radius: 10px;
     }
 
@@ -827,6 +871,185 @@
 
     .composer textarea::placeholder {
       color: #98a3b2;
+    }
+
+    .attachment-tray {
+      display: none;
+      grid-template-columns: repeat(4, minmax(0, max-content));
+      justify-content: start;
+      gap: 8px;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 2px 2px 10px;
+    }
+
+    .attachment-tray.has-files {
+      display: grid;
+    }
+
+    .attachment-chip {
+      position: relative;
+      width: 164px;
+      max-width: 164px;
+      min-height: 42px;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 6px 26px 6px 8px;
+      border: 1px solid #e1e7ef;
+      border-radius: 9px;
+      color: #344054;
+      background: #f8fafc;
+      animation: chipIn 180ms ease both;
+      transition: opacity 150ms ease, transform 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+
+    .attachment-chip.is-removing {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+
+    .attachment-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: var(--blue);
+      background: #edf4ff;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .attachment-icon.is-pdf {
+      color: #d92d20;
+      background: #fff1f0;
+    }
+
+    .attachment-icon.is-doc {
+      color: #2f6fed;
+      background: #edf4ff;
+    }
+
+    .attachment-icon.is-sheet {
+      color: #08875d;
+      background: #eaf8f1;
+    }
+
+    .attachment-icon.is-slide {
+      color: #c05621;
+      background: #fff4e8;
+    }
+
+    .attachment-icon.is-image {
+      color: #7c3aed;
+      background: #f3edff;
+    }
+
+    .attachment-icon.is-text {
+      color: #475467;
+      background: #eef2f6;
+    }
+
+    .attachment-main {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .attachment-name {
+      overflow: hidden;
+      color: #253044;
+      font-size: 12.5px;
+      font-weight: 760;
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .attachment-meta {
+      color: #8a95a6;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1;
+    }
+
+    .attachment-remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      border: 0;
+      border-radius: 999px;
+      color: #667085;
+      background: #e9eef5;
+      box-shadow: none;
+      font-size: 14px;
+      line-height: 1;
+      pointer-events: none;
+      transition: opacity 150ms ease, background 150ms ease, color 150ms ease;
+    }
+
+    .attachment-chip:hover .attachment-remove {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .attachment-remove:hover {
+      color: var(--ink);
+      background: #dce4ee;
+    }
+
+    .message-attachments {
+      max-width: min(760px, 100%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 8px;
+    }
+
+    .message-attachment {
+      width: 156px;
+      max-width: 156px;
+      min-height: 38px;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      border-radius: 0;
+      color: #344054;
+      background: transparent;
+    }
+
+    .user .message-attachments {
+      max-width: min(560px, 78%);
+      justify-content: flex-end;
+    }
+
+    .assistant .message-attachment {
+      background: transparent;
+      border: 0;
+    }
+
+    .message-attachment .attachment-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .message-attachment .attachment-name {
+      color: inherit;
+    }
+
+    .message-attachment .attachment-meta {
+      color: #8a95a6;
     }
 
     .composer-footer {
@@ -1473,6 +1696,8 @@
     .message {
       width: min(var(--chat-track-width), 100%);
       display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       margin: 0 auto;
       animation: rise 320ms ease both;
     }
@@ -1490,7 +1715,11 @@
     }
 
     .message.user {
-      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .message.assistant {
+      align-items: stretch;
     }
 
     .assistant-output {
@@ -1549,6 +1778,10 @@
       white-space: normal;
     }
 
+    .result-text>* {
+      animation: resultIn 220ms ease both;
+    }
+
     .result-text p {
       margin: 0;
       color: #1c2430;
@@ -1560,6 +1793,112 @@
     .result-text p:first-child {
       color: #151b25;
       font-weight: 400;
+    }
+
+    .result-text h2,
+    .result-text h3 {
+      margin: 0;
+      color: #151b25;
+      letter-spacing: 0;
+    }
+
+    .result-text h2 {
+      padding-top: 2px;
+      font-size: 16.5px;
+      line-height: 1.45;
+      font-weight: 760;
+    }
+
+    .result-text h3 {
+      font-size: 15.2px;
+      line-height: 1.45;
+      font-weight: 740;
+    }
+
+    .result-text strong {
+      font-weight: 760;
+    }
+
+    .result-text em {
+      font-style: italic;
+    }
+
+    .result-text code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: #263142;
+      background: #f1f4f8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    .result-text a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .result-text a:hover {
+      text-decoration: underline;
+    }
+
+    .result-text ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .result-text li {
+      color: #1c2430;
+      font-size: 14.5px;
+      line-height: 1.72;
+      font-weight: 400;
+    }
+
+    .result-text hr {
+      width: 100%;
+      height: 1px;
+      margin: 2px 0;
+      border: 0;
+      background: #edf1f5;
+    }
+
+    .result-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #e3e8ef;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .result-text table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      color: #1c2430;
+      font-size: 13px;
+      line-height: 1.62;
+    }
+
+    .result-text th,
+    .result-text td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #edf1f5;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .result-text th {
+      color: #334155;
+      background: #f8fafc;
+      font-size: 12.5px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .result-text tr:last-child td {
+      border-bottom: 0;
     }
 
     .process-card {
@@ -2939,7 +3278,8 @@
       <div class="history-empty" id="history-empty">暂无历史记录</div>
     </div>
 
-    <button class="account-card" type="button" aria-label="用户账户" title="用户账户">
+    <button class="account-card is-disabled" type="button" aria-disabled="true" aria-label="用户账户，当前版本暂未开放"
+      title="当前版本暂未开放">
       <span class="account-avatar" aria-hidden="true">U</span>
       <span class="account-copy">
         <span class="account-name">User</span>
@@ -2954,6 +3294,7 @@
     </section>
 
     <form class="composer" id="question-form">
+      <div class="attachment-tray" id="home-attachments" aria-live="polite"></div>
       <textarea id="question-input"></textarea>
       <div class="composer-footer">
         <div class="composer-tools left" aria-label="分析选项">
@@ -2981,7 +3322,9 @@
           </button>
         </div>
         <div class="composer-tools right" aria-label="发送操作">
-          <input class="visually-hidden" id="home-upload" type="file" aria-label="上传文件">
+          <input class="visually-hidden" id="home-upload" type="file" multiple
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.md,.rtf,.png,.jpg,.jpeg,.webp,.gif,.bmp,.heic,.heif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/markdown,image/*"
+            aria-label="上传文件">
           <button class="tool-button icon-only upload-button" type="button" data-upload-target="home-upload"
             title="上传文件" aria-label="上传文件">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3135,6 +3478,7 @@
       <section class="messages" id="messages"></section>
       <section class="chat-composer-wrap">
         <form class="chat-composer" id="chat-form">
+          <div class="attachment-tray" id="chat-attachments" aria-live="polite"></div>
           <textarea id="chat-input" rows="1"></textarea>
           <div class="chat-composer-bar">
             <div class="composer-tools left" aria-label="分析选项">
@@ -3162,7 +3506,9 @@
               </button>
             </div>
             <div class="composer-tools right" aria-label="发送操作">
-              <input class="visually-hidden" id="chat-upload" type="file" aria-label="上传文件">
+              <input class="visually-hidden" id="chat-upload" type="file" multiple
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.md,.rtf,.png,.jpg,.jpeg,.webp,.gif,.bmp,.heic,.heif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/markdown,image/*"
+                aria-label="上传文件">
               <button class="tool-button icon-only upload-button" type="button" data-upload-target="chat-upload"
                 title="上传文件" aria-label="上传文件">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3220,21 +3566,87 @@
   <script>
     const grainCase = {
       question: "某大型粮食贸易商与我司开展业务合作，希望抓住价格低点出现的有限机会，建立战略库存。该库存不仅用于套期保值或价差收益，更作为缓冲未来供应中断与价格暴涨的“安全垫”，需要通过专业的资金安排、仓储物流方案及风险控制机制加以实现。如何借助在场外期权应用的经验，设计合作条款以平衡风险与收益？",
-      final: "我已为您准备好了《大型粮食贸易商战略库存合作方案》。\n这份方案没有局限于单一的期权产品，而是将您“低价建库”的诉求，真正转化为一套覆盖价格研判、库存融资、仓储物流与动态风控的综合方案。在我看来，战略库存既是价格机会工具，也是供应安全垫。因此，方案核心采用了“现货 + 领口式期权 + 库存融资 + 分散仓储”的闭环模式：利用期权组合锁定下行风险并降低成本，通过大宗商品回购与结构化预付款优化资金安排，并结合分散仓储与应急调拨确保库存真实可用。\n报告已将金融、资金、物流协议与风控条款深度打通，旨在帮您抓住价格低点的同时，全面平衡并控制整体的风险敞口。请您查阅，有任何需要调整的地方，随时告诉我。",
+      final: `针对大型粮食贸易商“低点建仓、安全垫缓冲、兼顾资金与风险”的复合需求，单纯的现货采购或传统的期货套保难以完美平衡资金占用与价格波动。借助**场外期权（OTC Options）**的结构化设计经验，我们可以将金融衍生品的灵活性嵌入到现货贸易条款中，打造一套**“期现结合的结构化战略库存方案”**。
+
+以下是核心合作条款与机制的设计框架：
+
+---
+
+## 一、核心思路：从“物理库存”到“合成库存”
+
+传统建库面临流动性锁死和仓储成本高昂的痛点。引入场外期权思维，核心在于将部分物理库存转化为**“合成库存”（Synthetic Inventory）**，或通过**“资产货币化 + 期权衍生品”**释放资金。
+
+---
+
+## 二、合作条款与关键机制设计
+
+### 1. 资金安排条款：资金融通与权利金优化
+
+为解决贸易商大批量建库的资金压力，条款设计应着重于降低初期资本占用，并优化资金成本。
+
+* **方案 A：现货回购 + 看涨期权（库存变现模式）**
+* **条款设计**：贸易商以当前低价采购现货，并将其“销售”给我司（或合作金融机构），释放 80%–90% 的流动资金。同时，贸易商支付少量权利金向我司买入一笔**场外看涨期权（Call Option）**。
+* **效果**：贸易商既锁定了未来以低价“赎回”现货的权利（保留安全垫），又释放了大量现金流。
+
+* **方案 B：预付货款 + 累计购入结构（Accumulator 条款）**
+* **条款设计**：若贸易商判断当前处于价格底部震荡期，可嵌入“累计点价”条款。约定在未来 3–6 个月内，只要市价未跌破某一底线（Knock-out Price），贸易商可以**低于当前市价的固定折扣价**，定期定量购入现货。
+* **效果**：平摊建仓成本，极其适合“左侧交易”建库。
+
+### 2. 仓储物流与交割条款：期现转换（EFP）与弹性流向
+
+“安全垫”的核心在于发生供应中断时能切切实实拿到现货。因此，物流条款必须具备高度的弹性和物理控制力。
+
+* **静态仓单与动态置换条款**：
+* 质押在我司指定交割库（或大型第三方物流枢纽）的粮食，其所有权在期权存续期内受法律保护。
+* 允许贸易商进行“品质/库区动态置换”（在总价值或总量不变的前提下，允许因周转需要更换库容或粮食批次），保证粮食作为战略库存的鲜度。
+
+* **弹性行权与实物交割（Physical Delivery Options）**：
+* 场外期权到期时，条款应赋予贸易商“现金结算”或“实物交割”的双重选择权。
+* 若市价暴涨或供应中断触发，贸易商选择**实物行权**，我司配合快速释放仓单，转为物理实体库存，直接投入其加工或贸易链条。
+
+### 3. 风险控制机制：双向安全边界设置
+
+场外期权模式在极端行情下同样面临风险（如价格继续击穿底部，或暴涨导致对手方履约风险）。风险控制条款是合作的基石。
+
+* **设置价差保护带（Collar 领口结构）**：
+* 为防止权利金过高，可设计买入看涨期权的同时，卖出一个远端看跌期权（Put）。
+* **条款约定**：将价格波动限制在 $[P_{min}, P_{max}]$ 区间内。当价格极度下跌触及 $P_{min}$ 时，贸易商必须履行现货接货义务（由于其本意就是低点建库，这符合其战略意图）；当价格暴涨触及 $P_{max}$ 时，贸易商锁定了最高采购成本。
+
+* **动态履约保障与追保机制（Margin Mechanism）**：
+* 针对嵌入了“卖出隐含期权”的结构化条款，建立基于期现货联动（Mark-to-Market）的动态保证金/授信评估机制。
+* **设置安全垫阈值**：当现货价格上涨时，贸易商持有的看涨期权增值，可部分抵消其在其他渠道的现货采购成本；若价格下跌，则通过其现货底补仓，避免单边爆仓风险。
+
+---
+
+## 三、风险与收益平衡矩阵
+
+通过上述条款，双方在不同市场情景下的风险与收益能够实现精准平移：
+
+| 市场情景 | 传统现货建库表现 | 场外期权结构化方案表现 | 风险与收益平衡点 |
+| --- | --- | --- | --- |
+| **价格暴涨 / 供应中断** | 享有库存升值，但初期建库规模受资金限制，安全垫可能不足。 | 触发看涨期权行权，以极低锁定价获得大批量现货，安全垫充分发挥作用。 | **收益最大化**：成功锁定了低价，获取了暴涨红利与供应安全。 |
+| **价格窄幅震荡** | 资金长期被占用，且需要持续支付仓储、财务利息成本。 | 资金未被大量占用（仅沉淀权利金或少量预付款），剩余资金可创造其他边际收益。 | **成本最小化**：以极低的财务摩擦成本维持了“虚拟安全垫”。 |
+| **价格击穿底部** | 产生严重的账面浮亏，甚至面临资金链断裂及现货贬值风险。 | 若采用 Collar 或 Accumulator 结构，按约定在更低位承接现货。虽然产生浮亏，但由于初期释放了流动性，抗风险能力远高于全额持现。 | **风险可控**：将亏损锁在预期之内，完成了原本就计划好的更低位战略补仓。 |
+
+---
+
+这种设计的核心优势在于，将粮食贸易商的**“空间安全感”（手里有粮）**与金融机构的**“时间控制力”（期权锁价）**进行了深度融合。
+
+为了让这个方案更具落地性，您认为该贸易商目前最急需解决的是**初期建仓资金占用过高**的问题，还是在极端行情下市价暴涨、对手方无法履约（断供）的信用风险？`,
       fileTitle: "大型粮食贸易商战略库存合作方案",
       fileMeta: "DOCX"
     };
 
     const placeholderCase2 = {
       question: "我是风控合规经理，正在推进一单铁矿石跨境贸易，交易链条涉及最终买方。当前发现股权穿透后出现受制裁主体相似名称，但客户要求尽快签约/发运。请判断在UBO穿透资料尚未完全闭环的情况下，是否应暂停发运？需要重点看哪些红旗信号、材料阈值和审批升级条件，才能既避免制裁违规，又不误伤正常业务？",
-      final: "我已为您准备好了《铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
+      final: "已进入《铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案》的 demo 研判流程。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度和正文输出格式。",
       fileTitle: "铁矿石跨境贸易制裁风险下的UBO穿透审查与发运决策方案",
       fileMeta: "DOCX"
     };
 
     const placeholderCase3 = {
       question: "我是多式联运调度员，正在组织一批铝土矿运输，路线为几内亚至华南港口再转铁路到内陆工厂。现在遇到船期延误导致铁路班列衔接窗口缩短，客户仍要求按原到货节点交付。请判断是否应改走备用港口？方案比选时应如何权衡全程成本、节点衔接可靠性、异常成本和客户履约影响，并给出可落地的决策阈值？",
-      final: "我已为您准备好了《铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案》。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度、正文输出和报告卡片格式。",
+      final: "已进入《铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案》的 demo 研判流程。\n当前该案例为 demo 占位内容，暂未接入真实业务数据、外部信号或专属业务规则。\n后续替换为正式案例后，将沿用当前的思考步骤、Agent 调度和正文输出格式。",
       fileTitle: "铝土矿跨境多式联运延误下的备用港口应急切换比选与多维量化决策方案",
       fileMeta: "DOCX"
     };
@@ -3250,6 +3662,19 @@
         fileMeta: grainCase.fileMeta
       }
     };
+
+    function normalizeScenarioQuestion(value) {
+      return String(value || "").replace(/\s+/g, "").trim();
+    }
+
+    function resolveScenarioKeyFromQuestion(question) {
+      const normalizedQuestion = normalizeScenarioQuestion(question);
+      if (!normalizedQuestion) return "";
+      return Object.entries(scenarioData).find(([key, data]) => {
+        if (key === "custom" || !data.question) return false;
+        return normalizeScenarioQuestion(data.question) === normalizedQuestion;
+      })?.[0] || "";
+    }
 
     const searchResultGroups = {
       "otc-industrial-cases": {
@@ -3790,15 +4215,6 @@
           { label: "正在设计风控机制：盯市、补保证金、风险预警、库存处置权", icon: "shield" },
           { label: "正在生成合作条款：期权协议、资金协议、仓储物流协议、风险管理与信息披露条款", icon: "doc" }
         ]
-      },
-      {
-        title: "输出核心 Insight + 完整报告",
-        icon: "doc",
-        text: "方案已生成，正在提炼核心 insight 并整理完整报告...",
-        summary: "已整理核心 insight 并产出完整报告",
-        chips: [
-          { label: "整理研报核心并产出报告", icon: "doc" }
-        ]
       }
     ];
 
@@ -3807,8 +4223,7 @@
       { chip: [1050, 1320, 1480, 1180, 980, 760, 760, 760, 760, 1160], after: 980, pause: 420 },
       { chip: [760, 760, 760, 760, 1280, 1260, 1420, 1360, 1560, 1180], after: 1040, pause: 460 },
       { chip: [1280, 1160, 1360, 1540, 1420, 980, 1120, 1040, 1260], after: 920, pause: 420 },
-      { chip: [1220, 1380, 1180, 1520, 1320], after: 1100, pause: 420 },
-      { chip: [1500], after: 820, pause: 0 }
+      { chip: [1220, 1380, 1180, 1520, 1320], after: 1100, pause: 0 }
     ];
 
     const homeView = document.getElementById("home-view");
@@ -3816,10 +4231,14 @@
     const chatView = document.getElementById("chat-view");
     const questionForm = document.getElementById("question-form");
     const questionInput = document.getElementById("question-input");
+    const homeUploadInput = document.getElementById("home-upload");
+    const homeAttachments = document.getElementById("home-attachments");
     const sendBtn = document.getElementById("send-btn");
     const messages = document.getElementById("messages");
     const chatForm = document.getElementById("chat-form");
     const chatInput = document.getElementById("chat-input");
+    const chatUploadInput = document.getElementById("chat-upload");
+    const chatAttachments = document.getElementById("chat-attachments");
     const chatSend = document.getElementById("chat-send");
     const brandHome = document.getElementById("brand-home");
     const sidebarToggle = document.getElementById("sidebar-toggle");
@@ -3853,66 +4272,11 @@
     let previewCloseTimer;
     let selectedScenarioKey = null;
     const HISTORY_STORAGE_KEY = "smartchain-demo-history-v3";
-    const SEED_SNAPSHOT_VERSION = 2;
+    const SEED_SNAPSHOT_VERSION = 4;
     const DEFAULT_REPORT_FILE = "assets/大型粮食贸易商战略库存合作方案.docx";
     const DEFAULT_REPORT_PREVIEW = "assets/report-preview.html";
     const REAL_ORE_PDF = "assets/铁矿石跨境贸易制裁风险评估与决策框架报告.pdf";
-    const demoReports = [
-      {
-        id: "demo-supply-word",
-        project: "某大型粮食贸易商与我司开展战略库存合作方案研判",
-        title: "大型粮食贸易商战略库存合作方案",
-        meta: "DOCX",
-        time: "2026-06-01 16:42",
-        fileHref: DEFAULT_REPORT_FILE,
-        previewHref: DEFAULT_REPORT_PREVIEW
-      },
-      {
-        id: "real-ore-pdf",
-        project: "铁矿石跨境贸易制裁风险下的 UBO 穿透审查与发运决策",
-        title: "铁矿石跨境贸易制裁风险评估与决策框架报告",
-        meta: "PDF",
-        time: "2026-06-01 17:16",
-        fileHref: REAL_ORE_PDF,
-        previewHref: REAL_ORE_PDF
-      },
-      {
-        id: "demo-ore-word",
-        project: "铁矿石跨境贸易制裁风险下的 UBO 穿透审查与发运决策",
-        title: "UBO 穿透资料清单与审批升级条件",
-        meta: "DOCX",
-        time: "2026-06-01 17:18",
-        fileHref: DEFAULT_REPORT_FILE,
-        previewHref: DEFAULT_REPORT_PREVIEW
-      },
-      {
-        id: "demo-logistics-word",
-        project: "铝土矿跨境多式联运延误下的备用港口应急切换比选",
-        title: "铝土矿跨境多式联运应急切换决策报告",
-        meta: "DOCX",
-        time: "2026-05-31 18:20",
-        fileHref: DEFAULT_REPORT_FILE,
-        previewHref: DEFAULT_REPORT_PREVIEW
-      },
-      {
-        id: "demo-contract-word",
-        project: "供应商不可抗力争议下的采购合同违约应对与供应链维权",
-        title: "供应商违约与采购合同维权策略研判报告",
-        meta: "DOCX",
-        time: "2026-05-30 11:08",
-        fileHref: DEFAULT_REPORT_FILE,
-        previewHref: DEFAULT_REPORT_PREVIEW
-      },
-      {
-        id: "demo-risk-word",
-        project: "大宗商品贸易履约风险红旗信号识别与处置规则梳理",
-        title: "大宗商品贸易履约风险红旗信号清单",
-        meta: "DOCX",
-        time: "2026-05-29 15:36",
-        fileHref: DEFAULT_REPORT_FILE,
-        previewHref: DEFAULT_REPORT_PREVIEW
-      }
-    ];
+    const demoReports = [];
     let conversationHistory = [];
     let scrollHideTimer;
     let sidePanelDismissed = false;
@@ -3923,6 +4287,14 @@
     let isGenerating = false;
     let activeHistoryQuestion = "";
     let activeReportIndex = "";
+    const pendingAttachments = {
+      home: [],
+      chat: []
+    };
+    const SUPPORTED_UPLOAD_EXTENSIONS = new Set([
+      "pdf", "doc", "docx", "xls", "xlsx", "csv", "ppt", "pptx", "txt", "md", "rtf",
+      "png", "jpg", "jpeg", "webp", "gif", "bmp", "heic", "heif"
+    ]);
 
     function escapeHtml(value) {
       const div = document.createElement("div");
@@ -3960,8 +4332,8 @@
     }
 
     function updateSendStates() {
-      sendBtn.disabled = isGenerating || !questionInput.value.trim();
-      chatSend.disabled = isGenerating || !chatInput.value.trim();
+      sendBtn.disabled = isGenerating || (!questionInput.value.trim() && pendingAttachments.home.length === 0);
+      chatSend.disabled = isGenerating || (!chatInput.value.trim() && pendingAttachments.chat.length === 0);
     }
 
     function setGenerating(value) {
@@ -3978,7 +4350,110 @@
     function clearChatInput() {
       chatInput.value = "";
       chatInput.style.height = "auto";
+      clearAttachments("chat");
       updateSendStates();
+    }
+
+    function formatFileSize(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) return "0 KB";
+      if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+      return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    }
+
+    function getFileExt(name) {
+      const ext = String(name || "").split(".").pop();
+      return ext && ext !== name ? ext.toLowerCase() : "";
+    }
+
+    function getFileBaseName(name) {
+      return String(name || "未命名文件").replace(/\.[^/.]+$/, "") || "未命名文件";
+    }
+
+    function isSupportedUpload(file) {
+      const ext = getFileExt(file.name || "");
+      return SUPPORTED_UPLOAD_EXTENSIONS.has(ext) || String(file.type || "").startsWith("image/");
+    }
+
+    function getFileIconLabel(file) {
+      const ext = getFileExt(file.name || "");
+      if (["jpg", "jpeg"].includes(ext)) return "JPG";
+      if (["png", "webp", "gif", "bmp", "heic", "heif"].includes(ext)) return ext.toUpperCase().slice(0, 4);
+      if (["doc", "docx"].includes(ext)) return "DOC";
+      if (["xls", "xlsx", "csv"].includes(ext)) return "XLS";
+      if (["ppt", "pptx"].includes(ext)) return "PPT";
+      if (["txt", "md", "rtf"].includes(ext)) return "TXT";
+      return ext ? ext.toUpperCase().slice(0, 4) : "FILE";
+    }
+
+    function getFileIconClass(file) {
+      const ext = getFileExt(file.name || "");
+      if (ext === "pdf") return "is-pdf";
+      if (["doc", "docx"].includes(ext)) return "is-doc";
+      if (["xls", "xlsx", "csv"].includes(ext)) return "is-sheet";
+      if (["ppt", "pptx"].includes(ext)) return "is-slide";
+      if (["png", "jpg", "jpeg", "webp", "gif", "bmp", "heic", "heif"].includes(ext) || String(file.type || "").startsWith("image/")) return "is-image";
+      if (["txt", "md", "rtf"].includes(ext)) return "is-text";
+      return "is-text";
+    }
+
+    function normalizeFile(file) {
+      return {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        name: file.name || "未命名文件",
+        displayName: getFileBaseName(file.name || "未命名文件"),
+        size: file.size || 0,
+        type: file.type || "",
+        ext: getFileIconLabel(file),
+        iconClass: getFileIconClass(file)
+      };
+    }
+
+    function attachmentHtml(file, options = {}) {
+      const removeButton = options.removable
+        ? `<button class="attachment-remove" type="button" data-remove-attachment="${escapeHtml(file.id)}" data-scope="${escapeHtml(options.scope)}" aria-label="移除文件">×</button>`
+        : "";
+      const rootAttrs = options.removable ? ` data-attachment-id="${escapeHtml(file.id)}"` : "";
+      return `
+        <span class="${options.message ? "message-attachment" : "attachment-chip"}"${rootAttrs}>
+          <span class="attachment-icon ${escapeHtml(file.iconClass || "is-text")}">${escapeHtml(file.ext || getFileIconLabel(file))}</span>
+          <span class="attachment-main">
+            <span class="attachment-name">${escapeHtml(file.displayName || getFileBaseName(file.name))}</span>
+            <span class="attachment-meta">${escapeHtml(formatFileSize(file.size))}</span>
+          </span>
+          ${removeButton}
+        </span>
+      `;
+    }
+
+    function renderAttachments(scope) {
+      const tray = scope === "home" ? homeAttachments : chatAttachments;
+      const files = pendingAttachments[scope];
+      tray.innerHTML = files.map((file) => attachmentHtml(file, { removable: true, scope })).join("");
+      tray.classList.toggle("has-files", files.length > 0);
+      updateSendStates();
+    }
+
+    function clearAttachments(scope) {
+      pendingAttachments[scope] = [];
+      renderAttachments(scope);
+    }
+
+    function takeAttachments(scope) {
+      const files = [...pendingAttachments[scope]];
+      clearAttachments(scope);
+      return files;
+    }
+
+    function addFiles(scope, fileList) {
+      const files = Array.from(fileList || []).filter(isSupportedUpload).map(normalizeFile);
+      if (!files.length) return;
+      pendingAttachments[scope] = [...pendingAttachments[scope], ...files].slice(0, 4);
+      renderAttachments(scope);
+    }
+
+    function renderMessageAttachments(files = []) {
+      if (!files.length) return "";
+      return `<div class="message-attachments">${files.map((file) => attachmentHtml(file, { message: true })).join("")}</div>`;
     }
 
     function bindTextareaSubmit(textarea, form) {
@@ -3988,7 +4463,8 @@
           return;
         }
         event.preventDefault();
-        if (!isGenerating && textarea.value.trim()) {
+        const scope = textarea === questionInput ? "home" : "chat";
+        if (!isGenerating && (textarea.value.trim() || pendingAttachments[scope].length > 0)) {
           form.requestSubmit();
         }
       });
@@ -4022,25 +4498,142 @@
       return Boolean(item.messagesHtml && item.messagesHtml.includes("data-preview-report"));
     }
 
+    function renderInlineMarkdown(value) {
+      return escapeHtml(value)
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>')
+        .replace(/\*\*([\s\S]+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/(^|[^\*])\*([^\*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+    }
+
+    function renderMarkdownTable(rows) {
+      const cleanRows = rows
+        .map((row) => row.trim())
+        .filter((row) => row && !/^\|\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(row))
+        .map((row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim()));
+      if (!cleanRows.length) return "";
+      const [head, ...body] = cleanRows;
+      return `
+        <div class="result-table-wrap">
+          <table>
+            <thead>
+              <tr>${head.map((cell) => `<th>${renderInlineMarkdown(cell)}</th>`).join("")}</tr>
+            </thead>
+            <tbody>
+              ${body.map((row) => `<tr>${row.map((cell) => `<td>${renderInlineMarkdown(cell)}</td>`).join("")}</tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function markdownToBlocks(content) {
+      const lines = content.split("\n");
+      const blocks = [];
+      let listItems = [];
+      let tableRows = [];
+      let paragraphLines = [];
+
+      const flushList = () => {
+        if (!listItems.length) return;
+        blocks.push(`<ul>${listItems.map((item) => `<li>${renderInlineMarkdown(item)}</li>`).join("")}</ul>`);
+        listItems = [];
+      };
+
+      const flushTable = () => {
+        if (!tableRows.length) return;
+        blocks.push(renderMarkdownTable(tableRows));
+        tableRows = [];
+      };
+
+      const flushParagraph = () => {
+        if (!paragraphLines.length) return;
+        blocks.push(`<p>${renderInlineMarkdown(paragraphLines.join(" "))}</p>`);
+        paragraphLines = [];
+      };
+
+      lines.forEach((line) => {
+        const trimmed = line.trim();
+        if (!trimmed) {
+          flushParagraph();
+          flushList();
+          flushTable();
+          return;
+        }
+        if (/^\|.*\|$/.test(trimmed)) {
+          flushParagraph();
+          flushList();
+          tableRows.push(trimmed);
+          return;
+        }
+        flushTable();
+        if (/^-{3,}$/.test(trimmed)) {
+          flushParagraph();
+          flushList();
+          blocks.push("<hr>");
+          return;
+        }
+        if (trimmed.startsWith("### ")) {
+          flushParagraph();
+          flushList();
+          blocks.push(`<h3>${renderInlineMarkdown(trimmed.slice(4))}</h3>`);
+          return;
+        }
+        if (trimmed.startsWith("## ")) {
+          flushParagraph();
+          flushList();
+          blocks.push(`<h2>${renderInlineMarkdown(trimmed.slice(3))}</h2>`);
+          return;
+        }
+        if (trimmed.startsWith("# ")) {
+          flushParagraph();
+          flushList();
+          blocks.push(`<h2>${renderInlineMarkdown(trimmed.slice(2))}</h2>`);
+          return;
+        }
+        const bulletMatch = trimmed.match(/^[-*]\s+(.+)$/);
+        const orderedMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+        if (bulletMatch || orderedMatch) {
+          flushParagraph();
+          listItems.push((bulletMatch || orderedMatch)[1]);
+          return;
+        }
+        flushList();
+        paragraphLines.push(trimmed);
+      });
+      flushParagraph();
+      flushList();
+      flushTable();
+      return blocks;
+    }
+
+    function markdownToHtml(content) {
+      return markdownToBlocks(content).join("");
+    }
+
+    async function streamMarkdownBlocks(target, content, runId) {
+      target.innerHTML = "";
+      const blocks = markdownToBlocks(content);
+      for (let i = 0; i < blocks.length; i += 1) {
+        if (activeRunId !== runId) return false;
+        target.insertAdjacentHTML("beforeend", blocks[i]);
+        scrollToBottom();
+        const textLength = blocks[i].replace(/<[^>]*>/g, "").length;
+        await sleep(Math.min(420, Math.max(120, textLength * 5)));
+      }
+      return true;
+    }
+
     function buildReportCatalog() {
-      const historyReports = conversationHistory
-        .map((item, index) => {
-          if (!hasGeneratedReport(item)) return null;
-          const report = getReportMeta(item);
-          return {
-            id: `history-${index}`,
-            historyIndex: index,
-            project: report.project,
-            title: report.title,
-            meta: report.meta,
-            time: item.reportTime || "刚刚",
-            fileHref: DEFAULT_REPORT_FILE,
-            previewHref: DEFAULT_REPORT_PREVIEW
-          };
-        })
-        .filter(Boolean)
-        .filter((item) => !demoReports.some((demo) => demo.title === item.title));
-      return [...demoReports, ...historyReports];
+      return [];
+    }
+
+    function stripReportArtifacts(html) {
+      if (!html) return "";
+      const template = document.createElement("template");
+      template.innerHTML = html;
+      template.content.querySelectorAll("[data-preview-report], [data-live-file]").forEach((node) => node.remove());
+      return template.innerHTML;
     }
 
     function loadHistory() {
@@ -4055,10 +4648,10 @@
               scenarioKey: item.scenarioKey || "custom",
               title: item.title || "",
               favorite: Boolean(item.favorite),
-              messagesHtml: item.messagesHtml || "",
-              reportTitle: item.reportTitle || "",
-              reportMeta: item.reportMeta || "",
-              reportTime: item.reportTime || "",
+              messagesHtml: stripReportArtifacts(item.messagesHtml || ""),
+              reportTitle: "",
+              reportMeta: "",
+              reportTime: "",
               seedKey: item.seedKey || "",
               seedVersion: Number(item.seedVersion || 0)
             }));
@@ -4137,11 +4730,6 @@
     }
 
     function buildStoredMessagesHtml(data) {
-      const paragraphs = grainCase.final
-        .split("\n")
-        .filter(Boolean)
-        .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
-        .join("");
       return `
         <div class="message user">
           <div class="bubble">${escapeHtml(data.question)}</div>
@@ -4150,17 +4738,8 @@
           <div class="assistant-output">
             ${buildCompletedProcessHtml()}
             <div class="bubble result-bubble">
-              <div class="result-text">${paragraphs}</div>
+              <div class="result-text">${markdownToHtml(data.final)}</div>
             </div>
-            <button class="file-card output-file ready" type="button" data-preview-report="">
-              <div class="file-body">
-                <div class="file-icon">W</div>
-                <div class="file-main">
-                  <strong>${escapeHtml(grainCase.fileTitle)}</strong>
-                  <p>${escapeHtml(grainCase.fileMeta)}</p>
-                </div>
-              </div>
-            </button>
           </div>
         </div>
       `;
@@ -4180,9 +4759,9 @@
           title: existing?.title || seed.data.fileTitle,
           favorite: Boolean(existing?.favorite),
           messagesHtml: buildStoredMessagesHtml(seed.data),
-          reportTitle: seed.data.fileTitle,
-          reportMeta: seed.data.fileMeta,
-          reportTime: existing?.reportTime || "2026-05-29 10:30",
+          reportTitle: "",
+          reportMeta: "",
+          reportTime: "",
           seedKey: seed.seedKey,
           seedVersion: SEED_SNAPSHOT_VERSION
         };
@@ -4215,6 +4794,43 @@
       });
     }
 
+    function finishInlineRename(row, index, shouldSave = true) {
+      const input = row.querySelector("[data-history-title-input]");
+      if (!input) return;
+      const record = conversationHistory[index];
+      if (record && shouldSave) {
+        const nextTitle = input.value.trim();
+        if (nextTitle) {
+          conversationHistory[index] = { ...record, title: nextTitle };
+          persistHistory();
+        }
+      }
+      renderHistory();
+    }
+
+    function startInlineRename(row, index) {
+      const record = conversationHistory[index];
+      const title = row.querySelector(".history-title");
+      if (!record || !title || title.querySelector("[data-history-title-input]")) return;
+      closeHistoryMenus();
+      title.innerHTML = `<input class="history-title-input" data-history-title-input type="text" value="${escapeHtml(getHistoryTitle(record))}" aria-label="重命名对话">`;
+      const input = title.querySelector("[data-history-title-input]");
+      input.focus();
+      input.select();
+      input.addEventListener("click", (event) => event.stopPropagation());
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          finishInlineRename(row, index, true);
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          finishInlineRename(row, index, false);
+        }
+      });
+      input.addEventListener("blur", () => finishInlineRename(row, index, true));
+    }
+
     function renderHistory() {
       const query = historySearch.value.trim().toLowerCase();
       const visibleHistory = conversationHistory
@@ -4225,9 +4841,9 @@
         });
       historyList.innerHTML = visibleHistory.map((item) => `
         <div class="history-row${item.favorite ? " is-favorite" : ""}${item.question === activeHistoryQuestion ? " is-active" : ""}" data-history-index="${item.index}">
-          <button class="history-main" type="button" data-history-open title="${escapeHtml(item.question)}">
+          <div class="history-main" role="button" tabindex="0" data-history-open title="${escapeHtml(item.question)}">
             <span class="history-title"><span class="history-star" aria-label="已收藏">★</span>${escapeHtml(truncateTitle(getHistoryTitle(item)))}</span>
-          </button>
+          </div>
           <button class="history-menu-button" type="button" data-history-menu aria-label="更多操作" aria-expanded="false" title="更多操作">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="5" r="1"></circle>
@@ -4237,7 +4853,7 @@
           </button>
           <div class="history-menu" role="menu">
             <button type="button" data-history-action="rename">重命名</button>
-            <button type="button" data-history-action="favorite">${item.favorite ? "取消收藏" : "收藏"}</button>
+            <button type="button" data-history-action="favorite" aria-disabled="true" title="当前版本暂未开放">${item.favorite ? "取消收藏" : "收藏"}</button>
             <button type="button" data-history-action="delete">删除</button>
           </div>
         </div>
@@ -4334,10 +4950,10 @@
         scenarioKey,
         title: existing?.title || "",
         favorite: Boolean(existing?.favorite),
-        messagesHtml: existing?.messagesHtml || "",
-        reportTitle: existing?.reportTitle || "",
-        reportMeta: existing?.reportMeta || "",
-        reportTime: existing?.reportTime || "",
+        messagesHtml: stripReportArtifacts(existing?.messagesHtml || ""),
+        reportTitle: "",
+        reportMeta: "",
+        reportTime: "",
         seedKey: existing?.seedKey || "",
         seedVersion: Number(existing?.seedVersion || 0)
       });
@@ -4351,20 +4967,13 @@
       if (index < 0) return;
       const snapshot = messages.cloneNode(true);
       snapshot.querySelectorAll("[data-live-process]").forEach((node) => node.removeAttribute("data-live-process"));
-      snapshot.querySelectorAll("[data-live-file]").forEach((node) => node.removeAttribute("data-live-file"));
+      snapshot.querySelectorAll("[data-preview-report], [data-live-file]").forEach((node) => node.remove());
       conversationHistory[index] = {
         ...conversationHistory[index],
         messagesHtml: snapshot.innerHTML,
-        reportTitle: (scenarioData[conversationHistory[index].scenarioKey] || scenarioData.custom).fileTitle,
-        reportMeta: (scenarioData[conversationHistory[index].scenarioKey] || scenarioData.custom).fileMeta,
-        reportTime: new Date().toLocaleString("zh-CN", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false
-        }).replace(/\//g, "-")
+        reportTitle: "",
+        reportMeta: "",
+        reportTime: ""
       };
       persistHistory();
       renderHistory();
@@ -4387,8 +4996,8 @@
     }
 
     function setSidebarActive(view) {
-      newChatBtn.classList.toggle("is-active", view === "home");
-      reportsBtn.classList.toggle("is-active", view === "reports");
+      newChatBtn.classList.remove("is-active");
+      reportsBtn.classList.remove("is-active");
     }
 
     function showChat() {
@@ -4421,6 +5030,7 @@
       reportsView.classList.remove("active");
       homeView.classList.add("active");
       questionInput.value = "";
+      clearAttachments("home");
       clearChatInput();
       setGenerating(false);
       activeHistoryQuestion = "";
@@ -4441,6 +5051,7 @@
       chatView.classList.remove("active");
       homeView.classList.remove("active");
       reportsView.classList.add("active");
+      clearAttachments("home");
       clearChatInput();
       questionInput.value = "";
       setGenerating(false);
@@ -4454,10 +5065,12 @@
       }
     }
 
-    function addMessage(role, content) {
+    function addMessage(role, content, attachments = []) {
       const el = document.createElement("div");
       el.className = "message " + role;
+      const attachmentsHtml = renderMessageAttachments(attachments);
       el.innerHTML = `
+        ${attachmentsHtml}
         <div class="bubble">${escapeHtml(content)}</div>
       `;
       messages.appendChild(el);
@@ -4520,31 +5133,11 @@
       `;
       output.appendChild(bubble);
       scrollToBottom();
-      const complete = await typeParagraphs(bubble.querySelector(".result-text"), data.final, runId, 13);
+      const resultText = bubble.querySelector(".result-text");
+      const complete = await streamMarkdownBlocks(resultText, data.final, runId);
       if (!complete) return bubble;
-      const fileCard = createFileCard(data);
-      output.appendChild(fileCard);
       scrollToBottom();
       return bubble;
-    }
-
-    function createFileCard(data) {
-      const fileCard = document.createElement("button");
-      fileCard.className = "file-card output-file ready";
-      fileCard.type = "button";
-      fileCard.dataset.previewReport = "";
-      fileCard.dataset.liveFile = "";
-      fileCard.innerHTML = `
-        <div class="file-body">
-          <div class="file-icon">W</div>
-          <div class="file-main">
-            <strong>${escapeHtml(data.fileTitle)}</strong>
-            <p>${escapeHtml(data.fileMeta)}</p>
-          </div>
-        </div>
-      `;
-      fileCard.addEventListener("click", openReportPanel);
-      return fileCard;
     }
 
     function openSidePanel({ auto = false } = {}) {
@@ -4961,7 +5554,7 @@
           renderHistory();
         }
         showChat();
-        addMessage("user", data.question);
+        addMessage("user", data.question, options.attachments || []);
 
         const assistantOutput = createAssistantTurn();
         const processCard = addProcessCard(assistantOutput);
@@ -4989,10 +5582,10 @@
 
         if (activeRunId !== runId) return;
         setProcessState(processCard, processSteps.length);
-        await addResultBubble(assistantOutput, data, runId);
-        if (activeRunId === runId && !sidePanelDismissed) {
-          openReportPanel({ auto: true });
+        if (!sidePanelDismissed) {
+          closePreview(false);
         }
+        await addResultBubble(assistantOutput, data, runId);
         saveHistorySnapshot(data.question);
       } finally {
         if (activeRunId === runId) {
@@ -5011,10 +5604,36 @@
         const assistantOutput = createAssistantTurn();
         await sleep(360);
         if (activeRunId !== runId) return;
-        await addAssistantBubble(assistantOutput, "目前这是 demo，暂不支持继续追问。", runId);
+        await addAssistantBubble(assistantOutput, "当前为演示内容，暂不支持追问。", runId);
         if (activeHistoryQuestion) {
           saveHistorySnapshot(activeHistoryQuestion);
         }
+      } finally {
+        if (activeRunId === runId) {
+          setGenerating(false);
+        }
+      }
+    }
+
+    async function runUploadDemo(question, attachments, options = {}) {
+      const runId = activeRunId + 1;
+      activeRunId = runId;
+      setGenerating(true);
+      const displayQuestion = question || "请基于上传文件进行分析";
+      try {
+        if (!options.preserveChat) {
+          activeHistoryQuestion = displayQuestion;
+          addHistoryEntry(displayQuestion, "custom");
+          showChat();
+        }
+        addMessage("user", displayQuestion, attachments);
+
+        const assistantOutput = createAssistantTurn();
+        await sleep(420);
+        if (activeRunId !== runId) return;
+        const fileNames = attachments.map((file) => `《${file.name}》`).join("、");
+        await addAssistantBubble(assistantOutput, `已收到 ${fileNames || "上传文件"}。当前版本暂未接入文件解析能力，因此不会读取文件内容；后续接入 LLM 和解析服务后，会将文件内容作为研判上下文参与分析。`, runId);
+        saveHistorySnapshot(options.preserveChat && activeHistoryQuestion ? activeHistoryQuestion : displayQuestion);
       } finally {
         if (activeRunId === runId) {
           setGenerating(false);
@@ -5032,8 +5651,17 @@
       event.preventDefault();
       event.submitter?.blur();
       const question = questionInput.value.trim();
-      if (!question || isGenerating) return;
-      runAnalysis(selectedScenarioKey || "custom", question);
+      if ((!question && pendingAttachments.home.length === 0) || isGenerating) return;
+      const attachments = takeAttachments("home");
+      questionInput.value = "";
+      const scenarioKey = selectedScenarioKey || resolveScenarioKeyFromQuestion(question);
+      if (attachments.length && !scenarioKey) {
+        selectedScenarioKey = null;
+        updateSendStates();
+        runUploadDemo(question, attachments);
+        return;
+      }
+      runAnalysis(scenarioKey || "custom", question || "请基于上传文件进行分析", { attachments });
     });
 
     document.querySelectorAll(".trend-card").forEach((card) => {
@@ -5066,10 +5694,15 @@
     chatForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const question = chatInput.value.trim();
-      if (!question || isGenerating) return;
+      if ((!question && pendingAttachments.chat.length === 0) || isGenerating) return;
+      const attachments = takeAttachments("chat");
       chatInput.value = "";
       chatInput.style.height = "auto";
       updateSendStates();
+      if (attachments.length) {
+        runUploadDemo(question, attachments, { preserveChat: true });
+        return;
+      }
       runFollowUp(question);
     });
 
@@ -5088,6 +5721,36 @@
       const upload = event.target.closest("[data-upload-target]");
       if (!upload) return;
       document.getElementById(upload.dataset.uploadTarget)?.click();
+    });
+
+    homeUploadInput.addEventListener("change", () => {
+      addFiles("home", homeUploadInput.files);
+      homeUploadInput.value = "";
+    });
+
+    chatUploadInput.addEventListener("change", () => {
+      addFiles("chat", chatUploadInput.files);
+      chatUploadInput.value = "";
+    });
+
+    document.addEventListener("click", (event) => {
+      const remove = event.target.closest("[data-remove-attachment]");
+      if (!remove) return;
+      const scope = remove.dataset.scope;
+      const id = remove.dataset.removeAttachment;
+      const tray = scope === "home" ? homeAttachments : chatAttachments;
+      pendingAttachments[scope] = (pendingAttachments[scope] || []).filter((file) => file.id !== id);
+      const chip = remove.closest("[data-attachment-id]");
+      if (chip) {
+        chip.classList.add("is-removing");
+        setTimeout(() => {
+          chip.remove();
+          tray.classList.toggle("has-files", (pendingAttachments[scope] || []).length > 0);
+        }, 150);
+      } else {
+        renderAttachments(scope);
+      }
+      updateSendStates();
     });
 
     messages.addEventListener("click", (event) => {
@@ -5119,8 +5782,14 @@
     });
 
     brandHome.addEventListener("click", showHome);
-    newChatBtn.addEventListener("click", showHome);
-    reportsBtn.addEventListener("click", showReports);
+    newChatBtn.addEventListener("click", () => {
+      newChatBtn.blur();
+      showHome();
+    });
+    reportsBtn.addEventListener("click", () => {
+      reportsBtn.blur();
+      showReports();
+    });
     function updateSidebarToggleLabel(collapsed) {
       const label = collapsed ? "展开侧边栏" : "收起侧边栏";
       sidebarToggle.setAttribute("aria-label", label);
@@ -5131,6 +5800,7 @@
     sidebarToggle.addEventListener("click", () => {
       const collapsed = document.body.classList.toggle("sidebar-collapsed");
       updateSidebarToggleLabel(collapsed);
+      sidebarToggle.blur();
     });
     historySearchTrigger.addEventListener("click", () => {
       if (document.body.classList.contains("sidebar-collapsed")) {
@@ -5155,6 +5825,14 @@
     historySearch.addEventListener("blur", () => {
       setTimeout(closeHistorySearchIfEmpty, 120);
     });
+    historyList.addEventListener("keydown", (event) => {
+      if (event.target.closest("[data-history-title-input]")) return;
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const main = event.target.closest("[data-history-open]");
+      if (!main) return;
+      event.preventDefault();
+      main.click();
+    });
     historyList.addEventListener("click", (event) => {
       const row = event.target.closest("[data-history-index]");
       if (!row) return;
@@ -5174,17 +5852,11 @@
       if (actionButton) {
         const action = actionButton.dataset.historyAction;
         if (action === "rename") {
-          const nextTitle = prompt("重命名对话", getHistoryTitle(record));
-          if (nextTitle && nextTitle.trim()) {
-            conversationHistory[index] = { ...record, title: nextTitle.trim() };
-            persistHistory();
-            renderHistory();
-          }
+          startInlineRename(row, index);
         }
         if (action === "favorite") {
-          conversationHistory[index] = { ...record, favorite: !record.favorite };
-          persistHistory();
-          renderHistory();
+          closeHistoryMenus();
+          return;
         }
         if (action === "delete" && confirm("删除这条历史记录？")) {
           if (record.question === activeHistoryQuestion) {
