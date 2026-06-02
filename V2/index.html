@@ -74,6 +74,10 @@
       cursor: pointer;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     .app-sidebar {
       position: fixed;
       inset: 0 auto 0 0;
@@ -3260,7 +3264,7 @@
         </label>
       </div>
 
-      <button class="sidebar-action" id="reports-btn" type="button" title="我的报告">
+      <button class="sidebar-action" id="reports-btn" type="button" title="我的报告" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
           aria-hidden="true">
           <path d="M7 3h7l4 4v14H7z"></path>
@@ -3298,7 +3302,7 @@
       <textarea id="question-input"></textarea>
       <div class="composer-footer">
         <div class="composer-tools left" aria-label="分析选项">
-          <button class="tool-button is-disabled" type="button" data-tool-toggle aria-pressed="false"
+          <button class="tool-button is-disabled" type="button" data-tool-toggle aria-pressed="false" hidden
             aria-disabled="true" title="当前版本暂未开放" aria-label="深度思考，当前版本暂未开放">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="6.5" cy="7" r="2"></circle>
@@ -3333,7 +3337,7 @@
               </path>
             </svg>
           </button>
-          <button class="tool-button icon-only voice-button is-disabled" type="button" aria-disabled="true"
+          <button class="tool-button icon-only voice-button is-disabled" type="button" hidden aria-disabled="true"
             title="当前版本暂未开放" aria-label="语音输入，当前版本暂未开放">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="9" y="3" width="6" height="11" rx="3"></rect>
@@ -3482,7 +3486,7 @@
           <textarea id="chat-input" rows="1"></textarea>
           <div class="chat-composer-bar">
             <div class="composer-tools left" aria-label="分析选项">
-              <button class="tool-button is-disabled" type="button" data-tool-toggle aria-pressed="false"
+              <button class="tool-button is-disabled" type="button" data-tool-toggle aria-pressed="false" hidden
                 aria-disabled="true" title="当前版本暂未开放" aria-label="深度思考，当前版本暂未开放">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="6.5" cy="7" r="2"></circle>
@@ -3517,7 +3521,7 @@
                   </path>
                 </svg>
               </button>
-              <button class="tool-button icon-only voice-button is-disabled" type="button" aria-disabled="true"
+              <button class="tool-button icon-only voice-button is-disabled" type="button" hidden aria-disabled="true"
                 title="当前版本暂未开放" aria-label="语音输入，当前版本暂未开放">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <rect x="9" y="3" width="6" height="11" rx="3"></rect>
@@ -4272,7 +4276,6 @@
     let previewCloseTimer;
     let selectedScenarioKey = null;
     const HISTORY_STORAGE_KEY = "smartchain-demo-history-v3";
-    const SEED_SNAPSHOT_VERSION = 4;
     const DEFAULT_REPORT_FILE = "assets/大型粮食贸易商战略库存合作方案.docx";
     const DEFAULT_REPORT_PREVIEW = "assets/report-preview.html";
     const REAL_ORE_PDF = "assets/铁矿石跨境贸易制裁风险评估与决策框架报告.pdf";
@@ -4637,27 +4640,11 @@
     }
 
     function loadHistory() {
+      conversationHistory = [];
       try {
-        const saved = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || "[]");
-        if (Array.isArray(saved)) {
-          conversationHistory = saved
-            .filter((item) => item && typeof item.question === "string")
-            .slice(0, 8)
-            .map((item) => ({
-              question: item.question,
-              scenarioKey: item.scenarioKey || "custom",
-              title: item.title || "",
-              favorite: Boolean(item.favorite),
-              messagesHtml: stripReportArtifacts(item.messagesHtml || ""),
-              reportTitle: "",
-              reportMeta: "",
-              reportTime: "",
-              seedKey: item.seedKey || "",
-              seedVersion: Number(item.seedVersion || 0)
-            }));
-        }
+        localStorage.removeItem(HISTORY_STORAGE_KEY);
       } catch {
-        conversationHistory = [];
+        // Demo should keep working even if local storage is unavailable.
       }
     }
 
@@ -4729,61 +4716,8 @@
       `;
     }
 
-    function buildStoredMessagesHtml(data) {
-      return `
-        <div class="message user">
-          <div class="bubble">${escapeHtml(data.question)}</div>
-        </div>
-        <div class="message assistant">
-          <div class="assistant-output">
-            ${buildCompletedProcessHtml()}
-            <div class="bubble result-bubble">
-              <div class="result-text">${markdownToHtml(data.final)}</div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function ensureSeedHistory() {
-      const seeds = [
-        { seedKey: "seed-case-3", scenarioKey: "supplier", data: placeholderCase3 },
-        { seedKey: "seed-case-2", scenarioKey: "rainfall", data: placeholderCase2 }
-      ];
-      let changed = false;
-      const seedRecords = seeds.map((seed) => {
-        const existing = conversationHistory.find((item) => item.seedKey === seed.seedKey);
-        const record = {
-          question: seed.data.question,
-          scenarioKey: seed.scenarioKey,
-          title: existing?.title || seed.data.fileTitle,
-          favorite: Boolean(existing?.favorite),
-          messagesHtml: buildStoredMessagesHtml(seed.data),
-          reportTitle: "",
-          reportMeta: "",
-          reportTime: "",
-          seedKey: seed.seedKey,
-          seedVersion: SEED_SNAPSHOT_VERSION
-        };
-        if (!existing || existing.seedVersion !== SEED_SNAPSHOT_VERSION || !existing.messagesHtml.includes("process-card")) {
-          changed = true;
-          return record;
-        }
-        return existing;
-      });
-      const otherRecords = conversationHistory.filter((item) => !seeds.some((seed) => seed.seedKey === item.seedKey));
-      const hadAllSeeds = seeds.every((seed) => conversationHistory.some((item) => item.seedKey === seed.seedKey));
-      if (!changed && hadAllSeeds) return;
-      conversationHistory = [...seedRecords, ...otherRecords].slice(0, 8);
-      persistHistory();
-    }
-
     function persistHistory() {
-      try {
-        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(conversationHistory));
-      } catch {
-        // Demo should keep working even if local storage is unavailable.
-      }
+      // Current V2 keeps history only for the active page session.
     }
 
     function closeHistoryMenus() {
@@ -5044,25 +4978,7 @@
     }
 
     function showReports() {
-      activeRunId += 1;
-      messages.innerHTML = "";
-      closePreview(true);
-      closeReportsPreview(true);
-      chatView.classList.remove("active");
-      homeView.classList.remove("active");
-      reportsView.classList.add("active");
-      clearAttachments("home");
-      clearChatInput();
-      questionInput.value = "";
-      setGenerating(false);
-      activeHistoryQuestion = "";
-      closeHistoryMenus();
-      closeHistorySearchIfEmpty();
-      renderHistory();
-      setSidebarActive("reports");
-      if (location.hash !== "#reports") {
-        history.pushState({ view: "reports" }, "", "#reports");
-      }
+      showHome();
     }
 
     function addMessage(role, content, attachments = []) {
@@ -5903,15 +5819,7 @@
 
     window.addEventListener("popstate", () => {
       if (location.hash === "#reports") {
-        activeRunId += 1;
-        messages.innerHTML = "";
-        closePreview(true);
-        closeReportsPreview(true);
-        chatView.classList.remove("active");
-        homeView.classList.remove("active");
-        reportsView.classList.add("active");
-        setSidebarActive("reports");
-        renderHistory();
+        showHome();
         return;
       }
       if (location.hash !== "#chat") {
@@ -5929,14 +5837,12 @@
     if (location.hash === "#chat") {
       history.replaceState({ view: "home" }, "", location.pathname);
     }
-    loadHistory();
-    ensureSeedHistory();
-    renderHistory();
-    setSidebarActive(location.hash === "#reports" ? "reports" : "home");
     if (location.hash === "#reports") {
-      homeView.classList.remove("active");
-      reportsView.classList.add("active");
+      history.replaceState({ view: "home" }, "", location.pathname);
     }
+    loadHistory();
+    renderHistory();
+    setSidebarActive("home");
   </script>
 
 
