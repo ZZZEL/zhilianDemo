@@ -1990,15 +1990,15 @@
       display: none;
     }
 
-    .process-card:not(.planned) {
+    .process-card:not(.planned):not(.qa-process-card) {
       padding-bottom: 16px;
     }
 
-    .process-card:not(.planned) .process-toggle {
+    .process-card:not(.planned):not(.qa-process-card) .process-toggle {
       padding-bottom: 0;
     }
 
-    .process-card:not(.planned) .process-list {
+    .process-card:not(.planned):not(.qa-process-card) .process-list {
       display: none;
     }
 
@@ -3326,10 +3326,10 @@
           </button>
         </div>
         <div class="composer-tools right" aria-label="发送操作">
-          <input class="visually-hidden" id="home-upload" type="file" multiple
+          <input class="visually-hidden" id="home-upload" type="file" multiple hidden
             accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.md,.rtf,.png,.jpg,.jpeg,.webp,.gif,.bmp,.heic,.heif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/markdown,image/*"
             aria-label="上传文件">
-          <button class="tool-button icon-only upload-button" type="button" data-upload-target="home-upload"
+          <button class="tool-button icon-only upload-button" type="button" hidden data-upload-target="home-upload"
             title="上传文件" aria-label="上传文件">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path
@@ -3510,10 +3510,10 @@
               </button>
             </div>
             <div class="composer-tools right" aria-label="发送操作">
-              <input class="visually-hidden" id="chat-upload" type="file" multiple
+              <input class="visually-hidden" id="chat-upload" type="file" multiple hidden
                 accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.md,.rtf,.png,.jpg,.jpeg,.webp,.gif,.bmp,.heic,.heif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/markdown,image/*"
                 aria-label="上传文件">
-              <button class="tool-button icon-only upload-button" type="button" data-upload-target="chat-upload"
+              <button class="tool-button icon-only upload-button" type="button" hidden data-upload-target="chat-upload"
                 title="上传文件" aria-label="上传文件">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path
@@ -3661,7 +3661,7 @@
       supplier: placeholderCase3,
       custom: {
         question: "",
-        final: grainCase.final,
+        final: "",
         fileTitle: grainCase.fileTitle,
         fileMeta: grainCase.fileMeta
       }
@@ -3681,6 +3681,190 @@
     }
 
     const searchResultGroups = {
+      "general-business-signals": {
+        title: "公开信息与近期信号",
+        results: [
+          {
+            source: "行业数据库",
+            title: "近期价格、天气、港口和履约信号汇总",
+            summary: "用于普通问答的基础信息检索，占位展示近期业务信号和公开资料摘要。",
+            url: "https://example.com/market-signals"
+          },
+          {
+            source: "公开资讯",
+            title: "相关业务背景与风险事件线索",
+            summary: "补充问题所需的背景事实、事件线索和基础判断依据。",
+            url: "https://example.com/business-risk-events"
+          },
+          {
+            source: "内部知识库",
+            title: "常见问答口径与业务规则摘要",
+            summary: "匹配常见业务问题的回答口径，辅助生成简明结论。",
+            url: "https://example.com/knowledge-base"
+          }
+        ]
+      },
+      "iron-ore-weekly-signals": {
+        title: "铁矿石一周价格信号",
+        results: [
+          {
+            source: "SGX",
+            title: "Iron Ore Futures and Options",
+            summary: "新加坡铁矿石掉期与期货价格是跨境铁矿石贸易常用的外盘价格参考。",
+            url: "https://www.sgx.com/derivatives/products/iron-ore"
+          },
+          {
+            source: "DCE",
+            title: "大连商品交易所铁矿石期货",
+            summary: "境内铁矿石期货主力合约可用于观察人民币盘面情绪、基差变化和近月波动。",
+            url: "http://www.dce.com.cn/"
+          },
+          {
+            source: "Mysteel",
+            title: "铁矿石港口库存与成交信息",
+            summary: "港口库存、疏港量、钢厂补库和现货成交对短期价格节奏影响较大。",
+            url: "https://www.mysteel.com/"
+          }
+        ]
+      },
+      "three-gorges-lock-signals": {
+        title: "三峡船闸等闸信号",
+        results: [
+          {
+            source: "长江三峡通航管理局",
+            title: "三峡通航调度与船闸运行信息",
+            summary: "船闸计划、通航调度和管制信息是判断等闸时长的主要依据。",
+            url: "https://www.sxthj.com.cn/"
+          },
+          {
+            source: "长江航运公共服务",
+            title: "长江航运通告与通航服务",
+            summary: "通航通告、管制信息、水位和重点航段运行状态会影响船舶过闸排队。",
+            url: "https://www.cjhy.gov.cn/"
+          },
+          {
+            source: "交通运输部",
+            title: "水路运输与通航管理信息",
+            summary: "政策、通航保障和运输运行信息可作为异常状态判断的补充来源。",
+            url: "https://www.mot.gov.cn/"
+          }
+        ]
+      },
+      "qingdao-weather-operation": {
+        title: "青岛港天气作业信号",
+        results: [
+          {
+            source: "中央气象台",
+            title: "沿海大风、能见度和强对流预警",
+            summary: "港口作业通常重点关注风力、阵风、雷暴、降水和能见度等安全指标。",
+            url: "https://www.nmc.cn/"
+          },
+          {
+            source: "Qingdao Port",
+            title: "青岛港作业与港区服务信息",
+            summary: "港区调度、泊位、装卸安排和临时管制信息可用于判断实际作业窗口。",
+            url: "https://www.qingdao-port.com/"
+          },
+          {
+            source: "Windy",
+            title: "港区风速、浪高和降水趋势",
+            summary: "风速、浪高和降水雷达适合辅助判断短时装卸、靠离泊和堆场作业风险。",
+            url: "https://www.windy.com/"
+          }
+        ]
+      },
+      "private-credit-risk": {
+        title: "民企授信风险信号",
+        results: [
+          {
+            source: "国家企业信用信息公示系统",
+            title: "企业登记、股权、异常经营和行政处罚信息",
+            summary: "工商、股权、经营异常和行政处罚信息可用于识别主体稳定性和合规风险。",
+            url: "https://www.gsxt.gov.cn/"
+          },
+          {
+            source: "中国执行信息公开网",
+            title: "失信被执行人与执行案件信息",
+            summary: "执行、失信和限制高消费信息可作为授信准入和额度控制的重要风险信号。",
+            url: "http://zxgk.court.gov.cn/"
+          },
+          {
+            source: "人民银行征信中心",
+            title: "企业信用报告与融资记录",
+            summary: "征信、负债、担保和历史履约信息用于判断授信额度与资本实力是否匹配。",
+            url: "https://www.pbccrc.org.cn/"
+          }
+        ]
+      },
+      "south-china-port-congestion": {
+        title: "华南港口拥堵信号",
+        results: [
+          {
+            source: "广州港",
+            title: "广州港生产动态与港区服务",
+            summary: "泊位、堆场、船舶计划和港区作业状态可用于判断华南区域拥堵压力。",
+            url: "https://www.gzport.com/"
+          },
+          {
+            source: "深圳港",
+            title: "深圳港航运服务与口岸动态",
+            summary: "港区运行、船期、堆场和口岸信息可用于评估珠三角港口拥堵情况。",
+            url: "https://www.szport.net/"
+          },
+          {
+            source: "MarineTraffic",
+            title: "船舶 AIS 与港口等待船舶观测",
+            summary: "锚地船舶数量、等待时间和靠泊节奏可作为拥堵程度的外部观测信号。",
+            url: "https://www.marinetraffic.com/"
+          }
+        ]
+      },
+      "supplier-performance-records": {
+        title: "供应商履约异常信号",
+        results: [
+          {
+            source: "内部合同台账",
+            title: "近三个月订单、交付、延期和索赔记录",
+            summary: "订单履约、延期次数、质量争议、补货承诺和索赔记录用于形成供应商履约画像。",
+            url: "https://example.com/contract-ledger"
+          },
+          {
+            source: "国家企业信用信息公示系统",
+            title: "供应商主体信用和经营异常信息",
+            summary: "外部工商和异常信息用于补充判断供应商近期经营稳定性。",
+            url: "https://www.gsxt.gov.cn/"
+          },
+          {
+            source: "法院公告与执行信息",
+            title: "涉诉、执行和失信风险线索",
+            summary: "供应商涉诉和执行风险会影响后续交付能力和违约概率。",
+            url: "http://zxgk.court.gov.cn/"
+          }
+        ]
+      },
+      "usd-commodity-correlation": {
+        title: "美元指数与大宗商品联动",
+        results: [
+          {
+            source: "ICE",
+            title: "US Dollar Index Futures",
+            summary: "美元指数期货反映美元强弱变化，是观察大宗商品外盘价格压力的重要宏观指标。",
+            url: "https://www.ice.com/products/194/US-Dollar-Index-Futures"
+          },
+          {
+            source: "World Bank",
+            title: "Commodity Markets Outlook",
+            summary: "大宗商品展望报告用于观察能源、金属和农产品价格的宏观联动。",
+            url: "https://www.worldbank.org/en/research/commodity-markets"
+          },
+          {
+            source: "CME Group",
+            title: "Commodity futures market data",
+            summary: "能源、金属和农产品期货价格可用于观察不同品种对美元和利率信号的反应。",
+            url: "https://www.cmegroup.com/markets.html"
+          }
+        ]
+      },
       "otc-industrial-cases": {
         title: "场外期权服务实体产业案例",
         results: [
@@ -4229,6 +4413,336 @@
       { chip: [1280, 1160, 1360, 1540, 1420, 980, 1120, 1040, 1260], after: 920, pause: 420 },
       { chip: [1220, 1380, 1180, 1520, 1320], after: 1100, pause: 0 }
     ];
+
+    const qaProcessSteps = [
+      {
+        title: "识别意图",
+        icon: "brain",
+        text: "判断问题所属主题、时间范围和需要回答的关键点。",
+        summary: "已明确问题主题和回答口径",
+        chips: [
+          { label: "识别业务主题", icon: "brain" },
+          { label: "确认时间范围与输出口径", icon: "plan" }
+        ]
+      },
+      {
+        title: "检索信息",
+        icon: "search",
+        text: "按需检索公开信息，补充近期事实和可参考信号。",
+        summary: "已补充公开信息和近期信号",
+        chips: [
+          { label: "检索公开资料与近期信号", icon: "search", searchKey: "general-business-signals" },
+          { label: "调用信号 Agent 进行快速校验", icon: "agent" },
+          { label: "筛选可用于回答的核心依据", icon: "doc" }
+        ]
+      },
+      {
+        title: "形成回答",
+        icon: "merge",
+        text: "整合事实、判断和行动建议，形成简明结论。",
+        summary: "已形成简明结论和建议",
+        chips: [
+          { label: "合并事实和判断", icon: "merge" },
+          { label: "输出结论和建议", icon: "doc" }
+        ]
+      }
+    ];
+
+    const qaProcessTimings = [
+      { chip: [520, 620], after: 360, pause: 180 },
+      { chip: [720, 520, 620], after: 420, pause: 180 },
+      { chip: [540, 620], after: 360, pause: 0 }
+    ];
+
+    const qaCaseProfiles = {
+      "预测铁矿石未来一周价格走势": {
+        searchKey: "iron-ore-weekly-signals",
+        steps: [
+          {
+            title: "识别价格问题",
+            icon: "brain",
+            text: "确认预测周期、价格口径和关键影响因子。",
+            summary: "已明确一周周期和铁矿石价格判断口径",
+            chips: [
+              { label: "识别预测周期：未来一周", icon: "brain" },
+              { label: "锁定价格口径：外盘掉期、境内期货和港口现货", icon: "chart" }
+            ]
+          },
+          {
+            title: "检索市场信号",
+            icon: "search",
+            text: "补充盘面、港口库存、钢厂利润和补库节奏等信号。",
+            summary: "已补充盘面、库存和需求端信号",
+            chips: [
+              { label: "检索铁矿石期货和掉期价格信号", icon: "search", searchKey: "iron-ore-weekly-signals" },
+              { label: "调用价格信号 Agent 快速比对库存与成交", icon: "agent" },
+              { label: "筛选钢厂利润、疏港量和补库节奏", icon: "chart" }
+            ]
+          },
+          {
+            title: "形成判断",
+            icon: "merge",
+            text: "将供需和盘面信号转化为区间判断。",
+            summary: "已形成短期价格区间和风险提示",
+            chips: [
+              { label: "合并供给、需求和情绪信号", icon: "merge" },
+              { label: "输出区间判断和跟踪指标", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `未来一周铁矿石价格更适合按“区间震荡、上方受压、下方有支撑”的框架观察。
+
+短期支撑主要来自钢厂阶段性补库、港口现货流动性和外盘掉期情绪；压力则来自成材利润修复不足、港口库存仍需消化，以及宏观预期反复带来的盘面波动。若主力合约上冲但成交和疏港没有同步放量，追涨风险会比较高；若价格回落但钢厂补库和成交改善，则低位支撑会增强。
+
+建议重点跟踪三类指标：一是港口库存和日均疏港量，二是钢厂利润与高炉开工，三是外盘掉期和人民币汇率变化。操作上更适合以区间管理为主，避免在单日情绪放大时做方向性判断。`
+      },
+      "查询三峡大坝船闸等闸时长预测": {
+        searchKey: "three-gorges-lock-signals",
+        steps: [
+          {
+            title: "识别通航问题",
+            icon: "brain",
+            text: "确认目标船闸、船舶方向和预测口径。",
+            summary: "已明确船闸等闸预测所需口径",
+            chips: [
+              { label: "识别对象：三峡船闸及相关通航节点", icon: "brain" },
+              { label: "确认口径：上行、下行、船型和计划窗口", icon: "plan" }
+            ]
+          },
+          {
+            title: "检索通航信号",
+            icon: "search",
+            text: "关注船闸运行、管制通告、水位和待闸船舶变化。",
+            summary: "已补充通航调度和待闸信号",
+            chips: [
+              { label: "检索船闸调度、通航通告和管制信息", icon: "search", searchKey: "three-gorges-lock-signals" },
+              { label: "调用通航信号 Agent 判断排队压力", icon: "agent" },
+              { label: "识别水位、检修和天气影响", icon: "shield" }
+            ]
+          },
+          {
+            title: "给出预测",
+            icon: "merge",
+            text: "形成等闸时长区间和调度建议。",
+            summary: "已形成等闸时长区间和调度建议",
+            chips: [
+              { label: "估算待闸压力和通过窗口", icon: "chart" },
+              { label: "输出调度建议", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `三峡船闸等闸时长不能只看历史均值，建议按“待闸船舶规模、船闸运行能力、临时管制因素”三项共同判断。
+
+如果近期没有检修、禁航或强管制，等闸时间通常主要由上下行船舶积压和计划窗口决定；一旦出现水位波动、雾航、大风、检修或危险品船舶管控，等待时间会明显拉长。对调度来说，最关键的是确认船舶方向、货类、船型、计划到闸时间和是否有优先保障资格。
+
+建议在实际派船前滚动更新三类信息：船闸通航通告、待闸船舶数量、未来 24-48 小时天气和水位。若等闸时长超过客户交付容忍窗口，应提前评估改港、改航段或调整到货承诺。`
+      },
+      "如何判断青岛港的天气是否适合作业？": {
+        searchKey: "qingdao-weather-operation",
+        steps: [
+          {
+            title: "识别作业类型",
+            icon: "brain",
+            text: "区分靠离泊、装卸、堆场和高空设备作业。",
+            summary: "已明确港口天气判断口径",
+            chips: [
+              { label: "识别作业类型和安全边界", icon: "brain" },
+              { label: "确认船期、货类和设备要求", icon: "plan" }
+            ]
+          },
+          {
+            title: "检索气象与港区信息",
+            icon: "search",
+            text: "核对风速、浪高、能见度、雷暴和港区作业状态。",
+            summary: "已补充天气和港区作业信号",
+            chips: [
+              { label: "检索风力、阵风、降水、能见度和雷暴信号", icon: "search", searchKey: "qingdao-weather-operation" },
+              { label: "调用天气作业 Agent 快速校验阈值", icon: "agent" },
+              { label: "检查港区临时管制和泊位状态", icon: "shield" }
+            ]
+          },
+          {
+            title: "形成作业判断",
+            icon: "merge",
+            text: "输出可作业、谨慎作业或暂停作业建议。",
+            summary: "已形成作业窗口判断",
+            chips: [
+              { label: "合并气象和港区调度信号", icon: "merge" },
+              { label: "输出作业建议", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `判断青岛港天气是否适合作业，应把“气象条件”和“具体作业类型”放在一起看。
+
+靠离泊重点看风力、阵风、浪高和能见度；装卸作业重点看降雨、雷暴、强风和货物受潮敏感性；堆场和高空设备作业还要关注瞬时大风和雷电风险。即使天气预报显示可作业，也要结合港区临时管制、泊位安排和现场安全要求确认。
+
+建议设置三档判断：风雨和能见度均稳定时正常作业；存在短时阵风、降雨或能见度下降时谨慎作业并预留缓冲；出现雷暴、大风预警、浓雾或港区管制时暂停关键作业。最终执行以港区调度和现场安全标准为准。`
+      },
+      "民企低资本高授信、无担保，如何控风险": {
+        searchKey: "private-credit-risk",
+        steps: [
+          {
+            title: "识别授信风险",
+            icon: "brain",
+            text: "判断资本实力、授信规模和担保缺口是否匹配。",
+            summary: "已识别高授信低资本的主要风险点",
+            chips: [
+              { label: "识别低资本、高授信、无担保三类红旗", icon: "shield" },
+              { label: "确认授信用途和交易闭环", icon: "plan" }
+            ]
+          },
+          {
+            title: "核验主体信号",
+            icon: "search",
+            text: "核验工商、执行、征信、流水和上下游真实性。",
+            summary: "已补充主体信用和履约信号",
+            chips: [
+              { label: "检索工商、执行和征信相关信息", icon: "search", searchKey: "private-credit-risk" },
+              { label: "调用信用风险 Agent 识别异常模式", icon: "agent" },
+              { label: "检查资金流、货物流和合同流闭环", icon: "merge" }
+            ]
+          },
+          {
+            title: "设置风控条件",
+            icon: "shield",
+            text: "生成额度、担保、回款和预警控制建议。",
+            summary: "已形成授信控制建议",
+            chips: [
+              { label: "设置分阶段放款和回款锁定", icon: "shield" },
+              { label: "输出准入、额度和预警条件", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `这种结构的核心风险不在“民企”本身，而在资本实力、授信规模和风险缓释措施不匹配。
+
+建议先做准入判断：如果企业净资产薄、负债高、现金流波动大，又缺少抵押、保证或应收回款控制，高额度授信不宜一次性敞口。需要重点核验实际控制人背景、关联交易、涉诉执行、纳税和银行流水，以及贸易背景是否真实闭环。
+
+控制上建议采用分层额度：先给小额度、短周期、可循环额度；要求回款进入监管账户；关键订单绑定货权、仓单、应收账款或核心买方确认；同时设置触发条件，例如逾期、回款偏离、经营异常、涉诉新增或库存不可核验时立即冻结额度并升级审批。`
+      },
+      "查询华南主要港口近期拥堵情况": {
+        searchKey: "south-china-port-congestion",
+        steps: [
+          {
+            title: "识别港口范围",
+            icon: "brain",
+            text: "确认需要覆盖的华南港口和货类口径。",
+            summary: "已明确华南港口拥堵查询范围",
+            chips: [
+              { label: "识别重点港口：广州、深圳、南沙、蛇口等", icon: "brain" },
+              { label: "确认货类、船型和到港窗口", icon: "plan" }
+            ]
+          },
+          {
+            title: "检索拥堵信号",
+            icon: "search",
+            text: "关注锚地船舶、泊位等待、堆场和口岸作业状态。",
+            summary: "已补充港区拥堵和船舶等待信号",
+            chips: [
+              { label: "检索华南港口运行和船舶等待信息", icon: "search", searchKey: "south-china-port-congestion" },
+              { label: "调用港口拥堵 Agent 校验等待压力", icon: "agent" },
+              { label: "筛选泊位、堆场、天气和口岸因素", icon: "shield" }
+            ]
+          },
+          {
+            title: "输出判断",
+            icon: "merge",
+            text: "形成港口拥堵等级和调度建议。",
+            summary: "已形成拥堵等级和替代建议",
+            chips: [
+              { label: "比较各港等待压力", icon: "chart" },
+              { label: "输出优先港口和备选路径", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `华南港口拥堵建议按“锚地等待、泊位周转、堆场承压、天气扰动”四类信号判断。
+
+如果锚地等待船舶增加、泊位计划频繁后移、堆场周转下降，同时叠加降雨或大风，说明港区拥堵风险正在上升。若只是单一港区短时排队，但周边港口泊位和集疏运正常，可以通过调整靠泊港或拆分到港节奏缓解。
+
+调度建议是先锁定目标货类和船型，再比较广州、南沙、深圳、蛇口等港区的等待时间、堆场能力和后段运输衔接。若预计等待超过客户容忍窗口，应提前准备备用港或调整到港批次。`
+      },
+      "整理某供应商近三个月履约异常记录": {
+        searchKey: "supplier-performance-records",
+        steps: [
+          {
+            title: "识别供应商范围",
+            icon: "brain",
+            text: "确认供应商主体、合同范围和异常统计口径。",
+            summary: "已明确供应商履约整理口径",
+            chips: [
+              { label: "确认供应商主体和合同范围", icon: "brain" },
+              { label: "定义异常类型：延期、少交、质量、拒履、补货", icon: "plan" }
+            ]
+          },
+          {
+            title: "检索履约记录",
+            icon: "search",
+            text: "汇总合同台账、交付记录、索赔和外部风险线索。",
+            summary: "已补充履约台账和外部风险信号",
+            chips: [
+              { label: "检索合同、订单、交付和索赔记录", icon: "search", searchKey: "supplier-performance-records" },
+              { label: "调用履约风险 Agent 识别异常频次", icon: "agent" },
+              { label: "补充经营异常、涉诉和执行风险", icon: "shield" }
+            ]
+          },
+          {
+            title: "形成清单",
+            icon: "doc",
+            text: "整理异常清单、影响程度和后续处置建议。",
+            summary: "已形成履约异常清单",
+            chips: [
+              { label: "按时间、合同和异常类型归类", icon: "merge" },
+              { label: "输出风险等级和处置建议", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `整理供应商近三个月履约异常，建议形成一张“异常事件清单 + 风险评级 + 处置动作”的表。
+
+字段至少包括：合同编号、订单批次、约定交付日、实际交付日、异常类型、影响金额、影响客户、供应商解释、补救承诺、我方处置、是否索赔。统计时要区分偶发异常和连续异常，尤其关注延期反复出现、低价合同拒履、高价合同正常履行、质量争议集中爆发等模式。
+
+如果三个月内异常超过两次，或出现影响下游交付的重大延期，应触发供应商风险复核；如果异常涉及拒不履约、选择性交付或明显恶意涨价，应同步准备证据链、索赔材料和替代采购方案。`
+      },
+      "查询本周美元指数与大宗商品价格联动情况": {
+        searchKey: "usd-commodity-correlation",
+        steps: [
+          {
+            title: "识别宏观问题",
+            icon: "brain",
+            text: "确认美元指数、大宗商品品类和观察周期。",
+            summary: "已明确美元与商品联动分析口径",
+            chips: [
+              { label: "识别周期：本周", icon: "brain" },
+              { label: "确认品类：能源、金属、农产品", icon: "chart" }
+            ]
+          },
+          {
+            title: "检索宏观与商品信号",
+            icon: "search",
+            text: "补充美元、利率预期和主要商品价格变化。",
+            summary: "已补充美元和商品价格信号",
+            chips: [
+              { label: "检索美元指数和主要商品价格变化", icon: "search", searchKey: "usd-commodity-correlation" },
+              { label: "调用宏观信号 Agent 对比相关性", icon: "agent" },
+              { label: "筛选利率、风险偏好和供需扰动", icon: "shield" }
+            ]
+          },
+          {
+            title: "输出联动判断",
+            icon: "merge",
+            text: "判断美元变化对不同商品板块的传导强弱。",
+            summary: "已形成联动判断",
+            chips: [
+              { label: "比较美元和商品板块走势", icon: "chart" },
+              { label: "输出联动强弱和跟踪指标", icon: "doc" }
+            ]
+          }
+        ],
+        answer: `美元指数与大宗商品通常呈负相关，但本周联动强弱要看品类和驱动因素。
+
+如果美元走强主要来自利率预期上升，外盘商品通常承压，尤其是以美元计价、金融属性较强的金属和能源；但如果某个品种同时受到供应扰动、库存下降或地缘风险支撑，可能会出现“美元走强但商品不跌”的分化。农产品还要额外看天气、出口政策和产区供应。
+
+建议不要只用美元指数单因子判断商品方向，而是同时观察美债收益率、风险偏好、库存变化和品种自身供需。若美元继续走强且商品库存累积，价格压力更明显；若美元回落叠加低库存或供应扰动，商品反弹弹性会更强。`
+      }
+    };
 
     const homeView = document.getElementById("home-view");
     const reportsView = document.getElementById("reports-view");
@@ -5418,7 +5932,7 @@
       return true;
     }
 
-    function setProcessState(card, activeIndex) {
+    function setProcessState(card, activeIndex, steps = processSteps) {
       card.querySelectorAll(".process-step").forEach((step, index) => {
         step.classList.toggle("active", index === activeIndex);
         step.classList.toggle("done", index < activeIndex);
@@ -5430,9 +5944,48 @@
         const dot = step.querySelector(".step-dot");
         dot.textContent = index < activeIndex ? "✓" : index + 1;
       });
-      if (activeIndex >= processSteps.length) {
+      if (activeIndex >= steps.length) {
         card.querySelector("[data-process-summary]").textContent = "执行流程已完成";
       }
+    }
+
+    function addQaProcessCard(output) {
+      const card = document.createElement("div");
+      card.className = "process-card qa-process-card";
+      card.dataset.liveProcess = "";
+      card.innerHTML = `
+        <button class="process-toggle" type="button" aria-expanded="true">
+          <span class="chevron">⌄</span>
+          <span data-process-summary>处理过程</span>
+        </button>
+        <div class="process-list"></div>
+      `;
+      card.querySelector(".process-toggle").addEventListener("click", () => {
+        const collapsed = card.classList.toggle("collapsed");
+        card.querySelector(".process-toggle").setAttribute("aria-expanded", String(!collapsed));
+      });
+      card.addEventListener("click", (event) => {
+        const searchChip = event.target.closest("[data-search-key]");
+        if (searchChip) {
+          openSearchPanel(searchChip.dataset.searchKey, searchChip.dataset.searchQuery);
+          return;
+        }
+        const toggle = event.target.closest("[data-section-toggle]");
+        if (!toggle) return;
+        toggle.closest(".step-section")?.classList.toggle("collapsed");
+      });
+      output.appendChild(card);
+      scrollToBottom();
+      return card;
+    }
+
+    function buildQaAnswer(question) {
+      const topic = question || "这个问题";
+      return `针对“${topic}”，可以先按“事实信号、约束条件、行动阈值”三个层面做判断。
+
+首先确认问题对应的对象和时间范围，避免把短期扰动误判为长期趋势。其次补充近期公开信息，例如价格、天气、港口、履约、政策或信用风险等信号，判断这些信号是否已经影响到业务执行。最后把判断转换成可操作阈值：什么情况下继续观察，什么情况下需要升级审批，什么情况下应立即调整计划。
+
+如果用于实际业务决策，建议进一步补齐实时数据和内部约束条件，再输出最终口径。当前可以先作为初步判断框架使用。`;
     }
 
     function scrollToBottom() {
@@ -5498,6 +6051,54 @@
 
         if (activeRunId !== runId) return;
         setProcessState(processCard, processSteps.length);
+        if (!sidePanelDismissed) {
+          closePreview(false);
+        }
+        await addResultBubble(assistantOutput, data, runId);
+        saveHistorySnapshot(data.question);
+      } finally {
+        if (activeRunId === runId) {
+          setGenerating(false);
+        }
+      }
+    }
+
+    async function runQaAnalysis(question) {
+      const runId = activeRunId + 1;
+      activeRunId = runId;
+      setGenerating(true);
+      sidePanelDismissed = false;
+      activeAutoSearchKey = "";
+      activeAutoSearchCount = 0;
+      const profile = qaCaseProfiles[question] || {};
+      const steps = profile.steps || qaProcessSteps;
+      const data = {
+        question,
+        final: profile.answer || buildQaAnswer(question)
+      };
+
+      try {
+        activeHistoryQuestion = data.question;
+        addHistoryEntry(data.question, "custom");
+        showChat();
+        addMessage("user", data.question);
+
+        const assistantOutput = createAssistantTurn();
+        const processCard = addQaProcessCard(assistantOutput);
+        suppressAutoScroll = false;
+        await sleep(520);
+        for (let i = 0; i < steps.length; i += 1) {
+          if (activeRunId !== runId) return;
+          const stepEl = appendProcessStep(processCard, steps[i], i);
+          setProcessState(processCard, i, steps);
+          const keepGoing = await revealProcessStep(stepEl, runId, qaProcessTimings[i] || { chip: [520], after: 320, pause: 120 });
+          if (!keepGoing) return;
+          setProcessState(processCard, i + 1, steps);
+          await sleep((qaProcessTimings[i] || { pause: 120 }).pause);
+        }
+
+        if (activeRunId !== runId) return;
+        setProcessState(processCard, steps.length, steps);
         if (!sidePanelDismissed) {
           closePreview(false);
         }
@@ -5577,7 +6178,11 @@
         runUploadDemo(question, attachments);
         return;
       }
-      runAnalysis(scenarioKey || "custom", question || "请基于上传文件进行分析", { attachments });
+      if (scenarioKey && scenarioKey !== "custom") {
+        runAnalysis(scenarioKey, question || "请基于上传文件进行分析", { attachments });
+        return;
+      }
+      runQaAnalysis(question || "请基于这个问题给出简要判断");
     });
 
     document.querySelectorAll(".trend-card").forEach((card) => {
